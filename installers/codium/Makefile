@@ -1,15 +1,19 @@
 NAME := codium
 
 EXTENSIONS := \
+	amodio.tsl-problem-matcher \
 	bbenoist.nix \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
+	dbaeumer.vscode-eslint \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
+	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
+	ms-python.python \
 	prisma.prisma \
 	psioniq.psi-header \
 	redhat.java \
@@ -20,7 +24,7 @@ EXTENSIONS := \
 include ../../share.mk
 
 .PHONY: install
-install: sudo /usr/bin/codium
+install: | sudo /usr/bin/codium
 /usr/bin/codium:
 ifeq ($(PKG_MANAGER),apt-get)
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \

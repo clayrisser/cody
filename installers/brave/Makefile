@@ -3,7 +3,7 @@ NAME := brave
 include ../../share.mk
 
 .PHONY: install
-install: sudo /usr/bin/brave-browser
+install: | sudo /usr/bin/brave-browser
 /usr/bin/brave-browser:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \

@@ -101,8 +101,13 @@ define not_supported
 endef
 
 APT ?= apt-get
+PIP ?= $(shell pip3 --version >/dev/null && echo pip3 || echo pip)
 SUDO ?= sudo
 
 .PHONY: sudo
 sudo:
 	@$(SUDO) true
+
+.PHONY: not-supported
+not-supported:
+	@$(call not_supported,$(NAME))

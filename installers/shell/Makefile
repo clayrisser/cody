@@ -6,7 +6,7 @@ CURRENT_SHELL := $(shell getent passwd $(USER) | cut -d':' -f7)
 ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom
 
 .PHONY: install chsh
-install: sudo \
+install: | sudo \
 	/usr/bin/zsh \
 	chsh \
 	$(HOME)/.oh-my-zsh/oh-my-zsh.sh \
@@ -19,7 +19,6 @@ install: sudo \
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
 		git \
-		python \
 		zsh
 else
 	@$(call not_supported,$(NAME))
@@ -43,6 +42,7 @@ $(ZSH_CUSTOM)/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh:
 	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git \
 		$(ZSH_CUSTOM)/plugins/zsh-autocomplete
 $(HOME)/.autojump/etc/profile.d/autojump.sh:
+	@$(MAKE) -sC ../python install
 	@rm -rf $${XDG_RUNTIME_DIR:-/tmp}/autojump
 	@git clone --depth 1 https://github.com/wting/autojump.git \
 		$${XDG_RUNTIME_DIR:-/tmp}/autojump
