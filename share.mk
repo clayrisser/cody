@@ -1,5 +1,5 @@
 export NULL := /dev/null
-export NOFAIL := 2>$(NULL) || $(TRUE)
+export NOFAIL := 2>$(NULL) || true
 export NOOUT := >$(NULL) 2>$(NULL)
 export ARCH := unknown
 export FLAVOR := unknown

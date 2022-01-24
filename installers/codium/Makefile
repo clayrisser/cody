@@ -10,6 +10,7 @@ EXTENSIONS := \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
 	gruntfuggly.todo-tree \
+	golang.go \
 	hediet.vscode-drawio \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
