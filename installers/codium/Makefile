@@ -6,21 +6,27 @@ EXTENSIONS := \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
 	dbaeumer.vscode-eslint \
+	eamodio.gitlens \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
-	gruntfuggly.todo-tree \
 	golang.go \
+	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
+	ms-kubernetes-tools.vscode-kubernetes-tools \
 	ms-python.python \
+	ms-vscode.cpptools \
 	prisma.prisma \
 	psioniq.psi-header \
+	rebornix.ruby \
 	redhat.java \
 	rubymaniac.vscode-direnv \
+	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
-	vspacecode.vspacecode
+	vspacecode.vspacecode \
+	xdebug.php-pack
 
 include ../../share.mk
 
