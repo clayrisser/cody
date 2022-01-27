@@ -12,6 +12,7 @@ EXTENSIONS := \
 	gitlab.gitlab-workflow \
 	golang.go \
 	gruntfuggly.todo-tree \
+	hashicorp.terraform \
 	hediet.vscode-drawio \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
