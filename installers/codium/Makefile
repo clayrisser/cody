@@ -22,6 +22,7 @@ EXTENSIONS := \
 	prisma.prisma \
 	psioniq.psi-header \
 	rebornix.ruby \
+	redhat.fabric8-analytics \
 	redhat.java \
 	rubymaniac.vscode-direnv \
 	rust-lang.rust \
