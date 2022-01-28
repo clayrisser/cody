@@ -24,6 +24,7 @@ EXTENSIONS := \
 	rebornix.ruby \
 	redhat.fabric8-analytics \
 	redhat.java \
+	redhat.vscode-xml \
 	rubymaniac.vscode-direnv \
 	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
