@@ -28,7 +28,8 @@ EXTENSIONS := \
 	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
 	vspacecode.vspacecode \
-	xdebug.php-pack
+	xdebug.php-pack \
+	zawys.vscode-as-git-mergetool
 
 include ../../share.mk
 
