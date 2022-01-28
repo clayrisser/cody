@@ -9,5 +9,5 @@ make <SOME_APP>
 ### Install All Apps
 
 ```sh
-make
+dmake
 ```
