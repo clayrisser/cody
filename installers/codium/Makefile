@@ -11,6 +11,7 @@ EXTENSIONS := \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
 	golang.go \
+	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
 	hashicorp.terraform \
 	hediet.vscode-drawio \
