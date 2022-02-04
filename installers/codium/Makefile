@@ -2,6 +2,7 @@ NAME := codium
 
 EXTENSIONS := \
 	amodio.tsl-problem-matcher \
+	azblockchain.azure-blockchain \
 	bbenoist.nix \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
