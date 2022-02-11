@@ -4,6 +4,7 @@ EXTENSIONS := \
 	amodio.tsl-problem-matcher \
 	azblockchain.azure-blockchain \
 	bbenoist.nix \
+	bungcip.better-toml \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
 	dbaeumer.vscode-eslint \

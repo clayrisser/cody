@@ -10,8 +10,13 @@ install: | sudo \
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/sway:
 	@$(SUDO) $(APT) install -y \
+		grim \
+		jq \
+		libnotify-bin \
 		rofi \
-		sway
+		slurp \
+		sway \
+		wl-clipboard
 	@$(SUDO) sed -i 's|Exec=sway|Exec=/bin/bash \-l \-c sway|g' \
 		/usr/share/wayland-sessions/sway.desktop
 /bin/pipewire:
