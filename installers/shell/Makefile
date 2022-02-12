@@ -14,7 +14,8 @@ install: | sudo \
 	$(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
 	$(ZSH_CUSTOM)/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh \
 	$(HOME)/.autojump/etc/profile.d/autojump.sh \
-	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
+	$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+#	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
 /usr/bin/zsh:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
@@ -48,6 +49,9 @@ $(HOME)/.autojump/etc/profile.d/autojump.sh:
 		$${XDG_RUNTIME_DIR:-/tmp}/autojump
 	@cd $${XDG_RUNTIME_DIR:-/tmp}/autojump && \
 		./install.py
+$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh:
+	@git clone https://github.com/zsh-users/zsh-autosuggestions \
+		$(ZSH_CUSTOM)/plugins/zsh-autosuggestions
 $(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh:
 	@git clone https://github.com/zsh-users/zsh-completions \
 		$(ZSH_CUSTOM)/plugins/zsh-completions
