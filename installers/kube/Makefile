@@ -25,3 +25,7 @@ $(HOME)/.krew/bin/kubectl-krew:
 	@sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
 	@sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
 	@sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+	@mkdir -p $(ZSH)/completions
+	@chmod -R 755 $(ZSH)/completions
+	@ln -s /opt/kubectx/completion/_kubectx.zsh $(ZSH)/completions/_kubectx.zsh
+	@ln -s /opt/kubectx/completion/_kubens.zsh $(ZSH)/completions/_kubens.zsh
