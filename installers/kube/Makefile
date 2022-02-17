@@ -8,7 +8,7 @@ install: | sudo \
 	/usr/local/bin/helm \
 	$(HOME)/.krew/bin/kubectl-krew \
 	/usr/local/bin/kubectx \
-	/usr/local/bin/flux
+	/usr/local/bin/fluxctl
 /usr/local/bin/kubectl:
 	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
 		curl -LO "https://dl.k8s.io/release/$$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
@@ -30,8 +30,6 @@ $(HOME)/.krew/bin/kubectl-krew:
 	@chmod -R 755 $(ZSH)/completions
 	@ln -s /opt/kubectx/completion/_kubectx.zsh $(ZSH)/completions/_kubectx.zsh
 	@ln -s /opt/kubectx/completion/_kubens.zsh $(ZSH)/completions/_kubens.zsh
-/usr/local/bin/flux:
-	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
-		curl -L -o flux.tar.gz \
-			https://github.com/fluxcd/flux2/releases/download/v0.27.0/flux_0.27.0_linux_amd64.tar.gz && \
-		sudo tar -xzvf flux.tar.gz --directory /usr/local/bin
+/usr/local/bin/fluxctl:
+	@$(SUDO) curl -L -o $@ https://github.com/fluxcd/flux/releases/download/1.24.3/fluxctl_linux_amd64
+	@$(SUDO) chmod +x $@
