@@ -31,5 +31,7 @@ $(HOME)/.krew/bin/kubectl-krew:
 	@ln -s /opt/kubectx/completion/_kubectx.zsh $(ZSH)/completions/_kubectx.zsh
 	@ln -s /opt/kubectx/completion/_kubens.zsh $(ZSH)/completions/_kubens.zsh
 /usr/local/bin/flux:
-	@curl -L -o flux.tar.gz https://github.com/fluxcd/flux2/releases/download/v0.27.0/flux_0.27.0_linux_amd64.tar.gz
-	@sudo tar -xzvf flux.tar.gz --directory /usr/local/bin
+	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
+		curl -L -o flux.tar.gz \
+			https://github.com/fluxcd/flux2/releases/download/v0.27.0/flux_0.27.0_linux_amd64.tar.gz && \
+		sudo tar -xzvf flux.tar.gz --directory /usr/local/bin
