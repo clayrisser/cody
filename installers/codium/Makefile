@@ -17,6 +17,7 @@ EXTENSIONS := \
 	gruntfuggly.todo-tree \
 	hashicorp.terraform \
 	hediet.vscode-drawio \
+	juanblanco.solidity \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
