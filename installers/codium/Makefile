@@ -1,6 +1,8 @@
 NAME := codium
 
 EXTENSIONS := \
+	RemixProject.ethereum-remix \
+	amodio.toggle-excluded-files \
 	amodio.tsl-problem-matcher \
 	azblockchain.azure-blockchain \
 	bbenoist.nix \
@@ -10,6 +12,7 @@ EXTENSIONS := \
 	dbaeumer.vscode-eslint \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
+	eg2.vscode-npm-script \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
 	golang.go \
@@ -32,6 +35,9 @@ EXTENSIONS := \
 	rubymaniac.vscode-direnv \
 	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
+	tintinweb.solidity-visual-auditor \
+	tintinweb.vscode-decompiler \
+	visual-auditor \
 	vspacecode.vspacecode \
 	xdebug.php-pack \
 	zawys.vscode-as-git-mergetool
