@@ -2,7 +2,6 @@ NAME := codium
 
 EXTENSIONS := \
 	RemixProject.ethereum-remix \
-	amodio.toggle-excluded-files \
 	amodio.tsl-problem-matcher \
 	azblockchain.azure-blockchain \
 	bbenoist.nix \
