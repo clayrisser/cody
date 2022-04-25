@@ -8,7 +8,8 @@ install: | sudo \
 	/usr/local/bin/helm \
 	$(HOME)/.krew/bin/kubectl-krew \
 	/usr/local/bin/kubectx \
-	/usr/local/bin/flux
+	/usr/local/bin/flux \
+	/usr/local/bin/kops
 /usr/local/bin/kubectl:
 	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
 		curl -LO "https://dl.k8s.io/release/$$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
@@ -35,3 +36,8 @@ $(HOME)/.krew/bin/kubectl-krew:
 		curl -L -o flux.tar.gz \
 			https://github.com/fluxcd/flux2/releases/download/v0.27.0/flux_0.27.0_linux_amd64.tar.gz && \
 		sudo tar -xzvf flux.tar.gz --directory /usr/local/bin
+/usr/local/bin/kops:
+	@curl -Lo kops \
+		https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+	@sudo chmod +x kops
+	@sudo mv kops $@
