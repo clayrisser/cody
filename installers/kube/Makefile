@@ -38,6 +38,8 @@ $(HOME)/.krew/bin/kubectl-krew:
 		sudo tar -xzvf flux.tar.gz --directory /usr/local/bin
 /usr/local/bin/kops:
 	@curl -Lo kops \
-		https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+		https://github.com/kubernetes/kops/releases/download/$(shell \
+			curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4 \
+		)/kops-linux-amd64
 	@sudo chmod +x kops
 	@sudo mv kops $@
