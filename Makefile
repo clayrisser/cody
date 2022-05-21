@@ -53,14 +53,14 @@ help: ;
 define installed_package
 	touch $(HOME)/.kisspm_installed && \
 	for p in $$(cat $(HOME)/.kisspm_installed); do \
+		echo $$p;  \
+	done | tee $(HOME)/.kisspm_installed >/dev/null && \
+	for p in $$(cat $(HOME)/.kisspm_installed); do \
 		if [ "$$p" = "$1" ]; then export _FOUND_PACKAGE=1; fi \
 	done && \
 	if [ "$$_FOUND_PACKAGE" != "1" ]; then \
 		echo $1 >> $(HOME)/.kisspm_installed; \
-	fi && \
-	for p in $$(cat $(HOME)/.kisspm_installed); do \
-		echo $$p;  \
-	done | tee $(HOME)/.kisspm_installed >/dev/null
+	fi
 endef
 
 define uninstalled_package
