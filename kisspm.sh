@@ -70,11 +70,6 @@ uninstall_kisspm() {
     ( cd $HOME/.kisspm && gmake -s uninstall )
 }
 
-implode_kisspm() {
-    uninstall_kisspm
-    rm -rf $HOME/.kisspm
-}
-
 install_gmake() {
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y make
@@ -98,8 +93,8 @@ while test $# -gt 0; do
             echo "    -h, --help         show brief help"
             echo " "
             echo "commands:"
-            echo "    install=PACKAGE    specify an action to use"
-            echo "    uninstall=PACKAGE  specify a directory to store output in"
+            echo "    install=PACKAGE    install a package"
+            echo "    uninstall=PACKAGE  uninstall a package"
             exit 0
         ;;
         -*)

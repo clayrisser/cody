@@ -36,6 +36,7 @@ ifneq (,$(PACKAGE))
 	@TARGET=$@ $(MAKE) -s $(PACKAGE)
 else
 	@sudo rm -rf /usr/local/bin/kisspm
+	@rm -rf $(HOME)/.kisspm
 endif
 
 .PHONY: help
