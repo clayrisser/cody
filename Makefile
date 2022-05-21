@@ -37,9 +37,5 @@ else
 	@echo uninstalling kisspm
 endif
 
-.PHONY: package
-package:
-	@tar -czvf kisspm.tar.gz kiss.sh
-
 .PHONY: help
 help: ;

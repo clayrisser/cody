@@ -1,6 +1,5 @@
 variables:
   ASSET_KISSPM: kisspm.sh
-  ASSET_KISSPM_TAR: kisspm.tar.gz
   GIT_SUBMODULE_STRATEGY: recursive
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${CI_COMMIT_TAG}"
 
@@ -18,7 +17,6 @@ build:
     - make -s package
   artifacts:
     paths:
-      - kisspm.tar.gz
       - kisspm.sh
     expire_in: 1 hour
 
@@ -33,8 +31,6 @@ upload:
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${ASSET_KISSPM} \
         ${PACKAGE_REGISTRY_URL}/${ASSET_KISSPM}
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${ASSET_KISSPM_TAR} \
-        ${PACKAGE_REGISTRY_URL}/${ASSET_KISSPM_TAR}
 
 release:
   stage: publish
@@ -46,5 +42,4 @@ release:
   script:
     - |
       release-cli create --name "Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"${ASSET_KISSPM}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${ASSET_KISSPM}\"}" \
-        --assets-link "{\"name\":\"${ASSET_KISSPM_TAR}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${ASSET_KISSPM_TAR}\"}"
+        --assets-link "{\"name\":\"${ASSET_KISSPM}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${ASSET_KISSPM}\"}"
