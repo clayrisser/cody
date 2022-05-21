@@ -2,13 +2,8 @@
 
 export REPO=https://gitlab.com/risserlabs/community/kisspm.git
 
-export _PREPARED=0
-
 main() {
-    if ! gmake -v >/dev/null 2>/dev/null; then
-        install_gmake
-    fi
-    install_kisspm
+    prepare
     if [ "$_INSTALL" = "1" ]; then
         echo "installing $_PACKAGE..."
         install $_PACKAGE
@@ -31,7 +26,6 @@ main() {
 }
 
 install() {
-    prepare
     export _PACKAGE=$1
     if [ "$_PACKAGE" = "kisspm" ]; then
         install_kisspm
@@ -41,7 +35,6 @@ install() {
 }
 
 uninstall() {
-    prepare
     export _PACKAGE=$1
     if [ "$_PACKAGE" = "kisspm" ]; then
         uninstall_kisspm
@@ -56,14 +49,14 @@ reinstall() {
 }
 
 prepare() {
-    if [ "$_PREPARED" != "1" ]; then
-        if [ ! -d $HOME/.kisspm ]; then
-            git clone $REPO $HOME/.kisspm
-        else
-            ( cd $HOME/.kisspm && git pull origin main >/dev/null 2>/dev/null )
-        fi
+    if ! gmake -v >/dev/null 2>/dev/null; then
+        install_gmake
     fi
-    export _PREPARED=1
+    if [ ! -d $HOME/.kisspm ]; then
+        git clone $REPO $HOME/.kisspm
+    else
+        ( cd $HOME/.kisspm && git pull origin main >/dev/null 2>/dev/null )
+    fi
 }
 
 install_kisspm() {

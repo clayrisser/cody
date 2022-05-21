@@ -5,7 +5,7 @@
 ## Install
 
 ```sh
-curl -L https://gitlab.com/api/v4/projects/33066547/packages/generic/kisspm/0.0.1/kisspm.sh | sh -s install kisspm
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s install kisspm
 ```
 
 ## Usage
@@ -16,8 +16,20 @@ curl -L https://gitlab.com/api/v4/projects/33066547/packages/generic/kisspm/0.0.
 kisspm install <PACKAGE_NAME>
 ```
 
+_or install a package without installing kisspm_
+
+```sh
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s install <PACKAGE_NAME>
+```
+
 ### uninstall a package
 
 ```sh
 kisspm uninstall <PACKAGE_NAME>
+```
+
+_or install a package without installing kisspm_
+
+```sh
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s uninstall <PACKAGE_NAME>
 ```
