@@ -47,7 +47,7 @@ reinstall() {
 }
 
 prepare() {
-    if [ "$_PREPARED" = "1" ]; then
+    if [ "$_PREPARED" != "1" ]; then
         if [ ! -d $HOME/.kisspm ]; then
             git clone $REPO $HOME/.kisspm
         else
