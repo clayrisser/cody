@@ -28,7 +28,7 @@ $(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https:
 kisspm uninstall <PACKAGE_NAME>
 ```
 
-_or install a package without installing kisspm_
+_or uninstall a package without installing kisspm_
 
 ```sh
 $(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s uninstall <PACKAGE_NAME>
