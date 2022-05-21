@@ -21,6 +21,12 @@ main() {
         echo "reinstalling $_PACKAGE..."
         reinstall $_PACKAGE
         echo "reinstalled $_PACKAGE :)"
+    elif [ "$_AVAILABLE" = "1" ]; then
+        for p in $(ls $HOME/.kisspm/packages); do
+            echo $p
+        done
+    elif [ "$_INSTALLED" = "1" ]; then
+        cat $HOME/.kisspm_installed
     fi
 }
 
@@ -61,10 +67,12 @@ prepare() {
 }
 
 install_kisspm() {
-    sudo true
-    prepare
     if [ ! -f /usr/local/bin/kisspm ]; then
+        sudo true
+        prepare
         ( cd $HOME/.kisspm && gmake -s install )
+    else
+        prepare
     fi
 }
 
@@ -97,6 +105,9 @@ while test $# -gt 0; do
             echo "commands:"
             echo "    install=PACKAGE    install a package"
             echo "    uninstall=PACKAGE  uninstall a package"
+            echo "    reinstall=PACKAGE  reinstall a package"
+            echo "    available          list available packages"
+            echo "    installed          list installed packages"
             exit 0
         ;;
         -*)
@@ -113,8 +124,6 @@ case "$1" in
     i|install)
         shift
         if test $# -gt 0; then
-            unset _UNINSTALL
-            unset _REINSTALL
             export _INSTALL=1
             export _PACKAGE=$1
         else
@@ -126,8 +135,6 @@ case "$1" in
     u|uninstall)
         shift
         if test $# -gt 0; then
-            unset _INSTALL
-            unset _REINSTALL
             export _UNINSTALL=1
             export _PACKAGE=$1
         else
@@ -139,8 +146,6 @@ case "$1" in
     reinstall)
         shift
         if test $# -gt 0; then
-            unset _INSTALL
-            unset _UNINSTALL
             export _REINSTALL=1
             export _PACKAGE=$1
         else
@@ -148,6 +153,14 @@ case "$1" in
             exit 1
         fi
         shift
+    ;;
+    available)
+        shift
+        export _AVAILABLE=1
+    ;;
+    installed)
+        shift
+        export _INSTALLED=1
     ;;
     *)
         echo "invalid command $1" 1>&2
