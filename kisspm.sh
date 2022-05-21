@@ -61,6 +61,7 @@ prepare() {
 }
 
 install_kisspm() {
+    sudo true
     prepare
     if [ ! -f /usr/local/bin/kisspm ]; then
         ( cd $HOME/.kisspm && gmake -s install )
