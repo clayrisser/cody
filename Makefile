@@ -56,7 +56,7 @@ define installed_package
 		if [ "$$p" = "$1" ]; then export _FOUND_PACKAGE=1; fi \
 	done && \
 	if [ "$$_FOUND_PACKAGE" != "1" ]; then \
-		echo $$p >> $(HOME)/.kisspm_installed; \
+		echo $1 >> $(HOME)/.kisspm_installed; \
 	fi
 endef
 
