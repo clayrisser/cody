@@ -5,39 +5,42 @@ export REPO=https://gitlab.com/risserlabs/community/kisspm.git
 export _PREPARED=0
 
 main() {
+    if ! gmake -v >/dev/null 2>/dev/null; then
+        install_gmake
+    fi
     install_kisspm
-    if [ "$INSTALL" = "1" ]; then
-        echo "installing $PACKAGE..."
-        install $PACKAGE
-        echo "installed $PACKAGE :)"
-    elif [ "$UNINSTALL" = "1" ]; then
-        echo "uninstalling $PACKAGE..."
-        uninstall $PACKAGE
-        echo "uninstalled $PACKAGE :)"
-    elif [ "$REINSTALL" = "1" ]; then
-        echo "reinstalling $PACKAGE..."
-        reinstall $PACKAGE
-        echo "reinstalled $PACKAGE :)"
+    if [ "$_INSTALL" = "1" ]; then
+        echo "installing $_PACKAGE..."
+        install $_PACKAGE
+        echo "installed $_PACKAGE :)"
+    elif [ "$_UNINSTALL" = "1" ]; then
+        echo "uninstalling $_PACKAGE..."
+        uninstall $_PACKAGE
+        echo "uninstalled $_PACKAGE :)"
+    elif [ "$_REINSTALL" = "1" ]; then
+        echo "reinstalling $_PACKAGE..."
+        reinstall $_PACKAGE
+        echo "reinstalled $_PACKAGE :)"
     fi
 }
 
 install() {
     prepare
-    export PACKAGE=$1
-    if [ "$PACKAGE" = "kisspm" ]; then
+    export _PACKAGE=$1
+    if [ "$_PACKAGE" = "kisspm" ]; then
         install_kisspm
     else
-        (cd $HOME/.kisspm && TARGET=install make -s $PACKAGE)
+        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE )
     fi
 }
 
 uninstall() {
     prepare
-    export PACKAGE=$1
-    if [ "$PACKAGE" = "kisspm" ]; then
+    export _PACKAGE=$1
+    if [ "$_PACKAGE" = "kisspm" ]; then
         uninstall_kisspm
     else
-        (cd $HOME/.kisspm && TARGET=uninstall make -s $PACKAGE)
+        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE )
     fi
 }
 
@@ -51,7 +54,7 @@ prepare() {
         if [ ! -d $HOME/.kisspm ]; then
             git clone $REPO $HOME/.kisspm
         else
-            (cd $HOME/.kisspm && git pull origin main >/dev/null 2>/dev/null || true)
+            ( cd $HOME/.kisspm && git pull origin main >/dev/null 2>/dev/null )
         fi
     fi
     export _PREPARED=1
@@ -59,17 +62,25 @@ prepare() {
 
 install_kisspm() {
     if [ ! -f /usr/local/bin/kisspm ]; then
-        (cd $HOME/.kisspm && make -s install)
+        ( cd $HOME/.kisspm && gmake -s install )
     fi
 }
 
 uninstall_kisspm() {
-    (cd $HOME/.kisspm && make -s uninstall)
+    ( cd $HOME/.kisspm && gmake -s uninstall )
 }
 
 implode_kisspm() {
     uninstall_kisspm
     rm -rf $HOME/.kisspm
+}
+
+install_gmake() {
+    if apt-get -v >/dev/null 2>/dev/null; then
+        sudo apt-get install -y make
+    elif brew -v >/dev/null 2>/dev/null; then
+        brew install gmake
+    fi
 }
 
 if ! test $# -gt 0; then
@@ -84,11 +95,11 @@ while test $# -gt 0; do
             echo "kisspm [options] command"
             echo " "
             echo "options:"
-            echo "-h, --help         show brief help"
+            echo "    -h, --help         show brief help"
             echo " "
             echo "commands:"
-            echo "install=PACKAGE    specify an action to use"
-            echo "uninstall=PACKAGE  specify a directory to store output in"
+            echo "    install=PACKAGE    specify an action to use"
+            echo "    uninstall=PACKAGE  specify a directory to store output in"
             exit 0
         ;;
         -*)
@@ -105,10 +116,10 @@ case "$1" in
     i|install)
         shift
         if test $# -gt 0; then
-            unset UNINSTALL
-            unset REINSTALL
-            export INSTALL=1
-            export PACKAGE=$1
+            unset _UNINSTALL
+            unset _REINSTALL
+            export _INSTALL=1
+            export _PACKAGE=$1
         else
             echo "no package specified" 1>&2
             exit 1
@@ -118,10 +129,10 @@ case "$1" in
     u|uninstall)
         shift
         if test $# -gt 0; then
-            unset INSTALL
-            unset REINSTALL
-            export UNINSTALL=1
-            export PACKAGE=$1
+            unset _INSTALL
+            unset _REINSTALL
+            export _UNINSTALL=1
+            export _PACKAGE=$1
         else
             echo "no package specified" 1>&2
             exit 1
@@ -131,10 +142,10 @@ case "$1" in
     reinstall)
         shift
         if test $# -gt 0; then
-            unset INSTALL
-            unset UNINSTALL
-            export REINSTALL=1
-            export PACKAGE=$1
+            unset _INSTALL
+            unset _UNINSTALL
+            export _REINSTALL=1
+            export _PACKAGE=$1
         else
             echo "no package specified" 1>&2
             exit 1

@@ -26,7 +26,8 @@ install:
 ifneq (,$(PACKAGE))
 	@TARGET=$@ $(MAKE) -s $(PACKAGE)
 else
-	@echo installing kisspm
+	@sudo cp -r $(CURDIR)/kisspm.sh /usr/local/bin/kisspm
+	@sudo chmod +x /usr/local/bin/kisspm
 endif
 
 .PHONY: uninstall
@@ -34,7 +35,7 @@ uninstall:
 ifneq (,$(PACKAGE))
 	@TARGET=$@ $(MAKE) -s $(PACKAGE)
 else
-	@echo uninstalling kisspm
+	@sudo rm -rf /usr/local/bin/kisspm
 endif
 
 .PHONY: help
