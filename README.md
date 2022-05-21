@@ -1,3 +1,7 @@
+# kisspm
+
+> keep it simple stupid package manager
+
 ## Usage
 
 ### Install Specific App

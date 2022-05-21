@@ -1,9 +1,9 @@
-.DEFAULT_GOAL := install
+.DEFAULT_GOAL := help
 
 include share.mk
 
-INSTALLERS := $(shell cd installers && ls -d */ | sed 's|\/$$||g')
-INSTALLERS_PATH := $(addprefix installers/,$(INSTALLERS))
+PACKAGES := $(shell cd packages && ls -d */ | sed 's|\/$$||g')
+PACKAGES_PATH := $(addprefix packages/,$(PACKAGES))
 
 .PHONY: environment
 environment:
@@ -12,14 +12,34 @@ environment:
 	@echo PKG_MANAGER $(PKG_MANAGER)
 	@echo PLATFORM $(PLATFORM)
 
-.PHONY: $(INSTALLERS_PATH)
-$(INSTALLERS_PATH):
-	@$(MAKE) -sC $@ install
+.PHONY: $(PACKAGES_PATH)
+$(PACKAGES_PATH):
+	@echo $(MAKE) -sC $@ install
 
 TARGET ?= install
-.PHONY: $(INSTALLERS)
-$(INSTALLERS):
-	@$(MAKE) -sC installers/$@ $(TARGET)
+.PHONY: $(PACKAGES)
+$(PACKAGES):
+	@echo $(MAKE) -sC packages/$@ $(TARGET)
 
 .PHONY: install
-install: sudo $(INSTALLERS_PATH)
+install:
+ifneq (,$(PACKAGE))
+	@TARGET=$@ $(MAKE) -s $(PACKAGE)
+else
+	@echo installing kisspm
+endif
+
+.PHONY: uninstall
+uninstall:
+ifneq (,$(PACKAGE))
+	@TARGET=$@ $(MAKE) -s $(PACKAGE)
+else
+	@echo uninstalling kisspm
+endif
+
+.PHONY: package
+package:
+	@tar -czvf kisspm.tar.gz kiss.sh
+
+.PHONY: help
+help: ;
