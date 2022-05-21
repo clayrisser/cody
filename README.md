@@ -2,16 +2,22 @@
 
 > keep it simple stupid package manager
 
-## Usage
-
-### Install Specific App
+## Install
 
 ```sh
-make <SOME_APP>
+curl -L https://gitlab.com/api/v4/projects/33066547/packages/generic/kisspm/0.0.1/kisspm.sh | sh -s install kisspm
 ```
 
-### Install All Apps
+## Usage
+
+### install a package
 
 ```sh
-make
+kisspm install <PACKAGE_NAME>
+```
+
+### uninstall a package
+
+```sh
+kisspm uninstall <PACKAGE_NAME>
 ```
