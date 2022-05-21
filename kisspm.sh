@@ -30,7 +30,7 @@ install() {
     if [ "$_PACKAGE" = "kisspm" ]; then
         install_kisspm
     else
-        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE" && exit 1) )
+        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -39,7 +39,7 @@ uninstall() {
     if [ "$_PACKAGE" = "kisspm" ]; then
         uninstall_kisspm
     else
-        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE" && exit 1) )
+        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -60,11 +60,11 @@ prepare() {
 }
 
 install_kisspm() {
-    ( cd $HOME/.kisspm && gmake -s install )
+    ( cd $HOME/.kisspm && gmake -s install ) || exit 1
 }
 
 uninstall_kisspm() {
-    ( cd $HOME/.kisspm && gmake -s uninstall )
+    ( cd $HOME/.kisspm && gmake -s uninstall ) || exit 1
 }
 
 install_gmake() {
