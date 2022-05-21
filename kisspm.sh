@@ -30,7 +30,7 @@ install() {
     if [ "$_PACKAGE" = "kisspm" ]; then
         install_kisspm
     else
-        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE )
+        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE" && exit 1) )
     fi
 }
 
@@ -39,7 +39,7 @@ uninstall() {
     if [ "$_PACKAGE" = "kisspm" ]; then
         uninstall_kisspm
     else
-        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE )
+        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE" && exit 1) )
     fi
 }
 
@@ -60,13 +60,7 @@ prepare() {
 }
 
 install_kisspm() {
-    if [ ! -f /usr/local/bin/kisspm ]; then
-        sudo true
-        prepare
-        ( cd $HOME/.kisspm && gmake -s install )
-    else
-        prepare
-    fi
+    ( cd $HOME/.kisspm && gmake -s install )
 }
 
 uninstall_kisspm() {
@@ -90,17 +84,17 @@ while test $# -gt 0; do
         -h|--help)
             echo "kisspm - keep it simple stupid package manager"
             echo " "
-            echo "kisspm [options] command"
+            echo "kisspm [options] command <PACKAGE>"
             echo " "
             echo "options:"
-            echo "    -h, --help         show brief help"
+            echo "    -h, --help             show brief help"
             echo " "
             echo "commands:"
-            echo "    install=PACKAGE    install a package"
-            echo "    uninstall=PACKAGE  uninstall a package"
-            echo "    reinstall=PACKAGE  reinstall a package"
-            echo "    available          list available packages"
-            echo "    installed          list installed packages"
+            echo "    install <PACKAGE>      install a package"
+            echo "    uninstall <PACKAGE>    uninstall a package"
+            echo "    reinstall <PACKAGE>    reinstall a package"
+            echo "    available              list available packages"
+            echo "    installed              list installed packages"
             exit 0
         ;;
         -*)
