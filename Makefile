@@ -19,7 +19,7 @@ $(PACKAGES_PATH):
 TARGET ?= install
 .PHONY: $(PACKAGES)
 $(PACKAGES):
-	@echo $(MAKE) -sC packages/$@ $(TARGET)
+	@$(MAKE) -sC packages/$@ $(TARGET)
 ifeq ($(TARGET),install)
 	$(call installed_package,$@)
 endif
@@ -57,7 +57,10 @@ define installed_package
 	done && \
 	if [ "$$_FOUND_PACKAGE" != "1" ]; then \
 		echo $1 >> $(HOME)/.kisspm_installed; \
-	fi
+	fi && \
+	for p in $$(cat $(HOME)/.kisspm_installed); do \
+		echo $$p;  \
+	done | tee $(HOME)/.kisspm_installed >/dev/null
 endef
 
 define uninstalled_package
