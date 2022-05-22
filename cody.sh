@@ -44,7 +44,9 @@ uninstall() {
 }
 
 reinstall() {
-    uninstall $1
+    if [ "$_INSTALLER" != "cody" ]; then
+        uninstall $1
+    fi
     install $1
 }
 
@@ -93,8 +95,8 @@ while test $# -gt 0; do
             echo "    install <INSTALLER>      install a installer"
             echo "    uninstall <INSTALLER>    uninstall a installer"
             echo "    reinstall <INSTALLER>    reinstall a installer"
-            echo "    available              list available installers"
-            echo "    installed              list installed installers"
+            echo "    available                list available installers"
+            echo "    installed                list installed installers"
             exit 0
         ;;
         -*)
