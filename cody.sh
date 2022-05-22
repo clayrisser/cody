@@ -25,7 +25,7 @@ main() {
         reinstall $_INSTALLER
         echo "reinstalled $_INSTALLER :)"
     elif [ "$_AVAILABLE" = "1" ]; then
-        for p in $(ls $HOME/.cody/installers); do
+        for p in $(ls $_REPO_PATH/installers 2>/dev/null || true); do
             echo $p
         done
     elif [ "$_INSTALLED" = "1" ]; then
@@ -174,7 +174,7 @@ case "$1" in
         fi
         shift
     ;;
-    available)
+    a|available)
         shift
         export _AVAILABLE=1
     ;;
