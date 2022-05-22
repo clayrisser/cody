@@ -49,6 +49,7 @@ else
 	@sudo rm -rf /usr/local/bin/cody
 	$(call uninstalled_installer,cody)
 	@rm -rf $(HOME)/.cody
+	@rm -rf $(XDG_STATE_HOME)
 endif
 
 .PHONY: help
