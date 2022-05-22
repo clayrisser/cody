@@ -28,31 +28,56 @@ main() {
         echo "reinstalling $_INSTALLER..."
         reinstall $_INSTALLER
         echo "reinstalled $_INSTALLER :)"
+    elif [ "$_DEPENDENCIES" = "1" ]; then
+       dependencies $_INSTALLER
     elif [ "$_AVAILABLE" = "1" ]; then
-        for p in $(ls $_REPO_PATH/installers 2>/dev/null || true); do
-            echo $p
-        done
+        available
     elif [ "$_INSTALLED" = "1" ]; then
-        cat $_INSTALLED_PATH 2>/dev/null || true
+        installed
     fi
 }
 
 install() {
-    export _INSTALLER=$1
+    _INSTALLER=$1
     if [ "$_INSTALLER" = "cody" ]; then
         install_cody
     else
+        for d in $( dependencies $_INSTALLER ); do
+            for i in $(installed); do
+                if [ "$d" = "$i" ]; then
+                    _SKIP=1
+                fi
+            done
+            if [ "$_SKIP" != "1" ]; then
+                $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) install $d
+            fi
+        done
         ( cd $_REPO_PATH && TARGET=install gmake -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
 uninstall() {
-    export _INSTALLER=$1
+    _INSTALLER=$1
     if [ "$_INSTALLER" = "cody" ]; then
         uninstall_cody
     else
         ( cd $_REPO_PATH && TARGET=uninstall gmake -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
     fi
+}
+
+available() {
+    for p in $(ls $_REPO_PATH/installers 2>/dev/null || true | sort); do
+        echo $p
+    done
+}
+
+installed() {
+    cat $_INSTALLED_PATH 2>/dev/null || true | sort
+}
+
+dependencies() {
+    _INSTALLER=$1
+    ( cd $_REPO_PATH && TARGET=dependencies gmake -s $_INSTALLER ) || exit 1
 }
 
 reinstall() {
@@ -98,6 +123,7 @@ load_remote() {
         export _REPO_REMOTE=$_DEFAULT_REPO
         export _REPO_PATH="$_DEBUG_PATH"
     fi
+    export CODY=$_REPO_PATH/cody.mk
 }
 
 load() {
@@ -135,14 +161,15 @@ while test $# -gt 0; do
             echo "cody [options] command <INSTALLER>"
             echo " "
             echo "options:"
-            echo "    -h, --help             show brief help"
+            echo "    -h, --help                  show brief help"
             echo " "
             echo "commands:"
-            echo "    install <INSTALLER>      install a installer"
-            echo "    uninstall <INSTALLER>    uninstall a installer"
-            echo "    reinstall <INSTALLER>    reinstall a installer"
-            echo "    available                list available installers"
-            echo "    installed                list installed installers"
+            echo "    install <INSTALLER>         install a installer"
+            echo "    uninstall <INSTALLER>       uninstall a installer"
+            echo "    reinstall <INSTALLER>       reinstall a installer"
+            echo "    dependencies <INSTALLER>    dependencies required by installer"
+            echo "    available                   list available installers"
+            echo "    installed                   list installed installers"
             exit 0
         ;;
         -*)
@@ -182,6 +209,17 @@ case "$1" in
         shift
         if test $# -gt 0; then
             export _REINSTALL=1
+            export _INSTALLER=$1
+        else
+            echo "no installer specified" 1>&2
+            exit 1
+        fi
+        shift
+    ;;
+    d|dependencies)
+        shift
+        if test $# -gt 0; then
+            export _DEPENDENCIES=1
             export _INSTALLER=$1
         else
             echo "no installer specified" 1>&2

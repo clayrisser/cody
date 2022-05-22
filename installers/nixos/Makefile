@@ -1,6 +1,7 @@
 NAME := nixos
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo /nix/var/nix/gc.lock

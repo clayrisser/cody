@@ -58,25 +58,15 @@ help: ;
 define installed_installer
 	mkdir -p $(_STATE_PATH) && \
 	touch $(_INSTALLED_PATH) && \
-	for p in $$(cat $(_INSTALLED_PATH)); do \
-		echo $$p >> $(_INSTALLED_PATH)_;  \
-	done && \
-	touch $(_INSTALLED_PATH)_ && \
-	mv $(_INSTALLED_PATH)_ $(_INSTALLED_PATH) && \
-	for p in $$(cat $(_INSTALLED_PATH)); do \
-		if [ "$$p" = "$1" ]; then export _FOUND_INSTALLER=1; fi \
-	done && \
-	if [ "$$_FOUND_INSTALLER" != "1" ]; then \
-		echo $1 >> $(_INSTALLED_PATH); \
-	fi
+	echo "$$(cat $(_INSTALLED_PATH) && echo $1)" | sort | uniq | \
+		tee $(_INSTALLED_PATH) >/dev/null
 endef
 
 define uninstalled_installer
 	mkdir -p $(_STATE_PATH) && \
 	touch $(_INSTALLED_PATH) && \
 	for p in $$(cat $(_INSTALLED_PATH)); do \
-		if [ "$$p" != "$1" ]; then echo $$p >> $(_INSTALLED_PATH)_; fi  \
-	done && \
-	touch $(_INSTALLED_PATH)_ && \
-	mv $(_INSTALLED_PATH)_ $(_INSTALLED_PATH)
+		if [ "$$p" != "$1" ]; then echo $$p; fi  \
+	done | sort | uniq | \
+		tee $(_INSTALLED_PATH) >/dev/null
 endef

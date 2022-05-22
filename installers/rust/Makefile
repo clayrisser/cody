@@ -1,6 +1,7 @@
 NAME := rust
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo $(HOME)/.cargo/bin/cargo

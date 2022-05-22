@@ -1,6 +1,7 @@
 NAME := fonts
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | $(HOME)/.local/share/fonts/NerdFonts/Noto\ Sans\ SemiBold\ Italic\ Nerd\ Font\ Complete\ Mono.ttf

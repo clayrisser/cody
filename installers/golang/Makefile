@@ -1,7 +1,8 @@
 NAME := golang
 GO_VERSION := 1.17.6
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | /usr/bin/bison \

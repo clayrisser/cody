@@ -111,3 +111,9 @@ sudo:
 .PHONY: not-supported
 not-supported:
 	@$(call not_supported,$(NAME))
+
+.PHONY: dependencies
+dependencies:
+	@for d in $(DEPENDS_ON); do \
+		echo $$d; \
+	done

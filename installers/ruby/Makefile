@@ -1,6 +1,7 @@
 NAME := ruby
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo $(HOME)/.rvm/bin/rvm

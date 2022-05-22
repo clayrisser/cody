@@ -1,7 +1,8 @@
 NAME := nodejs
 NVM_VERSION ?= 0.39.1
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo \

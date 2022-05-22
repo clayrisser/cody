@@ -1,6 +1,7 @@
 NAME := java
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo \

@@ -1,6 +1,7 @@
 NAME := flatpak
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo /usr/bin/flatpak

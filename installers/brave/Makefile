@@ -1,10 +1,7 @@
 NAME := brave
-
 DEPENDS_ON := \
-	hello \
-	world
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo /usr/bin/brave-browser
@@ -22,3 +19,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 else
 	@$(call not_supported,$(NAME))
 endif
+
+
+.PHONY: uninstall
+uninstall: ;

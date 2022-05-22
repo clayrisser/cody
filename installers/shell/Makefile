@@ -1,6 +1,7 @@
 NAME := shell
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 CURRENT_SHELL := $(shell getent passwd $(USER) | cut -d':' -f7)
 ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom

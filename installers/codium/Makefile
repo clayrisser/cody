@@ -1,4 +1,5 @@
 NAME := codium
+DEPENDS_ON := \
 
 EXTENSIONS := \
 	RemixProject.ethereum-remix \
@@ -41,7 +42,7 @@ EXTENSIONS := \
 	xdebug.php-pack \
 	zawys.vscode-as-git-mergetool
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | sudo /usr/bin/codium

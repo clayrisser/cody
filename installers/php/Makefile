@@ -1,6 +1,7 @@
 NAME := php
+DEPENDS_ON := \
 
-include ../../cody.mk
+include $(CODY)
 
 .PHONY: install
 install: | /bin/composer \
