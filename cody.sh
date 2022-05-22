@@ -52,7 +52,7 @@ prepare() {
     if ! gmake -v >/dev/null 2>/dev/null; then
         install_gmake
     fi
-    if [ ! -d $HOME/.cody]; then
+    if [ ! -d $HOME/.cody ]; then
         git clone $REPO $HOME/.cody
     else
         ( cd $HOME/.cody && git pull origin main >/dev/null 2>/dev/null )
