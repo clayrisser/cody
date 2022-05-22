@@ -78,10 +78,12 @@ prepare() {
         export _REPO_REMOTE="$(eval $(echo 'echo $_repo_'$_REPO))"
         export _REPO_PATH="$_REPOS_PATH/$_REPO"
     fi
-    if [ ! -d $_REPO_PATH ]; then
-        git clone $_REPO_REMOTE $_REPO_PATH
-    else
-        ( cd $_REPO_PATH && git pull origin main >/dev/null 2>/dev/null )
+    if [ "$_INSTALL" = "1" ] || [ "$_REINSTALL" = "1" ] || [ "$_UNINSTALL" = "1" ]; then
+        if [ ! -d $_REPO_PATH ]; then
+            git clone $_REPO_REMOTE $_REPO_PATH
+        else
+            ( cd $_REPO_PATH && git pull origin main >/dev/null 2>/dev/null )
+        fi
     fi
 }
 
