@@ -5,19 +5,19 @@ export REPO=https://gitlab.com/risserlabs/community/cody.git
 main() {
     prepare
     if [ "$_INSTALL" = "1" ]; then
-        echo "installing $_PACKAGE..."
-        install $_PACKAGE
-        echo "installed $_PACKAGE :)"
+        echo "installing $_INSTALLER..."
+        install $_INSTALLER
+        echo "installed $_INSTALLER :)"
     elif [ "$_UNINSTALL" = "1" ]; then
-        echo "uninstalling $_PACKAGE..."
-        uninstall $_PACKAGE
-        echo "uninstalled $_PACKAGE :)"
+        echo "uninstalling $_INSTALLER..."
+        uninstall $_INSTALLER
+        echo "uninstalled $_INSTALLER :)"
     elif [ "$_REINSTALL" = "1" ]; then
-        echo "reinstalling $_PACKAGE..."
-        reinstall $_PACKAGE
-        echo "reinstalled $_PACKAGE :)"
+        echo "reinstalling $_INSTALLER..."
+        reinstall $_INSTALLER
+        echo "reinstalled $_INSTALLER :)"
     elif [ "$_AVAILABLE" = "1" ]; then
-        for p in $(ls $HOME/.cody/packages); do
+        for p in $(ls $HOME/.cody/installers); do
             echo $p
         done
     elif [ "$_INSTALLED" = "1" ]; then
@@ -26,20 +26,20 @@ main() {
 }
 
 install() {
-    export _PACKAGE=$1
-    if [ "$_PACKAGE" = "cody" ]; then
+    export _INSTALLER=$1
+    if [ "$_INSTALLER" = "cody" ]; then
         install_cody
     else
-        ( cd $HOME/.cody && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE :(" && exit 1) ) || exit 1
+        ( cd $HOME/.cody && TARGET=install gmake -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
 uninstall() {
-    export _PACKAGE=$1
-    if [ "$_PACKAGE" = "cody" ]; then
+    export _INSTALLER=$1
+    if [ "$_INSTALLER" = "cody" ]; then
         uninstall_cody
     else
-        ( cd $HOME/.cody && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE :(" && exit 1) ) || exit 1
+        ( cd $HOME/.cody && TARGET=uninstall gmake -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -82,19 +82,19 @@ fi
 while test $# -gt 0; do
     case "$1" in
         -h|--help)
-            echo "cody - package manager"
+            echo "cody - installer manager"
             echo " "
-            echo "cody [options] command <PACKAGE>"
+            echo "cody [options] command <INSTALLER>"
             echo " "
             echo "options:"
             echo "    -h, --help             show brief help"
             echo " "
             echo "commands:"
-            echo "    install <PACKAGE>      install a package"
-            echo "    uninstall <PACKAGE>    uninstall a package"
-            echo "    reinstall <PACKAGE>    reinstall a package"
-            echo "    available              list available packages"
-            echo "    installed              list installed packages"
+            echo "    install <INSTALLER>      install a installer"
+            echo "    uninstall <INSTALLER>    uninstall a installer"
+            echo "    reinstall <INSTALLER>    reinstall a installer"
+            echo "    available              list available installers"
+            echo "    installed              list installed installers"
             exit 0
         ;;
         -*)
@@ -112,9 +112,9 @@ case "$1" in
         shift
         if test $# -gt 0; then
             export _INSTALL=1
-            export _PACKAGE=$1
+            export _INSTALLER=$1
         else
-            echo "no package specified" 1>&2
+            echo "no installer specified" 1>&2
             exit 1
         fi
         shift
@@ -123,9 +123,9 @@ case "$1" in
         shift
         if test $# -gt 0; then
             export _UNINSTALL=1
-            export _PACKAGE=$1
+            export _INSTALLER=$1
         else
-            echo "no package specified" 1>&2
+            echo "no installer specified" 1>&2
             exit 1
         fi
         shift
@@ -134,9 +134,9 @@ case "$1" in
         shift
         if test $# -gt 0; then
             export _REINSTALL=1
-            export _PACKAGE=$1
+            export _INSTALLER=$1
         else
-            echo "no package specified" 1>&2
+            echo "no installer specified" 1>&2
             exit 1
         fi
         shift

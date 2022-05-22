@@ -1,6 +1,6 @@
 # cody
 
-> keep it simple stupid package manager
+> keep it simple stupid installer manager
 
 ## Install
 
@@ -10,26 +10,26 @@ $(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https:
 
 ## Usage
 
-### install a package
+### install a installer
 
 ```sh
-cody install <PACKAGE_NAME>
+cody install <INSTALLER_NAME>
 ```
 
-_or install a package without installing cody_
+_or install a installer without installing cody_
 
 ```sh
-$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s install <PACKAGE_NAME>
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s install <INSTALLER_NAME>
 ```
 
-### uninstall a package
+### uninstall a installer
 
 ```sh
-cody uninstall <PACKAGE_NAME>
+cody uninstall <INSTALLER_NAME>
 ```
 
-_or uninstall a package without installing cody_
+_or uninstall a installer without installing cody_
 
 ```sh
-$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s uninstall <PACKAGE_NAME>
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s uninstall <INSTALLER_NAME>
 ```
