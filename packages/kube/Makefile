@@ -1,6 +1,6 @@
 NAME := kube
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo \

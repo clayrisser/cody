@@ -1,6 +1,6 @@
 NAME := fonts
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | $(HOME)/.local/share/fonts/NerdFonts/Noto\ Sans\ SemiBold\ Italic\ Nerd\ Font\ Complete\ Mono.ttf

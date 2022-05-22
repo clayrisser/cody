@@ -1,7 +1,7 @@
 NAME := golang
 GO_VERSION := 1.17.6
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | /usr/bin/bison \

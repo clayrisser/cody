@@ -1,6 +1,6 @@
 NAME := ruby
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo $(HOME)/.rvm/bin/rvm

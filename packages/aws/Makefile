@@ -1,6 +1,6 @@
 NAME := aws
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | \

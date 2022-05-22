@@ -1,11 +1,11 @@
-# kisspm
+# cody
 
 > keep it simple stupid package manager
 
 ## Install
 
 ```sh
-$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s install kisspm
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s install cody
 ```
 
 ## Usage
@@ -13,23 +13,23 @@ $(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https:
 ### install a package
 
 ```sh
-kisspm install <PACKAGE_NAME>
+cody install <PACKAGE_NAME>
 ```
 
-_or install a package without installing kisspm_
+_or install a package without installing cody_
 
 ```sh
-$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s install <PACKAGE_NAME>
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s install <PACKAGE_NAME>
 ```
 
 ### uninstall a package
 
 ```sh
-kisspm uninstall <PACKAGE_NAME>
+cody uninstall <PACKAGE_NAME>
 ```
 
-_or uninstall a package without installing kisspm_
+_or uninstall a package without installing cody_
 
 ```sh
-$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/kisspm/-/raw/main/kisspm.sh 2>/dev/null | sh -s uninstall <PACKAGE_NAME>
+$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) https://gitlab.com/risserlabs/community/cody/-/raw/main/cody.sh 2>/dev/null | sh -s uninstall <PACKAGE_NAME>
 ```

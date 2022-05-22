@@ -1,6 +1,6 @@
 NAME := flatpak
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo /usr/bin/flatpak

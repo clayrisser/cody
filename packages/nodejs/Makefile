@@ -1,7 +1,7 @@
 NAME := nodejs
 NVM_VERSION ?= 0.39.1
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo \

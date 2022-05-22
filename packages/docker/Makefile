@@ -1,6 +1,6 @@
 NAME := docker
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo \

@@ -1,6 +1,6 @@
 NAME := rust
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo $(HOME)/.cargo/bin/cargo

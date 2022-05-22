@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export REPO=https://gitlab.com/risserlabs/community/kisspm.git
+export REPO=https://gitlab.com/risserlabs/community/cody.git
 
 main() {
     prepare
@@ -17,29 +17,29 @@ main() {
         reinstall $_PACKAGE
         echo "reinstalled $_PACKAGE :)"
     elif [ "$_AVAILABLE" = "1" ]; then
-        for p in $(ls $HOME/.kisspm/packages); do
+        for p in $(ls $HOME/.cody/packages); do
             echo $p
         done
     elif [ "$_INSTALLED" = "1" ]; then
-        cat $HOME/.kisspm_installed
+        cat $HOME/.cody_installed
     fi
 }
 
 install() {
     export _PACKAGE=$1
-    if [ "$_PACKAGE" = "kisspm" ]; then
-        install_kisspm
+    if [ "$_PACKAGE" = "cody" ]; then
+        install_cody
     else
-        ( cd $HOME/.kisspm && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE :(" && exit 1) ) || exit 1
+        ( cd $HOME/.cody && TARGET=install gmake -s $_PACKAGE || (echo "failed to install $_PACKAGE :(" && exit 1) ) || exit 1
     fi
 }
 
 uninstall() {
     export _PACKAGE=$1
-    if [ "$_PACKAGE" = "kisspm" ]; then
-        uninstall_kisspm
+    if [ "$_PACKAGE" = "cody" ]; then
+        uninstall_cody
     else
-        ( cd $HOME/.kisspm && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE :(" && exit 1) ) || exit 1
+        ( cd $HOME/.cody && TARGET=uninstall gmake -s $_PACKAGE || (echo "failed to uninstall $_PACKAGE :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -52,19 +52,19 @@ prepare() {
     if ! gmake -v >/dev/null 2>/dev/null; then
         install_gmake
     fi
-    if [ ! -d $HOME/.kisspm ]; then
-        git clone $REPO $HOME/.kisspm
+    if [ ! -d $HOME/.cody]; then
+        git clone $REPO $HOME/.cody
     else
-        ( cd $HOME/.kisspm && git pull origin main >/dev/null 2>/dev/null )
+        ( cd $HOME/.cody && git pull origin main >/dev/null 2>/dev/null )
     fi
 }
 
-install_kisspm() {
-    ( cd $HOME/.kisspm && gmake -s install ) || exit 1
+install_cody() {
+    ( cd $HOME/.cody && gmake -s install ) || exit 1
 }
 
-uninstall_kisspm() {
-    ( cd $HOME/.kisspm && gmake -s uninstall ) || exit 1
+uninstall_cody() {
+    ( cd $HOME/.cody && gmake -s uninstall ) || exit 1
 }
 
 install_gmake() {
@@ -82,9 +82,9 @@ fi
 while test $# -gt 0; do
     case "$1" in
         -h|--help)
-            echo "kisspm - keep it simple stupid package manager"
+            echo "cody - package manager"
             echo " "
-            echo "kisspm [options] command <PACKAGE>"
+            echo "cody [options] command <PACKAGE>"
             echo " "
             echo "options:"
             echo "    -h, --help             show brief help"

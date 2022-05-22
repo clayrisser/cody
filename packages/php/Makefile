@@ -1,6 +1,6 @@
 NAME := php
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | /bin/composer \

@@ -1,6 +1,6 @@
 NAME := nixos
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo /nix/var/nix/gc.lock

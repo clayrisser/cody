@@ -1,6 +1,6 @@
 NAME := shell
 
-include ../../share.mk
+include ../../cody.mk
 
 CURRENT_SHELL := $(shell getent passwd $(USER) | cut -d':' -f7)
 ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom
@@ -35,7 +35,7 @@ $(ZSH_CUSTOM)/themes/spaceship.zsh-theme:
 	@git clone https://github.com/spaceship-prompt/spaceship-prompt.git \
 		"$(ZSH_CUSTOM)/themes/spaceship-prompt" --depth=1
 	@ln -s "$(ZSH_CUSTOM)/themes/spaceship-prompt/spaceship.zsh-theme" "$(ZSH_CUSTOM)/themes/spaceship.zsh-theme"
-	@sed -i 's|ZSH_THEME=.*|ZSH_THEME="spaceship"|g' $(HOME)/.zshrc 
+	@sed -i 's|ZSH_THEME=.*|ZSH_THEME="spaceship"|g' $(HOME)/.zshrc
 $(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh:
 	@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 		$(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting

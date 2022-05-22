@@ -1,6 +1,6 @@
 NAME := android-studio
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo /var/lib/flatpak/exports/share/applications/com.google.AndroidStudio.desktop

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-include share.mk
+include cody.mk
 
 PACKAGES := $(shell cd packages && ls -d */ | sed 's|\/$$||g')
 PACKAGES_PATH := $(addprefix packages/,$(PACKAGES))
@@ -32,9 +32,9 @@ install:
 ifneq (,$(PACKAGE))
 	@TARGET=$@ $(MAKE) -s $(PACKAGE)
 else
-	@sudo cp -r $(CURDIR)/kisspm.sh /usr/local/bin/kisspm
-	@sudo chmod +x /usr/local/bin/kisspm
-	$(call installed_package,kisspm)
+	@sudo cp -r $(CURDIR)/cody.sh /usr/local/bin/cody
+	@sudo chmod +x /usr/local/bin/cody
+	$(call installed_package,cody)
 endif
 
 .PHONY: uninstall
@@ -42,30 +42,30 @@ uninstall:
 ifneq (,$(PACKAGE))
 	@TARGET=$@ $(MAKE) -s $(PACKAGE)
 else
-	@sudo rm -rf /usr/local/bin/kisspm
-	$(call uninstalled_package,kisspm)
-	@rm -rf $(HOME)/.kisspm
+	@sudo rm -rf /usr/local/bin/cody
+	$(call uninstalled_package,cody)
+	@rm -rf $(HOME)/.cody
 endif
 
 .PHONY: help
 help: ;
 
 define installed_package
-	touch $(HOME)/.kisspm_installed && \
-	for p in $$(cat $(HOME)/.kisspm_installed); do \
+	touch $(HOME)/.cody_installed && \
+	for p in $$(cat $(HOME)/.cody_installed); do \
 		echo $$p;  \
-	done | tee $(HOME)/.kisspm_installed >/dev/null && \
-	for p in $$(cat $(HOME)/.kisspm_installed); do \
+	done | tee $(HOME)/.cody_installed >/dev/null && \
+	for p in $$(cat $(HOME)/.cody_installed); do \
 		if [ "$$p" = "$1" ]; then export _FOUND_PACKAGE=1; fi \
 	done && \
 	if [ "$$_FOUND_PACKAGE" != "1" ]; then \
-		echo $1 >> $(HOME)/.kisspm_installed; \
+		echo $1 >> $(HOME)/.cody_installed; \
 	fi
 endef
 
 define uninstalled_package
-	touch $(HOME)/.kisspm_installed && \
-	for p in $$(cat $(HOME)/.kisspm_installed); do \
+	touch $(HOME)/.cody_installed && \
+	for p in $$(cat $(HOME)/.cody_installed); do \
 		if [ "$$p" != "$1" ]; then echo $$p; fi  \
-	done | tee $(HOME)/.kisspm_installed >/dev/null
+	done | tee $(HOME)/.cody_installed >/dev/null
 endef

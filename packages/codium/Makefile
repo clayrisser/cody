@@ -41,7 +41,7 @@ EXTENSIONS := \
 	xdebug.php-pack \
 	zawys.vscode-as-git-mergetool
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo /usr/bin/codium

@@ -1,6 +1,6 @@
 NAME := python
 
-include ../../share.mk
+include ../../cody.mk
 
 .PHONY: install
 install: | sudo /bin/pip3 /usr/local/bin/poetry $(HOME)/.pyenv/bin/pyenv
