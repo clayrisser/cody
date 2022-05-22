@@ -5,6 +5,10 @@ include cody.mk
 INSTALLERS := $(shell cd installers && ls -d */ | sed 's|\/$$||g')
 INSTALLERS_PATH := $(addprefix installers/,$(INSTALLERS))
 
+export XDG_STATE_HOME ?= $(HOME)/.local/state
+export _STATE_PATH ?= $(XDG_STATE_HOME)/cody
+export _INSTALLED_PATH ?= $(_STATE_PATH)/installed
+
 .PHONY: environment
 environment:
 	@echo ARCH $(ARCH)
@@ -51,21 +55,23 @@ endif
 help: ;
 
 define installed_installer
-	touch $(HOME)/.cody_installed && \
-	for p in $$(cat $(HOME)/.cody_installed); do \
+	mkdir -p $(_STATE_PATH) && \
+	touch $(_INSTALLED_PATH) && \
+	for p in $$(cat $(_INSTALLED_PATH)); do \
 		echo $$p;  \
-	done | tee $(HOME)/.cody_installed >/dev/null && \
-	for p in $$(cat $(HOME)/.cody_installed); do \
+	done | tee $(_INSTALLED_PATH) >/dev/null && \
+	for p in $$(cat $(_INSTALLED_PATH)); do \
 		if [ "$$p" = "$1" ]; then export _FOUND_INSTALLER=1; fi \
 	done && \
 	if [ "$$_FOUND_INSTALLER" != "1" ]; then \
-		echo $1 >> $(HOME)/.cody_installed; \
+		echo $1 >> $(_INSTALLED_PATH); \
 	fi
 endef
 
 define uninstalled_installer
-	touch $(HOME)/.cody_installed && \
-	for p in $$(cat $(HOME)/.cody_installed); do \
+	mkdir -p $(_STATE_PATH) && \
+	touch $(_INSTALLED_PATH) && \
+	for p in $$(cat $(_INSTALLED_PATH)); do \
 		if [ "$$p" != "$1" ]; then echo $$p; fi  \
-	done | tee $(HOME)/.cody_installed >/dev/null
+	done | tee $(_INSTALLED_PATH) >/dev/null
 endef

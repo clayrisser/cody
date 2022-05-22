@@ -1,5 +1,9 @@
 NAME := brave
 
+DEPENDS_ON := \
+	hello \
+	world
+
 include ../../cody.mk
 
 .PHONY: install

@@ -1,6 +1,14 @@
 #!/bin/sh
 
-export REPO=https://gitlab.com/risserlabs/community/cody.git
+export _CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config/cody}"
+export _STATE_PATH="${XDG_STATE_HOME:-$HOME/.local/state}/cody"
+export _INSTALLED_PATH="$_STATE_PATH/installed"
+export _REPOS_CONFIG_PATH="$_CONFIG_PATH/repos"
+export _REPOS_PATH="$_STATE_PATH/repos"
+export _DEFAULT_REPO=https://gitlab.com/risserlabs/community/cody.git
+export _TMP_PATH="${XDG_RUNTIME_DIR:-$([ -d "/run/user/$(id -u $USER)" ] && echo "/run/user/$(id -u $USER)" || echo ${TMP:-${TEMP:-/tmp}})}/cody/$$"
+
+export _REPO=default
 
 main() {
     prepare
@@ -21,7 +29,7 @@ main() {
             echo $p
         done
     elif [ "$_INSTALLED" = "1" ]; then
-        cat $HOME/.cody_installed
+        cat $_INSTALLED_PATH 2>/dev/null || true
     fi
 }
 
@@ -30,7 +38,7 @@ install() {
     if [ "$_INSTALLER" = "cody" ]; then
         install_cody
     else
-        ( cd $HOME/.cody && TARGET=install gmake -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=install gmake -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -39,7 +47,7 @@ uninstall() {
     if [ "$_INSTALLER" = "cody" ]; then
         uninstall_cody
     else
-        ( cd $HOME/.cody && TARGET=uninstall gmake -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=uninstall gmake -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -51,22 +59,45 @@ reinstall() {
 }
 
 prepare() {
+    if [ ! -d "$_TMP_PATH" ]; then
+        mkdir -p $_TMP_PATH
+    fi
     if ! gmake -v >/dev/null 2>/dev/null; then
         install_gmake
     fi
-    if [ ! -d $HOME/.cody ]; then
-        git clone $REPO $HOME/.cody
+    load repos
+    if [ ! -d "$_STATE_PATH" ]; then
+        mkdir -p "$_STATE_PATH"
+    fi
+    if [ ! -f "$_REPOS_CONFIG_PATH" ]; then
+        mkdir -p $_CONFIG_PATH
+        echo "default   $_DEFAULT_REPO" > $_REPOS_CONFIG_PATH
+        export _REPO_REMOTE=$_DEFAULT_REPO
+        export _REPO_PATH="$_REPOS_PATH/default"
     else
-        ( cd $HOME/.cody && git pull origin main >/dev/null 2>/dev/null )
+        export _REPO_REMOTE="$(eval $(echo 'echo $_repo_'$_REPO))"
+        export _REPO_PATH="$_REPOS_PATH/$_REPO"
+    fi
+    if [ ! -d $_REPO_PATH ]; then
+        git clone $_REPO_REMOTE $_REPO_PATH
+    else
+        ( cd $_REPO_PATH && git pull origin main >/dev/null 2>/dev/null )
     fi
 }
 
+load() {
+    (cat $HOME/.config/cody/$1 2>/dev/null || true) | \
+        sed "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | sed "s|$|'|g" > \
+        "$_TMP_PATH/load_$1.sh"
+    . "$_TMP_PATH/load_$1.sh"
+}
+
 install_cody() {
-    ( cd $HOME/.cody && gmake -s install ) || exit 1
+    ( cd $_REPO_PATH && gmake -s install ) || exit 1
 }
 
 uninstall_cody() {
-    ( cd $HOME/.cody && gmake -s uninstall ) || exit 1
+    ( cd $_REPO_PATH && gmake -s uninstall ) || exit 1
 }
 
 install_gmake() {
