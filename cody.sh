@@ -80,7 +80,7 @@ prepare() {
     fi
     if [ "$_INSTALL" = "1" ] || [ "$_REINSTALL" = "1" ] || [ "$_UNINSTALL" = "1" ]; then
         if [ ! -d $_REPO_PATH ]; then
-            git clone $_REPO_REMOTE $_REPO_PATH
+            git clone --depth 1 $_REPO_REMOTE $_REPO_PATH
         else
             ( cd $_REPO_PATH && git pull origin main >/dev/null 2>/dev/null )
         fi
