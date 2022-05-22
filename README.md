@@ -1,6 +1,6 @@
 # cody
 
-> keep it simple stupid installer manager
+> simple universal installer
 
 ## Install
 

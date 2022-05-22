@@ -84,7 +84,7 @@ fi
 while test $# -gt 0; do
     case "$1" in
         -h|--help)
-            echo "cody - installer manager"
+            echo "cody - simple universal installer"
             echo " "
             echo "cody [options] command <INSTALLER>"
             echo " "
