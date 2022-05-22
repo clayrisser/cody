@@ -10,6 +10,10 @@ export _TMP_PATH="${XDG_RUNTIME_DIR:-$([ -d "/run/user/$(id -u $USER)" ] && echo
 
 export _REPO=default
 
+if echo $0 | grep -E "\.sh$" >/dev/null 2>/dev/null; then
+    export _DEBUG_PATH="$(pwd)/$(echo $0 | sed 's|\.\?\/\?[^\/]\+$||g')"
+fi
+
 main() {
     prepare
     if [ "$_INSTALL" = "1" ]; then
@@ -69,21 +73,30 @@ prepare() {
     if [ ! -d "$_STATE_PATH" ]; then
         mkdir -p "$_STATE_PATH"
     fi
-    if [ ! -f "$_REPOS_CONFIG_PATH" ]; then
-        mkdir -p $_CONFIG_PATH
-        echo "default   $_DEFAULT_REPO" > $_REPOS_CONFIG_PATH
-        export _REPO_REMOTE=$_DEFAULT_REPO
-        export _REPO_PATH="$_REPOS_PATH/default"
-    else
-        export _REPO_REMOTE="$(eval $(echo 'echo $_repo_'$_REPO))"
-        export _REPO_PATH="$_REPOS_PATH/$_REPO"
-    fi
+    load_remote
     if [ "$_INSTALL" = "1" ] || [ "$_REINSTALL" = "1" ] || [ "$_UNINSTALL" = "1" ]; then
         if [ ! -d $_REPO_PATH ]; then
             git clone --depth 1 $_REPO_REMOTE $_REPO_PATH
         else
             ( cd $_REPO_PATH && git pull origin main >/dev/null 2>/dev/null )
         fi
+    fi
+}
+
+load_remote() {
+    if [ "$_DEBUG_PATH" = "" ]; then
+        if [ ! -f "$_REPOS_CONFIG_PATH" ]; then
+            mkdir -p $_CONFIG_PATH
+            echo "default   $_DEFAULT_REPO" > $_REPOS_CONFIG_PATH
+            export _REPO_REMOTE=$_DEFAULT_REPO
+            export _REPO_PATH="$_REPOS_PATH/default"
+        else
+            export _REPO_REMOTE="$(eval $(echo 'echo $_repo_'$_REPO))"
+            export _REPO_PATH="$_REPOS_PATH/$_REPO"
+        fi
+    else
+        export _REPO_REMOTE=$_DEFAULT_REPO
+        export _REPO_PATH="$_DEBUG_PATH"
     fi
 }
 
@@ -99,7 +112,7 @@ install_cody() {
 }
 
 uninstall_cody() {
-    ( cd $_REPO_PATH && gmake -s uninstall ) || exit 1
+    ( cd $_REPO_PATH && unset _DEBUG_PATH && load_remote && gmake -s uninstall ) || exit 1
 }
 
 install_gmake() {
