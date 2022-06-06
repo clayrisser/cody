@@ -45,7 +45,7 @@ EXTENSIONS := \
 include $(CODY)
 
 .PHONY: install
-install: | sudo /usr/bin/codium
+install: | sudo $(HOME)/.config/VSCodium/product.json /usr/bin/codium
 /usr/bin/codium:
 ifeq ($(PKG_MANAGER),apt-get)
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
@@ -58,8 +58,10 @@ ifeq ($(PKG_MANAGER),apt-get)
 else
 	@$(call not_supported,$(NAME))
 endif
-	@printf $(PRODUCT_JSON) > $(HOME)/.config/VSCodium/product.json
 	@$(MAKE) -s extensions
+$(HOME)/.config/VSCodium/product.json:
+	@mkdir -p $(HOME)/.config/VSCodium
+	@printf $(PRODUCT_JSON) > $@
 .PHONY: extensions
 extensions:
 ifneq (,$(EXTENSIONS))
