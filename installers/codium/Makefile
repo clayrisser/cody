@@ -83,3 +83,6 @@ define PRODUCT_JSON
 \t}\n\
 }'
 endef
+
+.PHONY: uninstall
+uninstall: ;
