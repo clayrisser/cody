@@ -7,6 +7,7 @@ EXTENSIONS := \
 	azblockchain.azure-blockchain \
 	bbenoist.nix \
 	bungcip.better-toml \
+	ultram4rine.vscode-choosealicense \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
 	dbaeumer.vscode-eslint \
@@ -21,7 +22,6 @@ EXTENSIONS := \
 	hashicorp.terraform \
 	hediet.vscode-drawio \
 	juanblanco.solidity \
-	martellaj.license-injector \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
