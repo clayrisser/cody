@@ -21,6 +21,7 @@ EXTENSIONS := \
 	hashicorp.terraform \
 	hediet.vscode-drawio \
 	juanblanco.solidity \
+	martellaj.license-injector \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
