@@ -51,10 +51,12 @@ include $(CODY)
 install: | sudo /usr/bin/code
 /usr/bin/code:
 ifeq ($(PKG_MANAGER),apt-get)
-	@curl -Lo vscode.deb https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
-	@$(SUDO) dpkg -i vscode.deb
-	@$(SUDO) apt-get install -f
-	@$(SUDO) dpkg -i vscode.deb
+	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	@$(SUDO) install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	@$(SUDO) sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	@rm -f packages.microsoft.gpg
+	@$(SUDO) apt-get update
+	@$(SUDO) apt-get install -y code
 else
 	@$(call not_supported,$(NAME))
 endif
