@@ -7,7 +7,6 @@ EXTENSIONS := \
 	azblockchain.azure-blockchain \
 	bbenoist.nix \
 	bungcip.better-toml \
-	ultram4rine.vscode-choosealicense \
 	cweijan.vscode-database-client2 \
 	dawidd6.debian-vscode \
 	dbaeumer.vscode-eslint \
@@ -15,6 +14,7 @@ EXTENSIONS := \
 	editorconfig.editorconfig \
 	eg2.vscode-npm-script \
 	esbenp.prettier-vscode \
+	github.copilot \
 	gitlab.gitlab-workflow \
 	golang.go \
 	grapecity.gc-excelviewer \
@@ -36,8 +36,10 @@ EXTENSIONS := \
 	rubymaniac.vscode-direnv \
 	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
+	timkmecl.codegpt3 \
 	tintinweb.solidity-visual-auditor \
 	tintinweb.vscode-decompiler \
+	ultram4rine.vscode-choosealicense \
 	visual-auditor \
 	vspacecode.vspacecode \
 	xdebug.php-pack \
@@ -46,45 +48,28 @@ EXTENSIONS := \
 include $(CODY)
 
 .PHONY: install
-install: | sudo $(HOME)/.config/VSCodium/product.json /usr/bin/codium
-/usr/bin/codium:
+install: | sudo /usr/bin/code
+/usr/bin/code:
 ifeq ($(PKG_MANAGER),apt-get)
-	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
-		| gpg --dearmor \
-		| $(SUDO) dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-	@echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
-		| $(SUDO) tee /etc/apt/sources.list.d/vscodium.list
-	@$(SUDO) $(APT) update
-	@$(SUDO) $(APT) install -y codium
+	@curl -Lo vscode.deb https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+	@$(SUDO) dpkg -i vscode.deb
+	@$(SUDO) apt-get install -f
+	@$(SUDO) dpkg -i vscode.deb
 else
 	@$(call not_supported,$(NAME))
 endif
 	@$(MAKE) -s extensions
-$(HOME)/.config/VSCodium/product.json:
-	@mkdir -p $(HOME)/.config/VSCodium
-	@printf $(PRODUCT_JSON) > $@
+
 .PHONY: extensions
 extensions:
 ifneq (,$(EXTENSIONS))
 	@for e in $(EXTENSIONS); do \
-		codium --install-extension $$e; \
+		code --install-extension $$e; \
 	done
 else
 	@true
 endif
 
-define PRODUCT_JSON
-'{\n\
-\t"extensionsGallery": {\n\
-\t\t"serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",\n\
-\t\t"cacheUrl": "https://vscode.blob.core.windows.net/gallery/index",\n\
-\t\t"itemUrl": "https://marketplace.visualstudio.com/items",\n\
-\t\t"controlUrl": "",\n\
-\t\t"recommendationsUrl": ""\n\
-\t}\n\
-}'
-endef
-
 .PHONY: uninstall
 uninstall: ;
-	@$(SUDO) apt-get remove -y codium
+	@$(SUDO) apt-get remove -y code
