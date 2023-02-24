@@ -39,6 +39,7 @@ EXTENSIONS := \
 	zawys.vscode-as-git-mergetool
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo /usr/bin/code code-extensions
@@ -53,7 +54,6 @@ ifeq ($(PKG_MANAGER),apt-get)
 else
 	@$(call not_supported,$(NAME))
 endif
-	@$(MAKE) -s extensions
 
 .PHONY: uninstall
 uninstall: ;
