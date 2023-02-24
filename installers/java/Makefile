@@ -1,12 +1,17 @@
 NAME := java
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	redhat.java
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo \
 	/bin/java \
-	/usr/bin/mvn
+	/usr/bin/mvn \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/java:
 	@$(SUDO) $(APT) install -y openjdk-17-jdk

@@ -1,11 +1,16 @@
 NAME := terraform
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	hashicorp.terraform
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo \
-	/bin/terraform
+	/bin/terraform \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/terraform:
 	@$(SUDO) true

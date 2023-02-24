@@ -1,41 +1,27 @@
 NAME := codium
-DEPENDS_ON := \
-
-EXTENSIONS := \
+DEPENDS_ON :=
+CODE_EXTENSIONS := \
 	cweijan.vscode-database-client2 \
-	dbaeumer.vscode-eslint \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
 	github.copilot \
 	gitlab.gitlab-workflow \
-	golang.go \
 	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
-	hashicorp.terraform \
 	hediet.vscode-drawio \
-	juanblanco.solidity \
 	mikestead.dotenv \
-	ms-azuretools.vscode-docker \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
-	ms-vscode.cpptools \
 	ms-vscode.makefile-tools \
-	prisma.prisma \
 	psioniq.psi-header \
-	rebornix.ruby \
 	redhat.fabric8-analytics \
-	redhat.java \
 	redhat.vscode-xml \
 	rubymaniac.vscode-direnv \
-	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
 	timkmecl.codegpt3 \
-	tintinweb.solidity-visual-auditor \
 	tintinweb.vscode-decompiler \
 	ultram4rine.vscode-choosealicense \
-	visual-auditor \
 	vspacecode.vspacecode \
-	xdebug.php-pack \
 	zawys.vscode-as-git-mergetool
 
 include $(CODY)

@@ -1,12 +1,17 @@
 NAME := php
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	xdebug.php-pack \
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | /bin/composer \
 	$(HOME)/.phpenv/bin/phpenv \
-	$(HOME)/.phpenv/plugins/php-build/bin/php-build
+	$(HOME)/.phpenv/plugins/php-build/bin/php-build \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/composer:
 	@$(SUDO) $(APT) install -y composer

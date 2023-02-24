@@ -1,11 +1,8 @@
-NAME := javascript
+NAME := cpp
 DEPENDS_ON := \
-	nodejs \
 	vscode
 CODE_EXTENSIONS := \
-	amodio.tsl-problem-matcher \
-	prisma.prisma \
-	dbaeumer.vscode-eslint \
+	ms-vscode.cpptools
 
 include $(CODY)
 include $(SHARED)/code/code.mk

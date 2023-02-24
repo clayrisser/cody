@@ -1,12 +1,17 @@
 NAME := golang
 GO_VERSION := 1.17.6
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	golang.go
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | /usr/bin/bison \
-	$(HOME)/.gvm/bin/gvm
+	$(HOME)/.gvm/bin/gvm \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/bison:
 	@$(SUDO) $(APT) install -y bison

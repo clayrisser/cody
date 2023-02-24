@@ -1,14 +1,19 @@
 NAME := docker
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	ms-azuretools.vscode-docker
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo \
 	/bin/podman \
 	/bin/docker \
 	/bin/docker-compose \
-	/usr/local/bin/podman-compose
+	/usr/local/bin/podman-compose \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/podman:
 	@$(SUDO) $(APT) install -y podman
