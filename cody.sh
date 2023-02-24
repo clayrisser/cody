@@ -72,7 +72,7 @@ available() {
 }
 
 installed() {
-    cat $_INSTALLED_PATH 2>/dev/null || true | sort
+    ls $_INSTALLED_PATH 2>/dev/null || true | sort
 }
 
 dependencies() {

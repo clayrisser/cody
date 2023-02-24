@@ -12,7 +12,6 @@ EXTENSIONS := \
 	dbaeumer.vscode-eslint \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
-	eg2.vscode-npm-script \
 	esbenp.prettier-vscode \
 	github.copilot \
 	gitlab.gitlab-workflow \
@@ -27,6 +26,7 @@ EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
 	ms-python.python \
 	ms-vscode.cpptools \
+	ms-vscode.makefile-tools \
 	prisma.prisma \
 	psioniq.psi-header \
 	rebornix.ruby \

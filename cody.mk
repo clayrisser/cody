@@ -5,6 +5,9 @@ export ARCH := unknown
 export FLAVOR := unknown
 export PKG_MANAGER := unknown
 export PLATFORM := unknown
+
+$(info _INSTALLED_PATH $(_INSTALLED_PATH))
+
 ifeq ($(OS),Windows_NT)
 	export HOME := $(HOMEDRIVE)$(HOMEPATH)
 	PLATFORM = win32

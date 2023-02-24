@@ -1,5 +1,8 @@
 NAME := rust
-DEPENDS_ON := \
+DEPENDS_ON := vscode
+
+VSCODE_EXTENSIONS := \
+
 
 include $(CODY)
 

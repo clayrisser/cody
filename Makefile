@@ -56,17 +56,10 @@ endif
 help: ;
 
 define installed_installer
-	mkdir -p $(_STATE_PATH) && \
-	touch $(_INSTALLED_PATH) && \
-	echo "$$(cat $(_INSTALLED_PATH) && echo $1)" | sort | uniq | \
-		tee $(_INSTALLED_PATH) >/dev/null
+	mkdir -p $(_INSTALLED_PATH)/$1
 endef
 
 define uninstalled_installer
-	mkdir -p $(_STATE_PATH) && \
-	touch $(_INSTALLED_PATH) && \
-	for p in $$(cat $(_INSTALLED_PATH)); do \
-		if [ "$$p" != "$1" ]; then echo $$p; fi  \
-	done | sort | uniq | \
-		tee $(_INSTALLED_PATH) >/dev/null
+	mkdir -p $(_INSTALLED_PATH)/$1
+	rm -rf $(_INSTALLED_PATH)/$1
 endef
