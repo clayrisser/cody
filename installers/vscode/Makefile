@@ -2,13 +2,7 @@ NAME := codium
 DEPENDS_ON := \
 
 EXTENSIONS := \
-	RemixProject.ethereum-remix \
-	amodio.tsl-problem-matcher \
-	azblockchain.azure-blockchain \
-	bbenoist.nix \
-	bungcip.better-toml \
 	cweijan.vscode-database-client2 \
-	dawidd6.debian-vscode \
 	dbaeumer.vscode-eslint \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
@@ -24,7 +18,6 @@ EXTENSIONS := \
 	mikestead.dotenv \
 	ms-azuretools.vscode-docker \
 	ms-kubernetes-tools.vscode-kubernetes-tools \
-	ms-python.python \
 	ms-vscode.cpptools \
 	ms-vscode.makefile-tools \
 	prisma.prisma \
@@ -48,7 +41,7 @@ EXTENSIONS := \
 include $(CODY)
 
 .PHONY: install
-install: | sudo /usr/bin/code
+install: | sudo /usr/bin/code code-extensions
 /usr/bin/code:
 ifeq ($(PKG_MANAGER),apt-get)
 	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -61,16 +54,6 @@ else
 	@$(call not_supported,$(NAME))
 endif
 	@$(MAKE) -s extensions
-
-.PHONY: extensions
-extensions:
-ifneq (,$(EXTENSIONS))
-	@for e in $(EXTENSIONS); do \
-		code --install-extension $$e; \
-	done
-else
-	@true
-endif
 
 .PHONY: uninstall
 uninstall: ;

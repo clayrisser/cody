@@ -1,10 +1,14 @@
 NAME := python
-DEPENDS_ON := \
+DEPENDS_ON :=
+CODE_EXTENSIONS := \
+	bungcip.better-toml \
+	ms-python.python \
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo /bin/pip3 /usr/local/bin/poetry $(HOME)/.pyenv/bin/pyenv
+install: | sudo /bin/pip3 /usr/local/bin/poetry $(HOME)/.pyenv/bin/pyenv code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/pip3:
 	@$(SUDO) $(APT) install -y \

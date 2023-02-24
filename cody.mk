@@ -6,7 +6,10 @@ export FLAVOR := unknown
 export PKG_MANAGER := unknown
 export PLATFORM := unknown
 
-$(info _INSTALLED_PATH $(_INSTALLED_PATH))
+export SHARED := $(abspath $(CURDIR)/shared)
+ifneq (,$(_REPO_PATH))
+	SHARED = $(_REPO_PATH)/shared
+endif
 
 ifeq ($(OS),Windows_NT)
 	export HOME := $(HOMEDRIVE)$(HOMEPATH)

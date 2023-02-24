@@ -25,10 +25,10 @@ TARGET ?= install
 $(INSTALLERS):
 	@$(MAKE) -sC installers/$@ $(TARGET)
 ifeq ($(TARGET),install)
-	$(call installed_installer,$@)
+	@$(call installed_installer,$@)
 endif
 ifeq ($(TARGET),uninstall)
-	$(call uninstalled_installer,$@)
+	@$(call uninstalled_installer,$@)
 endif
 
 .PHONY: install
@@ -38,7 +38,7 @@ ifneq (,$(INSTALLER))
 else
 	@sudo cp -r $(CURDIR)/cody.sh /usr/local/bin/cody
 	@sudo chmod +x /usr/local/bin/cody
-	$(call installed_installer,cody)
+	@$(call installed_installer,cody)
 endif
 
 .PHONY: uninstall
