@@ -14,6 +14,7 @@ install: | /usr/bin/bison \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/bison:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y bison
 else
 /usr/bin/bison: not-supported

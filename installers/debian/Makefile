@@ -12,7 +12,8 @@ install: | sudo \
 	/usr/bin/live-build \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/usr/bin/live-build: | apt-update
+/usr/bin/live-build:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y live-build
 else
 /usr/bin/live-build: not-supported

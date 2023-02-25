@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := help
 export CODY ?= $(abspath $(CURDIR)/cody.mk)
 export DEBIAN_FRONTEND=noninteractive
+export PROJECT_ROOT := $(CURDIR)
 
 include cody.mk
 INSTALLERS := $(shell cd installers && ls -d */ | sed 's|\/$$||g')
@@ -17,10 +18,6 @@ environment:
 	@echo PKG_MANAGER $(PKG_MANAGER)
 	@echo PLATFORM $(PLATFORM)
 
-.PHONY: $(INSTALLERS_PATH)
-$(INSTALLERS_PATH):
-	@echo $(MAKE) -sC $@ install
-
 TARGET ?= install
 .PHONY: $(INSTALLERS)
 $(INSTALLERS):
@@ -29,6 +26,7 @@ ifeq ($(TARGET),install)
 endif
 	@$(MAKE) -sC installers/$@ $(TARGET)
 ifeq ($(TARGET),install)
+	@rm -rf $(_TMP_PATH)
 	@$(call installed_installer,$@)
 endif
 ifeq ($(TARGET),uninstall)

@@ -16,13 +16,16 @@ install: | sudo \
 	/usr/local/bin/podman-compose \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/bin/podman: | apt-update
+/bin/podman:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y podman
-/bin/docker: | apt-update
+/bin/docker:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker-ce
 	@$(SUDO) usermod -aG docker $(USER)
 	@$(SUDO) su -l $(USER)
-/bin/docker-compose: | apt-update
+/bin/docker-compose:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker-compose
 else
 /bin/podman: not-supported

@@ -130,9 +130,15 @@ dependencies:
 	done
 
 .PHONY: apt-update
-apt-update:
+apt-update: $(_TMP_PATH)/apt-update
+$(_TMP_PATH)/apt-update:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) update
+	@touch -m $@
 else
 apt-update: not-supported
 endif
+
+define apt-update
+$(MAKE) -C $(PROJECT_ROOT) apt-update
+endef

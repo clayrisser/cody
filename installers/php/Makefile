@@ -2,28 +2,24 @@ NAME := php
 DEPENDS_ON := \
 	vscode
 CODE_EXTENSIONS := \
-	xdebug.php-pack \
+	xdebug.php-pack
 
 include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | /bin/composer \
+install: | /usr/bin/composer \
 	$(HOME)/.phpenv/bin/phpenv \
 	$(HOME)/.phpenv/plugins/php-build/bin/php-build \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/bin/composer: | apt-update
-	@$(SUDO) $(APT) install -y composer
-else
-/bin/composer: not-supported
-endif
-$(HOME)/.phpenv/bin/phpenv:
-ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/composer:
+	@$(MAKE) -C ../.. -s apt-update
 	@$(SUDO) $(APT) install -y \
 		autoconf \
 		bison \
 		build-essential \
+		composer \
 		libbz2-dev \
 		libcurl4-openssl-dev \
 		libjpeg-dev \
@@ -37,7 +33,10 @@ ifeq ($(PKG_MANAGER),apt-get)
 		libxslt1-dev \
 		pkg-config \
 		re2c
+else
+/bin/composer: not-supported
 endif
+$(HOME)/.phpenv/bin/phpenv:
 	@git clone https://github.com/phpenv/phpenv $(HOME)/.phpenv
 $(HOME)/.phpenv/plugins/php-build/bin/php-build:
 	@git clone https://github.com/php-build/php-build $(HOME)/.phpenv/plugins/php-build
@@ -46,10 +45,11 @@ $(HOME)/.phpenv/plugins/php-build/bin/php-build:
 uninstall: | sudo
 	-@rm -rf $(HOME)/.phpenv
 ifeq ($(PKG_MANAGER),apt-get)
-	@$(SUDO) $(APT) uninstall -y \
+	@$(SUDO) $(APT) remove -y \
 		autoconf \
 		bison \
 		build-essential \
+		composer \
 		libbz2-dev \
 		libcurl4-openssl-dev \
 		libjpeg-dev \
