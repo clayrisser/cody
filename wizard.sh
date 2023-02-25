@@ -16,6 +16,8 @@ terraform
 TOOLS="
 android-studio
 aws
+dbgate
+debian
 docker
 kube
 nixos
@@ -45,10 +47,11 @@ not_installed() {
 }
 
 cat <<EOF > $_TMP_PATH/cody.templates
-Template: cody/languages_installed
-Type: note
-Description: installed lanagues
- $(echo $(installed $LANGUAGES) | sed 's|\s|, |g')
+Template: cody/languages_uninstall
+Type: multiselect
+Description: uninstall lanagues
+ select the languages you wish to uninstall
+Choices:$(echo $(installed $LANGUAGES) | sed 's| \+|, |g')
 
 Template: cody/languages_install
 Type: multiselect
@@ -59,12 +62,14 @@ EOF
 prompt $_TMP_PATH/cody.templates
 RESPONSE=$(response $_TMP_PATH/cody.templates)
 LANGUAGES_INSTALL=$(echo "$RESPONSE" | grep '^cody/languages_install:' | sed 's|^cody/languages_install:||g' | sed 's|,| |g')
+LANGUAGES_UNINSTALL=$(echo "$RESPONSE" | grep '^cody/languages_uninstall:' | sed 's|^cody/languages_uninstall:||g' | sed 's|,| |g')
 
 cat <<EOF > $_TMP_PATH/cody.templates
-Template: cody/tools_installed
-Type: note
-Description: installed tools
- $(echo $(installed $TOOLS) | sed 's|\s|, |g')
+Template: cody/tools_uninstall
+Type: multiselect
+Description: uninstall tools
+ select the tools you wish to uninstall
+Choices:$(echo $(installed $TOOLS) | sed 's| \+|, |g')
 
 Template: cody/tools_install
 Type: multiselect
@@ -75,6 +80,17 @@ EOF
 prompt $_TMP_PATH/cody.templates
 RESPONSE=$(response $_TMP_PATH/cody.templates)
 TOOLS_INSTALL=$(echo "$RESPONSE" | grep '^cody/tools_install:' | sed 's|^cody/tools_install:||g' | sed 's|,| |g')
+TOOLS_UNINSTALL=$(echo "$RESPONSE" | grep '^cody/tools_uninstall:' | sed 's|^cody/tools_uninstall:||g' | sed 's|,| |g')
+
+for l in $LANGUAGES_UNINSTALL; do
+    echo '$' cody uninstall $l
+    cody uninstall $l
+done
+
+for t in $TOOLS_UNINSTALL; do
+    echo '$' cody uninstall $t
+    cody uninstall $t
+done
 
 for l in $LANGUAGES_INSTALL; do
     echo '$' cody install $l

@@ -1,5 +1,6 @@
 NAME := docker
 DEPENDS_ON := \
+	python \
 	vscode
 CODE_EXTENSIONS := \
 	ms-azuretools.vscode-docker
@@ -29,5 +30,14 @@ else
 /bin/docker-compose: not-supported
 endif
 /usr/local/bin/podman-compose:
-	@$(MAKE) -sC ../python install
 	@$(SUDO) $(PIP) install podman-compose
+
+.PHONY: uninstall
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	@$(SUDO) $(PIP) uninstall podman-compose
+	@$(SUDO) $(APT) uninstall -y podman docker-ce docker-compose
+	@$(SUDO) $(APT) autoremove -y
+else
+uninstall: not-supported
+endif

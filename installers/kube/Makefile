@@ -1,5 +1,6 @@
 NAME := kube
 DEPENDS_ON := \
+	docker \
 	vscode
 CODE_EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools

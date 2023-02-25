@@ -26,7 +26,10 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo $(HOME)/.config/VSCodium/product.json /usr/bin/codium code-extensions
+install: | sudo \
+	$(HOME)/.config/VSCodium/product.json \
+	/usr/bin/codium \
+	code-extensions
 /usr/bin/codium:
 ifeq ($(PKG_MANAGER),apt-get)
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
@@ -39,19 +42,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 else
 	@$(call not_supported,$(NAME))
 endif
-	@$(MAKE) -s extensions
 $(HOME)/.config/VSCodium/product.json:
 	@mkdir -p $(HOME)/.config/VSCodium
 	@printf $(PRODUCT_JSON) > $@
-.PHONY: extensions
-extensions:
-ifneq (,$(EXTENSIONS))
-	@for e in $(EXTENSIONS); do \
-		codium --install-extension $$e; \
-	done
-else
-	@true
-endif
 
 define PRODUCT_JSON
 '{\n\
@@ -66,5 +59,10 @@ define PRODUCT_JSON
 endef
 
 .PHONY: uninstall
-uninstall: ;
-	@$(SUDO) apt-get remove -y codium
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	@$(SUDO) $(APT) uninstall -y codium
+	@$(SUDO) $(APT) autoremove -y
+else
+uninstall: not-supported
+endif

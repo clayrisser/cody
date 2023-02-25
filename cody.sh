@@ -6,7 +6,9 @@ export _INSTALLED_PATH="$_STATE_PATH/installed"
 export _REPOS_CONFIG_PATH="$_CONFIG_PATH/repos"
 export _REPOS_PATH="$_STATE_PATH/repos"
 export _DEFAULT_REPO=https://gitlab.com/risserlabs/community/cody.git
-export _TMP_PATH="${XDG_RUNTIME_DIR:-$([ -d "/run/user/$(id -u $USER)" ] && echo "/run/user/$(id -u $USER)" || echo ${TMP:-${TEMP:-/tmp}})}/cody/$$"
+if [ "$_TMP_PATH" = "" ]; then
+    export _TMP_PATH="${XDG_RUNTIME_DIR:-$([ -d "/run/user/$(id -u $USER)" ] && echo "/run/user/$(id -u $USER)" || echo ${TMP:-${TEMP:-/tmp}})}/cody/$$"
+fi
 
 export _REPO=default
 

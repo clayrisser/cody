@@ -1,5 +1,6 @@
 .DEFAULT_GOAL := help
 export CODY ?= $(abspath $(CURDIR)/cody.mk)
+export DEBIAN_FRONTEND=noninteractive
 
 include cody.mk
 INSTALLERS := $(shell cd installers && ls -d */ | sed 's|\/$$||g')
@@ -23,6 +24,9 @@ $(INSTALLERS_PATH):
 TARGET ?= install
 .PHONY: $(INSTALLERS)
 $(INSTALLERS):
+ifeq ($(TARGET),install)
+	@mkdir -p $(_TMP_PATH)
+endif
 	@$(MAKE) -sC installers/$@ $(TARGET)
 ifeq ($(TARGET),install)
 	@$(call installed_installer,$@)

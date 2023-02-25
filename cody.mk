@@ -6,7 +6,12 @@ export FLAVOR := unknown
 export PKG_MANAGER := unknown
 export PLATFORM := unknown
 
-export SHARED := $(abspath $(CURDIR)/shared)
+ifeq (,$(_TMP_PATH))
+export _TMP_PATH := \
+	$(shell echo "$${XDG_RUNTIME_DIR:-$$([ -d "/run/user/$$(id -u $$USER)" ] && echo "/run/user/$$(id -u $$USER)" || echo $${TMP:-$${TEMP:-/tmp}})}/cody/$$$$")
+endif
+
+export SHARED ?= $(abspath $(CURDIR)/shared)
 ifneq (,$(_REPO_PATH))
 	SHARED = $(_REPO_PATH)/shared
 endif

@@ -27,19 +27,24 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo /usr/bin/code code-extensions
+install: | sudo \
+	/usr/bin/code \
+	code-extensions
 /usr/bin/code:
 ifeq ($(PKG_MANAGER),apt-get)
-	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-	@$(SUDO) install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-	@$(SUDO) sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-	@rm -f packages.microsoft.gpg
-	@$(SUDO) apt-get update
-	@$(SUDO) apt-get install -y code
+	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $(_TMP_PATH)/packages.microsoft.gpg
+	@$(SUDO) install -D -o root -g root -m 644 $(_TMP_PATH)/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	@$(SUDO) sh -c 'echo "deb [arch=$(ARCH) signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	@$(SUDO) $(APT) update
+	@$(SUDO) $(APT) install -y code
 else
 	@$(call not_supported,$(NAME))
 endif
 
 .PHONY: uninstall
-uninstall: ;
-	@$(SUDO) apt-get remove -y code
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	@$(SUDO) $(APT) uninstall -y code
+else
+uninstall: not-supported
+endif

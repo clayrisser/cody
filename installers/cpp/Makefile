@@ -8,7 +8,21 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: code-extensions
+install: | sudo \
+	/usr/bin/gcc \
+	code-extensions
+ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/gcc:
+	@$(SUDO) $(APT) install -y build-essential
+else
+/usr/bin/gcc: not-supported
+endif
 
 .PHONY: uninstall
-uninstall:
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	@$(SUDO) $(APT) uninstall -y brave-browser
+	@$(SUDO) $(APT) autoremove -y
+else
+uninstall: not-supported
+endif

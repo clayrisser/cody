@@ -1,12 +1,16 @@
 NAME := android-studio
+FLATPAK_BASE := https://dl.flathub.org/repo/appstream
+FLATPAK_PACKAGE := com.google.AndroidStudio
 DEPENDS_ON := \
 	flatpak
 
 include $(CODY)
 
 .PHONY: install
-install: | sudo /var/lib/flatpak/exports/share/applications/com.google.AndroidStudio.desktop
-/var/lib/flatpak/exports/share/applications/com.google.AndroidStudio.desktop:
-	@$(MAKE) -sC ../flatpak install
-	@flatpak install -y \
-		https://dl.flathub.org/repo/appstream/com.google.AndroidStudio.flatpakref
+install: | /var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop
+/var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop:
+	@flatpak install -y $(FLATPAK_BASE)/$(FLATPAK_PACKAGE).flatpakref
+
+.PHONY: uninstall
+uninstall:
+	@flatpak uninstall -y $(FLATPAK_PACKAGE)
