@@ -74,7 +74,7 @@ available() {
 }
 
 installed() {
-    ls $_INSTALLED_PATH 2>/dev/null || true | sort
+    ls $_INSTALLED_PATH 2>/dev/null | sed 's|\s|\n|g' || true | sort
 }
 
 dependencies() {
