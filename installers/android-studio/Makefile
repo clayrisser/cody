@@ -1,5 +1,6 @@
 NAME := android-studio
 DEPENDS_ON := \
+	flatpak
 
 include $(CODY)
 

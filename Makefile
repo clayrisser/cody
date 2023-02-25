@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
+export CODY ?= $(abspath $(CURDIR)/cody.mk)
 
 include cody.mk
-
 INSTALLERS := $(shell cd installers && ls -d */ | sed 's|\/$$||g')
 INSTALLERS_PATH := $(addprefix installers/,$(INSTALLERS))
 

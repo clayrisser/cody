@@ -1,7 +1,11 @@
 NAME := kube
 DEPENDS_ON := \
+	vscode
+CODE_EXTENSIONS := \
+	ms-kubernetes-tools.vscode-kubernetes-tools
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo \
@@ -10,7 +14,8 @@ install: | sudo \
 	$(HOME)/.krew/bin/kubectl-krew \
 	/usr/local/bin/kubectx \
 	/usr/local/bin/flux \
-	/usr/local/bin/kops
+	/usr/local/bin/kops \
+	code-extensions
 /usr/local/bin/kubectl:
 	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
 		curl -LO "https://dl.k8s.io/release/$$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \

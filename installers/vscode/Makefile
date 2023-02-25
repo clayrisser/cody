@@ -1,4 +1,4 @@
-NAME := codium
+NAME := vscode
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	cweijan.vscode-database-client2 \
@@ -11,7 +11,6 @@ CODE_EXTENSIONS := \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
 	mikestead.dotenv \
-	ms-kubernetes-tools.vscode-kubernetes-tools \
 	ms-vscode.makefile-tools \
 	psioniq.psi-header \
 	redhat.fabric8-analytics \

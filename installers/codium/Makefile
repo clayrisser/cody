@@ -1,52 +1,32 @@
 NAME := codium
-DEPENDS_ON := \
-
-EXTENSIONS := \
-	RemixProject.ethereum-remix \
-	amodio.tsl-problem-matcher \
-	azblockchain.azure-blockchain \
-	bbenoist.nix \
-	bungcip.better-toml \
-	ultram4rine.vscode-choosealicense \
+DEPENDS_ON :=
+CODE_EXTENSIONS := \
 	cweijan.vscode-database-client2 \
-	dawidd6.debian-vscode \
-	dbaeumer.vscode-eslint \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
-	eg2.vscode-npm-script \
 	esbenp.prettier-vscode \
 	gitlab.gitlab-workflow \
-	golang.go \
 	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
-	hashicorp.terraform \
 	hediet.vscode-drawio \
-	juanblanco.solidity \
 	mikestead.dotenv \
-	ms-azuretools.vscode-docker \
-	ms-kubernetes-tools.vscode-kubernetes-tools \
-	ms-python.python \
-	ms-vscode.cpptools \
-	prisma.prisma \
+	ms-vscode.makefile-tools \
 	psioniq.psi-header \
-	rebornix.ruby \
 	redhat.fabric8-analytics \
-	redhat.java \
 	redhat.vscode-xml \
 	rubymaniac.vscode-direnv \
-	rust-lang.rust \
 	streetsidesoftware.code-spell-checker \
-	tintinweb.solidity-visual-auditor \
+	timkmecl.codegpt3 \
 	tintinweb.vscode-decompiler \
-	visual-auditor \
+	ultram4rine.vscode-choosealicense \
 	vspacecode.vspacecode \
-	xdebug.php-pack \
 	zawys.vscode-as-git-mergetool
 
 include $(CODY)
+include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo $(HOME)/.config/VSCodium/product.json /usr/bin/codium
+install: | sudo $(HOME)/.config/VSCodium/product.json /usr/bin/codium code-extensions
 /usr/bin/codium:
 ifeq ($(PKG_MANAGER),apt-get)
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \

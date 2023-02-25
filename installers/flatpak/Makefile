@@ -1,5 +1,5 @@
 NAME := flatpak
-DEPENDS_ON := \
+DEPENDS_ON :=
 
 include $(CODY)
 
@@ -11,3 +11,6 @@ ifeq ($(PKG_MANAGER),apt-get)
 else
 	@$(call not_supported,$(NAME))
 endif
+
+.PHONY: uninstall
+uninstall:
