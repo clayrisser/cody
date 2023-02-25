@@ -11,3 +11,6 @@ $(HOME)/.local/share/fonts/NerdFonts/Noto\ Sans\ SemiBold\ Italic\ Nerd\ Font\ C
 		cd nerd-fonts && \
 		./install.sh
 	@rm -rf $(HOME)/Downloads/nerd-fonts
+
+.PHONY: uninstall
+uninstall: ;

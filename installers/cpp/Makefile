@@ -12,7 +12,7 @@ install: | sudo \
 	/usr/bin/gcc \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/usr/bin/gcc:
+/usr/bin/gcc: | apt-update
 	@$(SUDO) $(APT) install -y build-essential
 else
 /usr/bin/gcc: not-supported

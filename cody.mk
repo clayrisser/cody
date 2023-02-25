@@ -128,3 +128,11 @@ dependencies:
 	@for d in $(DEPENDS_ON); do \
 		echo $$d; \
 	done
+
+.PHONY: apt-update
+apt-update:
+ifeq ($(PKG_MANAGER),apt-get)
+	@$(SUDO) $(APT) update
+else
+apt-update: not-supported
+endif

@@ -5,11 +5,11 @@ include $(CODY)
 
 .PHONY: install
 install: | sudo /usr/bin/flatpak
-/usr/bin/flatpak:
 ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/flatpak: | apt-update
 	@$(SUDO) $(APT) install -y flatpak
 else
-	@$(call not_supported,$(NAME))
+/usr/bin/flatpak: not-supported
 endif
 
 .PHONY: uninstall
