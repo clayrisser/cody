@@ -61,7 +61,7 @@ endef
 .PHONY: uninstall
 ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
-	@$(SUDO) $(APT) uninstall -y codium
+	@$(SUDO) $(APT) remove -y codium
 	@$(SUDO) $(APT) autoremove -y
 else
 uninstall: not-supported

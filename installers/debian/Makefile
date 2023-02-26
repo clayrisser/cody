@@ -22,7 +22,7 @@ endif
 .PHONY: uninstall
 ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
-	@$(SUDO) $(APT) uninstall -y live-build
+	@$(SUDO) $(APT) remove -y live-build
 	@$(SUDO) $(APT) autoremove -y
 else
 uninstall: not-supported

@@ -46,37 +46,49 @@ not_installed() {
     done
 }
 
-cat <<EOF > $_TMP_PATH/cody.templates
+if [ "$(installed $LANGUAGES)" != "" ]; then
+    cat <<EOF > $_TMP_PATH/cody.templates
 Template: cody/languages_uninstall
 Type: multiselect
-Description: uninstall lanagues
+Description: uninstall languages
  select the languages you wish to uninstall
 Choices:$(echo $(installed $LANGUAGES) | sed 's| \+|, |g')
 
+EOF
+fi
+if [ "$(not_installed $LANGUAGES)" != "" ]; then
+    cat <<EOF >> $_TMP_PATH/cody.templates
 Template: cody/languages_install
 Type: multiselect
-Description: install lanagues
+Description: install languages
  select the languages you wish to install
 Choices:$(echo $(not_installed $LANGUAGES) | sed 's| \+|, |g')
 EOF
+fi
 prompt $_TMP_PATH/cody.templates
 RESPONSE=$(response $_TMP_PATH/cody.templates)
 LANGUAGES_INSTALL=$(echo "$RESPONSE" | grep '^cody/languages_install:' | sed 's|^cody/languages_install:||g' | sed 's|,| |g')
 LANGUAGES_UNINSTALL=$(echo "$RESPONSE" | grep '^cody/languages_uninstall:' | sed 's|^cody/languages_uninstall:||g' | sed 's|,| |g')
 
-cat <<EOF > $_TMP_PATH/cody.templates
+if [ "$(installed $TOOLS)" != "" ]; then
+    cat <<EOF > $_TMP_PATH/cody.templates
 Template: cody/tools_uninstall
 Type: multiselect
 Description: uninstall tools
  select the tools you wish to uninstall
 Choices:$(echo $(installed $TOOLS) | sed 's| \+|, |g')
 
+EOF
+fi
+if [ "$(not_installed $TOOLS)" != "" ]; then
+    cat <<EOF >> $_TMP_PATH/cody.templates
 Template: cody/tools_install
 Type: multiselect
 Description: install tools
  select the tools you wish to install
 Choices:$(echo $(not_installed $TOOLS) | sed 's| \+|, |g')
 EOF
+fi
 prompt $_TMP_PATH/cody.templates
 RESPONSE=$(response $_TMP_PATH/cody.templates)
 TOOLS_INSTALL=$(echo "$RESPONSE" | grep '^cody/tools_install:' | sed 's|^cody/tools_install:||g' | sed 's|,| |g')

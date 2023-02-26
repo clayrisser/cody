@@ -14,4 +14,10 @@ else
 endif
 
 .PHONY: uninstall
-uninstall:
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	@$(SUDO) $(APT) remove -y flatpak
+	@$(SUDO) $(APT) autoremove -y
+else
+uninstall: not-supported
+endif

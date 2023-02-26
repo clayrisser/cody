@@ -39,7 +39,7 @@ endif
 ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
 	@$(SUDO) $(PIP) uninstall podman-compose
-	@$(SUDO) $(APT) uninstall -y podman docker-ce docker-compose
+	@$(SUDO) $(APT) remove -y podman docker-ce docker-compose
 	@$(SUDO) $(APT) autoremove -y
 else
 uninstall: not-supported

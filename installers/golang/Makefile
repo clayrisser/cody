@@ -23,3 +23,11 @@ $(HOME)/.gvm/bin/gvm:
 	@curl -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash
 	@$(HOME)/.gvm/bin/gvm install go$(GO_VERSION) -B
 	@$(HOME)/.gvm/bin/gvm use go$(GO_VERSION) --default
+
+.PHONY: uninstall
+uninstall: | sudo
+	-@rm -rf $(HOME)/.gvm
+ifeq ($(PKG_MANAGER),apt-get)
+	@$(SUDO) $(APT) remove -y bison
+	@$(SUDO) $(APT) autoremove -y
+endif

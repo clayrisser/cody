@@ -19,7 +19,7 @@ endif
 
 .PHONY: uninstall
 ifeq ($(PKG_MANAGER),apt-get)
-uninstall: sudo
+uninstall: | sudo
 	@$(SUDO) $(APT) remove -y dbgate
 	@$(SUDO) $(APT) autoremove -y
 else
