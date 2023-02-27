@@ -1,5 +1,6 @@
 #!/bin/sh
 
+alias make=$(echo $(which remake 2>&1 >/dev/null && echo remake || echo $(which gmake 2>&1 >/dev/null && echo gmake || echo make)))
 export _CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config/cody}"
 export _STATE_PATH="${XDG_STATE_HOME:-$HOME/.local/state}/cody"
 export _INSTALLED_PATH="$_STATE_PATH/installed"
@@ -17,32 +18,34 @@ if echo $0 | grep -E "\.sh$" >/dev/null 2>/dev/null; then
 fi
 
 main() {
-    prepare
-    if [ "$_INSTALL" = "1" ]; then
-        echo "installing $_INSTALLER..."
-        install $_INSTALLER
-        echo "installed $_INSTALLER :)"
-    elif [ "$_UNINSTALL" = "1" ]; then
-        echo "uninstalling $_INSTALLER..."
-        uninstall $_INSTALLER
-        echo "uninstalled $_INSTALLER :)"
-    elif [ "$_REINSTALL" = "1" ]; then
-        echo "reinstalling $_INSTALLER..."
-        reinstall $_INSTALLER
-        echo "reinstalled $_INSTALLER :)"
-    elif [ "$_DEPENDENCIES" = "1" ]; then
-       dependencies $_INSTALLER
-    elif [ "$_AVAILABLE" = "1" ]; then
-        available
-    elif [ "$_INSTALLED" = "1" ]; then
-        installed
+    _prepare
+    if [ "$_COMMAND"= "install" ]; then
+        echo "installing $1..."
+        _install $@
+        echo "installed $1 :)"
+    elif [ "$_COMMAND" = "uninstall" ]; then
+        echo "uninstalling $1..."
+        _uninstall $@
+        echo "uninstalled $1 :)"
+    elif [ "$_COMMAND" = "reinstall" ]; then
+        echo "reinstalling $1..."
+        _reinstall $@
+        echo "reinstalled $1 :)"
+    elif [ "$_COMMAND" = "dependencies" ]; then
+        _dependencies $@
+    elif [ "$_COMMAND" = "available" ]; then
+        _available $@
+    elif [ "$_COMMAND" = "installed" ]; then
+        _installed $@
+    elif [ "$_COMMAND" = "wizard" ]; then
+        _wizard $@
     fi
 }
 
-install() {
+_install() {
     _INSTALLER=$1
     if [ "$_INSTALLER" = "cody" ]; then
-        install_cody
+        _install_cody
     else
         for d in $( dependencies $_INSTALLER ); do
             for i in $(installed); do
@@ -51,56 +54,56 @@ install() {
                 fi
             done
             if [ "$_SKIP" != "1" ]; then
-                $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) install $d
+                $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) _install $d
             fi
         done
-        ( cd $_REPO_PATH && TARGET=install gmake -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=install make -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
-uninstall() {
+_uninstall() {
     _INSTALLER=$1
     if [ "$_INSTALLER" = "cody" ]; then
-        uninstall_cody
+        _uninstall_cody
     else
-        ( cd $_REPO_PATH && TARGET=uninstall gmake -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=uninstall make -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
-available() {
+_available() {
     for p in $(ls $_REPO_PATH/installers 2>/dev/null || true | sort); do
         echo $p
     done
 }
 
-installed() {
+_installed() {
     ls $_INSTALLED_PATH 2>/dev/null | sed 's|\s|\n|g' || true | sort
 }
 
-dependencies() {
+_dependencies() {
     _INSTALLER=$1
-    ( cd $_REPO_PATH && TARGET=dependencies gmake -s $_INSTALLER ) || exit 1
+    ( cd $_REPO_PATH && TARGET=dependencies make -s $_INSTALLER ) || exit 1
 }
 
-reinstall() {
+_reinstall() {
     if [ "$_INSTALLER" != "cody" ]; then
-        uninstall $1
+        _uninstall $1
     fi
-    install $1
+    _install $1
 }
 
-prepare() {
+_prepare() {
     if [ ! -d "$_TMP_PATH" ]; then
         mkdir -p $_TMP_PATH
     fi
-    if ! gmake -v >/dev/null 2>/dev/null; then
-        install_gmake
+    if ! make -v >/dev/null 2>/dev/null; then
+        _install_make
     fi
-    load repos
+    _load repos
     if [ ! -d "$_STATE_PATH" ]; then
         mkdir -p "$_STATE_PATH"
     fi
-    load_remote
+    _load_remote
     if [ "$_INSTALL" = "1" ] || [ "$_REINSTALL" = "1" ] || [ "$_UNINSTALL" = "1" ]; then
         if [ ! -d $_REPO_PATH ]; then
             git clone --depth 1 $_REPO_REMOTE $_REPO_PATH
@@ -110,7 +113,7 @@ prepare() {
     fi
 }
 
-load_remote() {
+_load_remote() {
     if [ "$_DEBUG_PATH" = "" ]; then
         if [ ! -f "$_REPOS_CONFIG_PATH" ]; then
             mkdir -p $_CONFIG_PATH
@@ -128,27 +131,31 @@ load_remote() {
     export CODY=$_REPO_PATH/cody.mk
 }
 
-load() {
+_load() {
     (cat $HOME/.config/cody/$1 2>/dev/null || true) | \
         sed "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | sed "s|$|'|g" > \
         "$_TMP_PATH/load_$1.sh"
     . "$_TMP_PATH/load_$1.sh"
 }
 
-install_cody() {
-    ( cd $_REPO_PATH && gmake -s install ) || exit 1
+_install_cody() {
+    ( cd $_REPO_PATH && make -s install ) || exit 1
 }
 
-uninstall_cody() {
-    ( cd $_REPO_PATH && unset _DEBUG_PATH && load_remote && gmake -s uninstall ) || exit 1
+_uninstall_cody() {
+    ( cd $_REPO_PATH && unset _DEBUG_PATH && load_remote && make -s uninstall ) || exit 1
 }
 
-install_gmake() {
+_install_make() {
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y make
     elif brew -v >/dev/null 2>/dev/null; then
-        brew install gmake
+        brew install make
     fi
+}
+
+_wizard() {
+    sh "$_REPO_PATH/wizard.sh"
 }
 
 if ! test $# -gt 0; then
@@ -172,6 +179,7 @@ while test $# -gt 0; do
             echo "    dependencies <INSTALLER>    dependencies required by installer"
             echo "    available                   list available installers"
             echo "    installed                   list installed installers"
+            echo "    wizard                      run cody wizard"
             exit 0
         ;;
         -*)
@@ -188,8 +196,7 @@ case "$1" in
     i|install)
         shift
         if test $# -gt 0; then
-            export _INSTALL=1
-            export _INSTALLER=$1
+            export _COMMAND=install
         else
             echo "no installer specified" 1>&2
             exit 1
@@ -199,8 +206,7 @@ case "$1" in
     u|uninstall)
         shift
         if test $# -gt 0; then
-            export _UNINSTALL=1
-            export _INSTALLER=$1
+            export _COMMAND=uninstall
         else
             echo "no installer specified" 1>&2
             exit 1
@@ -210,8 +216,7 @@ case "$1" in
     reinstall)
         shift
         if test $# -gt 0; then
-            export _REINSTALL=1
-            export _INSTALLER=$1
+            export _COMMAND=reinstall
         else
             echo "no installer specified" 1>&2
             exit 1
@@ -221,8 +226,7 @@ case "$1" in
     d|dependencies)
         shift
         if test $# -gt 0; then
-            export _DEPENDENCIES=1
-            export _INSTALLER=$1
+            export _COMMAND=dependencies
         else
             echo "no installer specified" 1>&2
             exit 1
@@ -231,11 +235,15 @@ case "$1" in
     ;;
     a|available)
         shift
-        export _AVAILABLE=1
+        export _COMMAND=available
     ;;
     installed)
         shift
-        export _INSTALLED=1
+        export _COMMAND=installed
+    ;;
+    wizard)
+        shift
+        export _COMMAND=wizard
     ;;
     *)
         echo "invalid command $1" 1>&2
@@ -243,4 +251,4 @@ case "$1" in
     ;;
 esac
 
-main
+main $@
