@@ -19,7 +19,7 @@ fi
 
 main() {
     _prepare
-    if [ "$_COMMAND"= "install" ]; then
+    if [ "$_COMMAND" = "install" ]; then
         echo "installing $1..."
         _install $@
         echo "installed $1 :)"
