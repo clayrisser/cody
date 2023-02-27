@@ -54,7 +54,7 @@ _install() {
                 fi
             done
             if [ "$_SKIP" != "1" ]; then
-                $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) _install $d
+                $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) install $d
             fi
         done
         ( cd $_REPO_PATH && TARGET=install make -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
