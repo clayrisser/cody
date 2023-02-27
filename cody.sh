@@ -139,6 +139,7 @@ _load() {
 }
 
 _install_cody() {
+    _prepare
     ( cd $_REPO_PATH && make -s install ) || exit 1
 }
 
