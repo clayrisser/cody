@@ -47,8 +47,8 @@ _install() {
     if [ "$_INSTALLER" = "cody" ]; then
         _install_cody
     else
-        for d in $( dependencies $_INSTALLER ); do
-            for i in $(installed); do
+        for d in $( _dependencies $_INSTALLER ); do
+            for i in $(_installed); do
                 if [ "$d" = "$i" ]; then
                     _SKIP=1
                 fi
@@ -104,7 +104,7 @@ _prepare() {
         mkdir -p "$_STATE_PATH"
     fi
     _load_remote
-    if [ "$_INSTALL" = "1" ] || [ "$_REINSTALL" = "1" ] || [ "$_UNINSTALL" = "1" ]; then
+    if [ "$_COMMAND" = "install" ] || [ "$_COMMAND" = "reinstall" ] || [ "$_COMMAND" = "uninstall" ]; then
         if [ ! -d $_REPO_PATH ]; then
             git clone --depth 1 $_REPO_REMOTE $_REPO_PATH
         else
@@ -143,14 +143,14 @@ _install_cody() {
 }
 
 _uninstall_cody() {
-    ( cd $_REPO_PATH && unset _DEBUG_PATH && load_remote && make -s uninstall ) || exit 1
+    ( cd $_REPO_PATH && unset _DEBUG_PATH && _load_remote && make -s uninstall ) || exit 1
 }
 
 _install_make() {
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y make
     elif brew -v >/dev/null 2>/dev/null; then
-        brew install make
+        brew install remake
     fi
 }
 
