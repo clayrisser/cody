@@ -201,7 +201,6 @@ case "$1" in
             echo "no installer specified" 1>&2
             exit 1
         fi
-        shift
     ;;
     u|uninstall)
         shift
@@ -211,7 +210,6 @@ case "$1" in
             echo "no installer specified" 1>&2
             exit 1
         fi
-        shift
     ;;
     reinstall)
         shift
@@ -221,7 +219,6 @@ case "$1" in
             echo "no installer specified" 1>&2
             exit 1
         fi
-        shift
     ;;
     d|dependencies)
         shift
@@ -231,7 +228,6 @@ case "$1" in
             echo "no installer specified" 1>&2
             exit 1
         fi
-        shift
     ;;
     a|available)
         shift
