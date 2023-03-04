@@ -21,7 +21,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y podman
 /bin/docker:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y docker-ce
+	@$(SUDO) $(APT) install -y docker.io
 	@$(SUDO) usermod -aG docker $(USER)
 	@$(SUDO) su -l $(USER)
 /bin/docker-compose:
@@ -39,7 +39,7 @@ endif
 ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
 	@$(SUDO) $(PIP) uninstall podman-compose
-	@$(SUDO) $(APT) remove -y podman docker-ce docker-compose
+	@$(SUDO) $(APT) remove -y podman docker.io docker-compose
 	@$(SUDO) $(APT) autoremove -y
 else
 uninstall: not-supported

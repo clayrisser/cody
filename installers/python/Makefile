@@ -9,14 +9,30 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo /bin/pip3 /usr/local/bin/poetry $(HOME)/.pyenv/bin/pyenv code-extensions
+install: | sudo \
+	/usr/bin/python3 \
+	/usr/bin/python \
+	/usr/bin/pip3 \
+	/usr/local/bin/poetry \
+	$(HOME)/.pyenv/bin/pyenv \
+	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/bin/pip3:
+/usr/bin/python3:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
-		python3 \
+		python3
+/usr/bin/python:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y \
+		python-is-python3
+/usr/bin/pip3:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y \
 		python3-pip
 else
-/bin/pip3: not-supported
+/usr/bin/pip3: not-supported
+/usr/bin/python3: not-supported
+/usr/bin/python: not-supported
 endif
 /usr/local/bin/poetry:
 	@$(SUDO) $(PIP) install poetry
@@ -25,3 +41,13 @@ $(HOME)/.pyenv/bin/pyenv:
 	@echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> $(HOME)/.zshrc
 	@echo 'export PATH="$$PYENV_ROOT/bin:$$PATH"' >> $(HOME)/.zshrc
 	@echo 'eval "$$(pyenv init --path)"' >> $(HOME)/.zshrc
+
+.PHONY: uninstall
+ifeq ($(PKG_MANAGER),apt-get)
+uninstall: | sudo
+	-@$(RM) -rf $(HOME)/.pyenv
+	@$(SUDO) $(APT) remove -y python3 python-is-python3 python3-pip
+	@$(SUDO) $(APT) autoremove -y
+else
+uninstall: not-supported
+endif

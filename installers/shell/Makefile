@@ -1,5 +1,6 @@
 NAME := shell
 DEPENDS_ON := \
+	python
 
 include $(CODY)
 
@@ -44,12 +45,11 @@ $(ZSH_CUSTOM)/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh:
 	git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git \
 		$(ZSH_CUSTOM)/plugins/zsh-autocomplete
 $(HOME)/.autojump/etc/profile.d/autojump.sh:
-	@$(MAKE) -sC ../python install
 	@rm -rf $${XDG_RUNTIME_DIR:-/tmp}/autojump
 	@git clone --depth 1 https://github.com/wting/autojump.git \
 		$${XDG_RUNTIME_DIR:-/tmp}/autojump
 	@cd $${XDG_RUNTIME_DIR:-/tmp}/autojump && \
-		./install.py
+		python3 ./install.py
 $(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh:
 	@git clone https://github.com/zsh-users/zsh-autosuggestions \
 		$(ZSH_CUSTOM)/plugins/zsh-autosuggestions
