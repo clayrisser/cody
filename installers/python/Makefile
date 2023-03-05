@@ -60,7 +60,6 @@ uninstall: | sudo
 		python-is-python3 \
 		python3-pip \
 		libsqlite3-dev \
-		ibtk-img-dev \
 		libreadline-dev \
 		libbz2-dev \
 		liblzma-dev
