@@ -51,18 +51,5 @@ endif
 	@echo 'eval "$$(pyenv init --path)"' >> $(HOME)/.zshrc
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
-uninstall: | sudo
+uninstall:
 	-@$(RM) -rf $(HOME)/.pyenv
-	@$(SUDO) $(APT) remove -y \
-		python3 \
-		python-is-python3 \
-		python3-pip \
-		libsqlite3-dev \
-		libreadline-dev \
-		libbz2-dev \
-		liblzma-dev
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif
