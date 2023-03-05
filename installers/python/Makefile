@@ -41,7 +41,6 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
 		libsqlite3-dev \
-		ibtk-img-dev \
 		libreadline-dev \
 		libbz2-dev \
 		liblzma-dev
