@@ -17,7 +17,7 @@ install: | sudo \
 	$(ZSH_CUSTOM)/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh \
 	$(HOME)/.autojump/etc/profile.d/autojump.sh \
 	$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-#	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
+	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
 /usr/bin/zsh:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
