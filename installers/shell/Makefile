@@ -56,3 +56,9 @@ $(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh:
 $(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh:
 	@git clone https://github.com/zsh-users/zsh-completions \
 		$(ZSH_CUSTOM)/plugins/zsh-completions
+
+.PHONY: uninstall
+uninstall:
+	-@$(RM) -rf \
+		$(HOME)/.autojump \
+		$(HOME)/.oh-my-zsh
