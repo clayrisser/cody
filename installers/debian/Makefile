@@ -10,6 +10,7 @@ include $(SHARED)/code/code.mk
 .PHONY: install
 install: | sudo \
 	/usr/bin/live-build \
+	/usr/bin/convert \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/live-build:
