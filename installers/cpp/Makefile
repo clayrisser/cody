@@ -20,10 +20,4 @@ else
 endif
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
-uninstall: | sudo
-	@$(SUDO) $(APT) remove -y build-essential
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif
+uninstall: ;

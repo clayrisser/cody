@@ -25,10 +25,4 @@ else
 endif
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
-uninstall: | sudo
-	@$(SUDO) $(APT) remove -y maven openjdk-17-jdk
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif
+uninstall: ;

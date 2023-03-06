@@ -44,26 +44,3 @@ $(HOME)/.phpenv/plugins/php-build/bin/php-build:
 .PHONY: uninstall
 uninstall: | sudo
 	-@rm -rf $(HOME)/.phpenv
-ifeq ($(PKG_MANAGER),apt-get)
-	@$(SUDO) $(APT) remove -y \
-		autoconf \
-		bison \
-		build-essential \
-		composer \
-		libbz2-dev \
-		libcurl4-openssl-dev \
-		libjpeg-dev \
-		libmcrypt-dev \
-		libonig-dev \
-		libpng-dev \
-		libreadline-dev \
-		libsqlite3-dev \
-		libtidy-dev \
-		libxml2-dev \
-		libxslt1-dev \
-		pkg-config \
-		re2c
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif

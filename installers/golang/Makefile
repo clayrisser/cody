@@ -25,9 +25,5 @@ $(HOME)/.gvm/bin/gvm:
 	@$(HOME)/.gvm/bin/gvm use go$(GO_VERSION) --default
 
 .PHONY: uninstall
-uninstall: | sudo
+uninstall:
 	-@rm -rf $(HOME)/.gvm
-ifeq ($(PKG_MANAGER),apt-get)
-	@$(SUDO) $(APT) remove -y bison
-	@$(SUDO) $(APT) autoremove -y
-endif

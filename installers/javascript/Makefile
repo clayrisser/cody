@@ -31,11 +31,8 @@ $(HOME)/.nvm/nvm-exec:
 	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
 	-@$(SUDO) /usr/bin/npm uninstall -g yarn
-	@$(SUDO) $(APT) remove -y nodejs npm
-	@$(SUDO) $(APT) autoremove -y
 	@rm -rf $(HOME)/.nvm
 ifneq (,$(wildcard $(HOME)/.bashrc))
 	@sed -i '/^export NVM_DIR=.*/d' $(HOME)/.bashrc
@@ -46,7 +43,4 @@ ifneq (,$(wildcard $(HOME)/.zshrc))
 	@sed -i '/^export NVM_DIR=.*/d' $(HOME)/.zshrc
 	@sed -i '/^\[ -s "$$NVM_DIR\/nvm.sh" \].*/d' $(HOME)/.zshrc
 	@sed -i '/^\[ -s "$$NVM_DIR\/bash_completion" \].*/d' $(HOME)/.zshrc
-endif
-else
-uninstall: not-supported
 endif

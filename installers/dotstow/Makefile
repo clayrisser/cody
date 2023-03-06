@@ -19,11 +19,5 @@ endif
 		https://gitlab.com/risserlabs/community/dotstow/-/raw/main/install.sh 2>/dev/null | $(SUDO) sh
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
 	-@$(SUDO) rm -f /usr/local/bin/dotstow
-	@$(SUDO) $(APT) remove -y stow
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif

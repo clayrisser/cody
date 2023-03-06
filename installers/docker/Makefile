@@ -36,11 +36,5 @@ endif
 	@$(SUDO) $(PIP) install podman-compose
 
 .PHONY: uninstall
-ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
 	@$(SUDO) $(PIP) uninstall podman-compose
-	@$(SUDO) $(APT) remove -y podman docker.io docker-compose
-	@$(SUDO) $(APT) autoremove -y
-else
-uninstall: not-supported
-endif
