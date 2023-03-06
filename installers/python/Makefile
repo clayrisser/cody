@@ -40,10 +40,12 @@ $(HOME)/.pyenv/bin/pyenv:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
-		libsqlite3-dev \
-		libreadline-dev \
 		libbz2-dev \
-		liblzma-dev
+		libffi-dev \
+		liblzma-dev \
+		libreadline-dev \
+		libsqlite3-dev \
+		libtk-img-dev
 endif
 	@git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 	@echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> $(HOME)/.zshrc

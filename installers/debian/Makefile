@@ -15,6 +15,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/live-build:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y live-build
+/usr/bin/convert:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y imagemagick
 else
 /usr/bin/live-build: not-supported
 endif
