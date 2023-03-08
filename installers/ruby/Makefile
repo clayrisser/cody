@@ -15,3 +15,4 @@ $(HOME)/.rvm/bin/rvm:
 
 .PHONY: uninstall
 uninstall:
+	-@rm -rf $(HOME)/.rvm
