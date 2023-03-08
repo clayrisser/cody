@@ -16,7 +16,6 @@ ifeq ($(PKG_MANAGER),apt-get)
 		libvirt-clients \
 		libvirt-daemon-system \
 		qemu-kvm
-else
 endif
 
 .PHONY: uninstall
