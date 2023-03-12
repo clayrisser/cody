@@ -16,6 +16,7 @@ ifneq (,$(_REPO_PATH))
 	SHARED = $(_REPO_PATH)/shared
 endif
 
+CODENAME :=
 ifeq ($(OS),Windows_NT)
 	export HOME := $(HOMEDRIVE)$(HOMEPATH)
 	PLATFORM = win32
@@ -78,9 +79,11 @@ else
 			endif
 			ifeq ($(FLAVOR),debian)
 				PKG_MANAGER = apt-get
+				CODENAME = $(shell echo $(shell lsb_release -a | grep -E "^Codename:") | cut -d' ' -f2)
 			endif
 			ifeq ($(FLAVOR),ubuntu)
 				PKG_MANAGER = apt-get
+				CODENAME = $(shell echo $(lsb_release -a | grep -E "^Codename:") | cut -d' ' -f2)
 			endif
 			ifeq ($(FLAVOR),alpine)
 				PKG_MANAGER = apk

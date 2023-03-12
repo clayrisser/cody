@@ -3,17 +3,22 @@ DEPENDS_ON := \
 	vscode
 CODE_EXTENSIONS := \
 	bungcip.better-toml \
-	ms-python.python \
+	ms-python.python
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+POETRY_BINARY := /usr/local/bin/poetry
+ifeq ($(CODENAME),bookworm)
+POETRY_BINARY = /usr/bin/poetry
+endif
 
 .PHONY: install
 install: | sudo \
 	/usr/bin/python3 \
 	/usr/bin/python \
 	/usr/bin/pip3 \
-	/usr/local/bin/poetry \
+	$(POETRY_BINARY) \
 	$(HOME)/.pyenv/bin/pyenv \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
@@ -29,8 +34,13 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
 		python3-pip
+/usr/bin/poetry:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y \
+		python3-poetry
 else
 /usr/bin/pip3: not-supported
+/usr/bin/poetry: not-supported
 /usr/bin/python3: not-supported
 /usr/bin/python: not-supported
 endif
@@ -45,9 +55,10 @@ ifeq ($(PKG_MANAGER),apt-get)
 		liblzma-dev \
 		libreadline-dev \
 		libsqlite3-dev \
+		libssl-dev \
 		libtk-img-dev
 endif
-	@git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+	@git clone https://github.com/pyenv/pyenv.git $(HOME)/.pyenv
 	@echo 'export PYENV_ROOT="$$HOME/.pyenv"' >> $(HOME)/.zshrc
 	@echo 'export PATH="$$PYENV_ROOT/bin:$$PATH"' >> $(HOME)/.zshrc
 	@echo 'eval "$$(pyenv init --path)"' >> $(HOME)/.zshrc
