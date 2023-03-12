@@ -8,33 +8,46 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+PODMAN_COMPOSE_BINARY := /usr/local/bin/podman-compose
+ifeq ($(CODENAME),bookworm)
+PODMAN_COMPOSE_BINARY = /usr/bin/podman-compose
+endif
+
 .PHONY: install
 install: | sudo \
-	/bin/podman \
-	/bin/docker \
-	/bin/docker-compose \
-	/usr/local/bin/podman-compose \
+	/usr/bin/buildah \
+	/usr/bin/docker \
+	/usr/bin/docker-compose \
+	/usr/bin/podman \
+	$(PODMAN_COMPOSE_BINARY) \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/bin/podman:
+/usr/bin/podman:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y podman
-/bin/docker:
+/usr/bin/docker:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker.io
 	@$(SUDO) usermod -aG docker $(USER)
 	@$(SUDO) su -l $(USER)
-/bin/docker-compose:
+/usr/bin/docker-compose:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker-compose
+/usr/bin/podman-compose:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y podman-compose
+/usr/bin/buildah:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y buildah
 else
-/bin/podman: not-supported
-/bin/docker: not-supported
-/bin/docker-compose: not-supported
+/usr/bin/buildah: not-supported
+/usr/bin/docker-compose: not-supported
+/usr/bin/docker: not-supported
+/usr/bin/podman-compose: not-supported
+/usr/bin/podman: not-supported
 endif
 /usr/local/bin/podman-compose:
 	@$(SUDO) $(PIP) install podman-compose
 
 .PHONY: uninstall
-uninstall: | sudo
-	@$(SUDO) $(PIP) uninstall podman-compose
+uninstall: ;
