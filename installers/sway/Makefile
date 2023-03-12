@@ -31,4 +31,4 @@ else
 endif
 /usr/local/bin/bumblebee-status:
 	@$(MAKE) -sC ../python install
-	@$(SUDO) $(PIP) install bumblebee-status
+	@$(SUDO) $(PIP) install bumblebee-status $(PIP_ARGS)

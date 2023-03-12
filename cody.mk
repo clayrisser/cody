@@ -115,10 +115,9 @@ define not_supported
 endef
 
 APT ?= apt-get
-ifeq ($(CODENAME),bookworm)
-PIP ?= $(shell pip3 --version >/dev/null && echo pip3 || echo pip) --break-system-packages
-else
 PIP ?= $(shell pip3 --version >/dev/null && echo pip3 || echo pip)
+ifeq ($(CODENAME),bookworm)
+PIP_ARGS ?= --break-system-packages
 endif
 SUDO ?= sudo
 

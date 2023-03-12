@@ -47,7 +47,7 @@ else
 /usr/bin/podman: not-supported
 endif
 /usr/local/bin/podman-compose:
-	@$(SUDO) $(PIP) install podman-compose
+	@$(SUDO) $(PIP) install podman-compose $(PIP_ARGS)
 
 .PHONY: uninstall
 uninstall: ;

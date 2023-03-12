@@ -13,7 +13,7 @@ install: | sudo \
 	/usr/bin/snapd \
 	/usr/bin/yq
 /usr/bin/jq:
-	@$(SUDO) $(PIP) install awscli
+	@$(SUDO) $(PIP) install awscli $(PIP_ARGS)
 /usr/bin/convert:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y imagemagick

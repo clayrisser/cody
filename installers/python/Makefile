@@ -10,7 +10,7 @@ include $(SHARED)/code/code.mk
 
 POETRY_BINARY := /usr/local/bin/poetry
 ifeq ($(CODENAME),bookworm)
-POETRY_BINARY = /usr/bin/poetry
+# POETRY_BINARY = /usr/bin/poetry
 endif
 
 .PHONY: install
@@ -45,7 +45,7 @@ else
 /usr/bin/python: not-supported
 endif
 /usr/local/bin/poetry:
-	@$(SUDO) $(PIP) install poetry
+	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
 $(HOME)/.pyenv/bin/pyenv:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)

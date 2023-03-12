@@ -10,7 +10,7 @@ install: | sudo \
 	/usr/local/bin/aws \
 	/usr/local/bin/_awsp
 /usr/local/bin/aws:
-	@$(SUDO) $(PIP) install awscli
+	@$(SUDO) $(PIP) install awscli $(PIP_ARGS)
 /usr/local/bin/_awsp:
 	@$(SUDO) npm install -g awsp
 
