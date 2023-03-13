@@ -8,8 +8,10 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+PIPX_BINARY = /usr/local/bin/pipx
 POETRY_BINARY := /usr/local/bin/poetry
 ifeq ($(CODENAME),bookworm)
+PIPX_BINARY = /usr/bin/pipx
 # POETRY_BINARY = /usr/bin/poetry
 endif
 
@@ -18,6 +20,7 @@ install: | sudo \
 	/usr/bin/python3 \
 	/usr/bin/python \
 	/usr/bin/pip3 \
+	$(PIPX_BINARY) \
 	$(POETRY_BINARY) \
 	$(HOME)/.pyenv/bin/pyenv \
 	code-extensions
@@ -38,14 +41,21 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
 		python3-poetry
+/usr/bin/pipx:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y \
+		pipx
 else
 /usr/bin/pip3: not-supported
+/usr/bin/pipx: not-supported
 /usr/bin/poetry: not-supported
 /usr/bin/python3: not-supported
 /usr/bin/python: not-supported
 endif
 /usr/local/bin/poetry:
 	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
+/usr/local/bin/pipx:
+	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
 $(HOME)/.pyenv/bin/pyenv:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)

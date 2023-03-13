@@ -11,6 +11,7 @@ include $(SHARED)/code/code.mk
 
 .PHONY: install
 install: | sudo \
+	/usr/bin/apt-file \
 	/usr/bin/live-build \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)

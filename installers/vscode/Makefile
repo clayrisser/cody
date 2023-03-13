@@ -12,6 +12,7 @@ CODE_EXTENSIONS := \
 	hediet.vscode-drawio \
 	mikestead.dotenv \
 	ms-vscode.makefile-tools \
+	naumovs.color-highlight \
 	psioniq.psi-header \
 	redhat.fabric8-analytics \
 	redhat.vscode-xml \

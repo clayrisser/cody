@@ -6,6 +6,7 @@ include $(CODY)
 .PHONY: install
 install: | sudo \
 	/usr/bin/convert \
+	/usr/bin/curl \
 	/usr/bin/git \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
@@ -29,6 +30,9 @@ install: | sudo \
 /usr/bin/snapd:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y snapd
+/usr/bin/curl:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y curl
 /usr/bin/yq: | /usr/bin/snapd
 	@$(SUDO) snap install yq
 
