@@ -18,8 +18,10 @@ install: | sudo \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/node:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y nodejs
 /usr/bin/npm:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y npm
 else
 /usr/bin/node: not-supported
