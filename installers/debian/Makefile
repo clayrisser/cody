@@ -2,9 +2,10 @@ NAME := debian
 DEPENDS_ON := \
 	core \
 	python \
+	virtualbox \
 	vscode
 CODE_EXTENSIONS := \
-	dawidd6.debian-vscode \
+	dawidd6.debian-vscode
 
 include $(CODY)
 include $(SHARED)/code/code.mk
