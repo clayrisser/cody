@@ -7,8 +7,10 @@ DEPENDS_ON := \
 include $(CODY)
 
 .PHONY: install
-install: | /var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop
+install: | sudo \
+	/var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop
 /var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop:
+	@$(SUDO) flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	@flatpak install -y $(FLATPAK_BASE)/$(FLATPAK_PACKAGE).flatpakref
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
