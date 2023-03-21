@@ -18,4 +18,8 @@ else
 endif
 
 .PHONY: uninstall
-uninstall: ;
+uninstall:
+ifeq ($(PKG_MANAGER),apt-get)
+	@$(SUDO) $(APT) remove -y dbgate
+	@$(SUDO) $(APT) autoremove
+endif

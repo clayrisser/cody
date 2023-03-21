@@ -1,6 +1,7 @@
 NAME := kube
 DEPENDS_ON := \
 	docker \
+	openlens \
 	vscode
 CODE_EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools
