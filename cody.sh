@@ -48,6 +48,7 @@ _install() {
         _install_cody
     else
         for d in $( _dependencies $_INSTALLER ); do
+            _SKIP=0
             for i in $(_installed); do
                 if [ "$d" = "$i" ]; then
                     _SKIP=1
