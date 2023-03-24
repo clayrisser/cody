@@ -63,6 +63,8 @@ ifeq ($(PKG_MANAGER),apt-get)
 		libbz2-dev \
 		libffi-dev \
 		liblzma-dev \
+		libpython3.10-dev \
+		libpython3.11-dev \
 		libreadline-dev \
 		libsqlite3-dev \
 		libssl-dev \
