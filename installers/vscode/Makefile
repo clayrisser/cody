@@ -10,7 +10,9 @@ CODE_EXTENSIONS := \
 	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
+	mechatroner.rainbow-csv \
 	mikestead.dotenv \
+	ms-vscode.hexeditor \
 	ms-vscode.makefile-tools \
 	naumovs.color-highlight \
 	psioniq.psi-header \
