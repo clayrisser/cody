@@ -18,6 +18,7 @@ install: | sudo \
 	/usr/bin/buildah \
 	/usr/bin/docker \
 	/usr/bin/docker-compose \
+	/usr/bin/docker-credential-pass \
 	/usr/bin/podman \
 	$(PODMAN_COMPOSE_BINARY) \
 	code-extensions
@@ -39,9 +40,13 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/buildah:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y buildah
+/usr/bin/docker-credential-pass:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y golang-docker-credential-helpers
 else
 /usr/bin/buildah: not-supported
 /usr/bin/docker-compose: not-supported
+/usr/bin/docker-credential-pass: not-supported
 /usr/bin/docker: not-supported
 /usr/bin/podman-compose: not-supported
 /usr/bin/podman: not-supported
