@@ -3,6 +3,7 @@ DEPENDS_ON := \
 	python \
 	vscode
 CODE_EXTENSIONS := \
+	ms-azuretools.vscode-docker \
 	ms-vscode-remote.remote-containers
 
 include $(CODY)
