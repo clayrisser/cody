@@ -17,6 +17,7 @@ terraform
 TOOLS="
 android-studio
 aws
+chatgpt
 dbgate
 debian
 docker
