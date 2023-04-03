@@ -10,6 +10,7 @@ include $(SHARED)/code/code.mk
 .PHONY: install
 install: | sudo \
 	/bin/java \
+	/usr/bin/gradle \
 	/usr/bin/mvn \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
@@ -19,6 +20,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/mvn:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y maven
+/usr/bin/gradle:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y gradle
 else
 /bin/java: not-supported
 /usr/bin/mvn: not-supported
