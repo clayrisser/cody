@@ -2,7 +2,8 @@ NAME := java
 DEPENDS_ON := \
 	vscode
 CODE_EXTENSIONS := \
-	redhat.java
+	redhat.java \
+	wmanth.jar-viewer
 
 include $(CODY)
 include $(SHARED)/code/code.mk

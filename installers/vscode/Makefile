@@ -1,7 +1,6 @@
 NAME := vscode
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
-	cweijan.vscode-database-client2 \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
