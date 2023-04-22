@@ -8,8 +8,16 @@ include $(CODY)
 
 .PHONY: install
 install: | sudo \
+	/usr/bin/watchman \
 	/usr/bin/react-native-debugger \
 	$(HOME)/.local/share/applications/react-native-debugger.desktop
+ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/watchman:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y watchman
+else
+/usr/bin/watchman: not-supported
+endif
 /usr/bin/react-native-debugger:
 	@curl -Lo $(_TMP_PATH)/rnd.deb \
 		https://github.com/jhen0409/react-native-debugger/releases/download/v$(RND_VERSION)/react-native-debugger_$(RND_VERSION)_amd64.deb
