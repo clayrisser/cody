@@ -17,7 +17,7 @@ ifneq (,$(_REPO_PATH))
 endif
 
 CODENAME :=
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS),Windows_NT) # WINDOWS
 	export HOME := $(HOMEDRIVE)$(HOMEPATH)
 	PLATFORM = win32
 	FLAVOR = win64
@@ -48,13 +48,13 @@ else
 	ifeq ($(ARCH),x86_64)
 		ARCH = amd64
 	endif
-	ifeq ($(PLATFORM),linux) # LINUX
-		ifneq (,$(wildcard /system/bin/adb))
+	ifeq ($(PLATFORM),linux)
+		ifneq (,$(wildcard /system/bin/adb)) # ANDROID
 			ifneq ($(shell getprop --help >$(NULL) 2>$(NULL) && echo 1 || echo 0),1)
 				PLATFORM = android
 			endif
 		endif
-		ifeq ($(PLATFORM),linux)
+		ifeq ($(PLATFORM),linux) # LINUX
 			FLAVOR = $(shell lsb_release -si 2>$(NULL) | tr '[:upper:]' '[:lower:]' 2>$(NULL))
 			ifeq (,$(FLAVOR))
 				FLAVOR = unknown
@@ -79,14 +79,18 @@ else
 			endif
 			ifeq ($(FLAVOR),debian)
 				PKG_MANAGER = apt-get
-				CODENAME = $(shell echo $(shell lsb_release -a | grep -E "^Codename:") | cut -d' ' -f2)
+				CODENAME = $(shell echo $(shell lsb_release -a 2>$(NULL) | grep -E "^Codename:") | cut -d' ' -f2)
 			endif
 			ifeq ($(FLAVOR),ubuntu)
 				PKG_MANAGER = apt-get
-				CODENAME = $(shell echo $(lsb_release -a | grep -E "^Codename:") | cut -d' ' -f2)
+				CODENAME = $(shell echo $(lsb_release -a 2>$(NULL) | grep -E "^Codename:") | cut -d' ' -f2)
 			endif
 			ifeq ($(FLAVOR),alpine)
 				PKG_MANAGER = apk
+			endif
+			IS_WSL :=
+			ifneq (,$(wildcard /proc/sys/fs/binfmt_misc/WSLInterop))
+				IS_WSL := 1
 			endif
 		endif
 	else
