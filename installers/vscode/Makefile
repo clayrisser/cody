@@ -33,14 +33,16 @@ install: | sudo \
 	/usr/bin/code \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-/usr/bin/code:
 ifneq $(1,$(IS_WSL))
+/usr/bin/code:
 	@$(call apt-update)
 	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $(_TMP_PATH)/packages.microsoft.gpg
 	@$(SUDO) install -D -o root -g root -m 644 $(_TMP_PATH)/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 	@$(SUDO) sh -c 'echo "deb [arch=$(ARCH) signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 	@$(SUDO) $(APT) update
 	@$(SUDO) $(APT) install -y code
+else
+/usr/bin/code: ;
 endif
 else
 /usr/bin/code: not-supported
