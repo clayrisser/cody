@@ -21,8 +21,12 @@ install: | sudo \
 	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/direnv:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y direnv
+	@(cat $(HOME)/.zshrc | grep -q direnv) || \
+		echo 'eval "$$(direnv hook zsh)"' >> $(HOME)/.zshrc
 /usr/bin/zsh:
+	@$(call apt-update)
 	@$(SUDO) $(APT) install -y zsh
 else
 /usr/bin/direnv: not-supported
