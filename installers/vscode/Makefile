@@ -33,7 +33,7 @@ install: | sudo \
 	/usr/bin/code \
 	code-extensions
 ifeq ($(PKG_MANAGER),apt-get)
-ifneq $(1,$(IS_WSL))
+ifneq (1,$(IS_WSL))
 /usr/bin/code:
 	@$(call apt-update)
 	@wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > $(_TMP_PATH)/packages.microsoft.gpg
