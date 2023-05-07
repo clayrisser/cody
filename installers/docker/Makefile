@@ -27,11 +27,15 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/podman:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y podman
+ifeq (1,$(IS_WSL))
+/usr/bin/docker: ;
+else
 /usr/bin/docker:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker.io
 	@$(SUDO) usermod -aG docker $(USER)
 	@$(SUDO) su -l $(USER)
+endif
 /usr/bin/docker-compose:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker-compose
