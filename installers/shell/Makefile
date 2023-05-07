@@ -9,6 +9,7 @@ ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom
 
 .PHONY: install chsh
 install: | sudo \
+	/usr/bin/direnv \
 	/usr/bin/zsh \
 	chsh \
 	$(HOME)/.oh-my-zsh/oh-my-zsh.sh \
@@ -18,17 +19,20 @@ install: | sudo \
 	$(HOME)/.autojump/etc/profile.d/autojump.sh \
 	$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh \
 	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
-/usr/bin/zsh:
 ifeq ($(PKG_MANAGER),apt-get)
-	@$(SUDO) $(APT) install -y \
-		git \
-		zsh
+/usr/bin/direnv:
+	@$(SUDO) $(APT) install -y direnv
+/usr/bin/zsh:
+	@$(SUDO) $(APT) install -y zsh
 else
-	@$(call not_supported,$(NAME))
+/usr/bin/direnv: not-supported
+/usr/bin/zsh: not-supported
 endif
-chsh:
 ifneq ($(CURRENT_SHELL),/usr/bin/zsh)
+chsh:
 	@$(SUDO) usermod -s /usr/bin/zsh $(USER)
+else
+chsh: ;
 endif
 $(HOME)/.oh-my-zsh/oh-my-zsh.sh:
 	@echo Y | sh -c \
