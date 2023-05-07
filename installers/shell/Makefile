@@ -1,5 +1,6 @@
 NAME := shell
 DEPENDS_ON := \
+	core \
 	python
 
 include $(CODY)
