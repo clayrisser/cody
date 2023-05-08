@@ -79,11 +79,11 @@ else
 			endif
 			ifeq ($(FLAVOR),debian)
 				PKG_MANAGER = apt-get
-				CODENAME = $(shell echo $(shell lsb_release -a 2>$(NULL) | grep -E "^Codename:") | cut -d' ' -f2)
+				CODENAME = $(shell cat /etc/os-release | grep VERSION_CODENAME | cut -d'=' -f2)
 			endif
 			ifeq ($(FLAVOR),ubuntu)
 				PKG_MANAGER = apt-get
-				CODENAME = $(shell echo $(lsb_release -a 2>$(NULL) | grep -E "^Codename:") | cut -d' ' -f2)
+				CODENAME = $(shell cat /etc/os-release | grep VERSION_CODENAME | cut -d'=' -f2)
 			endif
 			ifeq ($(FLAVOR),alpine)
 				PKG_MANAGER = apk
