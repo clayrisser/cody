@@ -2,8 +2,10 @@ NAME := debian
 DEPENDS_ON := \
 	core \
 	python \
-	virtualbox \
 	vscode
+ifneq (1,$(IS_WSL))
+DEPENDS_ON += virtualbox
+endif
 CODE_EXTENSIONS := \
 	dawidd6.debian-vscode
 
