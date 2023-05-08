@@ -3,14 +3,15 @@ DEPENDS_ON := \
 	core \
 	python \
 	vscode
-ifneq (1,$(IS_WSL))
-DEPENDS_ON += virtualbox
-endif
 CODE_EXTENSIONS := \
 	dawidd6.debian-vscode
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+ifneq (1,$(IS_WSL))
+DEPENDS_ON += virtualbox
+endif
 
 .PHONY: install
 install: | sudo \
