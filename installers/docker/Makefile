@@ -7,9 +7,9 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
-DEPENDS_ON += $(CODE)
+DEPENDS_ON += $(CODE_INSTALLER)
 
-ifneq ($(CODE),codium)
+ifeq ($(CODE),code)
 CODE_EXTENSIONS := \
 	ms-vscode-remote.remote-containers
 endif

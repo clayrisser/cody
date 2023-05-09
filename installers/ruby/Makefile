@@ -6,7 +6,7 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
-DEPENDS_ON += $(CODE)
+DEPENDS_ON += $(CODE_INSTALLER)
 
 .PHONY: install
 install: | sudo $(HOME)/.rvm/bin/rvm code-extensions

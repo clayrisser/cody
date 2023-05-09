@@ -1,12 +1,12 @@
 NAME := rust
 DEPENDS_ON :=
 VSCODE_EXTENSIONS := \
-	rust-lang.rust \
+	rust-lang.rust
 
 include $(CODY)
 include $(SHARED)/code/code.mk
 
-DEPENDS_ON += $(CODE)
+DEPENDS_ON += $(CODE_INSTALLER)
 
 .PHONY: install
 install: | sudo $(HOME)/.cargo/bin/cargo code-extensions

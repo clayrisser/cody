@@ -1,12 +1,13 @@
 NAME := python
-DEPENDS_ON := \
-	codium
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	bungcip.better-toml \
 	ms-python.python
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE_INSTALLER)
 
 PIPX_BINARY = /usr/local/bin/pipx
 POETRY_BINARY := /usr/local/bin/poetry

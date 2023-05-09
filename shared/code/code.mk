@@ -1,4 +1,9 @@
-CODE ?= codium
+CODE ?= code
+
+CODE_INSTALLER := $(CODE)
+ifeq ($(CODE),code)
+CODE_INSTALLER := vscode
+endif
 
 .PHONY: code-extensions
 code-extensions: $(patsubst %,$(_INSTALLED_PATH)/.code/%,$(CODE_EXTENSIONS))

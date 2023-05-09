@@ -1,13 +1,17 @@
 NAME := solidity
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
-	juanblanco.solidity \
 	nomicfoundation.hardhat-solidity
 
 include $(CODY)
 include $(SHARED)/code/code.mk
 
-DEPENDS_ON += $(CODE)
+ifeq ($(CODE),code)
+CODE_EXTENSIONS += RemixProject.ethereum-remix \
+	tintinweb.solidity-visual-auditor
+endif
+
+DEPENDS_ON += $(CODE_INSTALLER)
 
 .PHONY: install
 install: code-extensions

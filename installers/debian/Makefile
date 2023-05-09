@@ -8,7 +8,7 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
-DEPENDS_ON += $(CODE)
+DEPENDS_ON += $(CODE_INSTALLER)
 
 ifneq (1,$(IS_WSL))
 DEPENDS_ON += virtualbox
