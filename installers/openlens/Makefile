@@ -6,7 +6,8 @@ include $(CODY)
 
 .PHONY: install
 ifeq ($(PKG_MANAGER),brew)
-install: | /Applications/OpenLens.app/Contents/Info.plist
+install: | sudo \
+	/Applications/OpenLens.app/Contents/Info.plist
 else
 install: | sudo \
 	/usr/bin/openlens

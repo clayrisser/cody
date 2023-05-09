@@ -49,6 +49,7 @@ ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/react-native-debugger:
 	@$(BREW) install --cask $(@F)
 /Applications/Flipper.app/Contents/PkgInfo:
+	@$(SUDO) xcode-select --switch /Applications/Xcode.app
 	@$(BREW) install --cask $(@F)
 endif
 
