@@ -2,8 +2,10 @@ NAME := cpp
 DEPENDS_ON := \
 	core
 CODE_EXTENSIONS := \
-	jeff-hykin.better-cpp-syntax \
-	twxs.cmake
+	ms-vscode.cpptools \
+	ms-vscode.cmake-tools \
+	bazelbuild.vscode-bazel \
+	maelvalais.autoconf
 
 include $(CODY)
 include $(SHARED)/code/code.mk
