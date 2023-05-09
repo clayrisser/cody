@@ -1,4 +1,4 @@
-CODE ?= code
+CODE ?= codium
 
 .PHONY: code-extensions
 code-extensions: $(patsubst %,$(_INSTALLED_PATH)/.code/%,$(CODE_EXTENSIONS))

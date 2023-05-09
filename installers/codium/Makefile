@@ -8,13 +8,17 @@ CODE_EXTENSIONS := \
 	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
+	mechatroner.rainbow-csv \
 	mikestead.dotenv \
+	ms-vscode.hexeditor \
 	ms-vscode.makefile-tools \
+	naumovs.color-highlight \
 	psioniq.psi-header \
 	redhat.fabric8-analytics \
 	redhat.vscode-xml \
 	rubymaniac.vscode-direnv \
 	streetsidesoftware.code-spell-checker \
+	tabnine.tabnine-vscode \
 	timkmecl.codegpt3 \
 	tintinweb.vscode-decompiler \
 	ultram4rine.vscode-choosealicense \
@@ -24,13 +28,25 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+CODIUM_BINARY := /usr/bin/codium
+ifeq ($(PKG_MANAGER),brew)
+CODIUM_BINARY := /usr/local/bin/codium
+endif
+
 .PHONY: install
-install: | sudo \
+install: | smart-sudo \
 	$(HOME)/.config/VSCodium/product.json \
-	/usr/bin/codium \
+	$(CODIUM_BINARY) \
 	code-extensions
-/usr/bin/codium:
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/codium:
+	@$(BREW) install --cask codium
+else
+/usr/local/bin/codium: not-supported
+endif
 ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/codium:
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
 		| gpg --dearmor \
 		| $(SUDO) dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
@@ -39,7 +55,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) update
 	@$(SUDO) $(APT) install -y codium
 else
-	@$(call not_supported,$(NAME))
+/usr/bin/codium: not-supported
 endif
 $(HOME)/.config/VSCodium/product.json:
 	@mkdir -p $(HOME)/.config/VSCodium

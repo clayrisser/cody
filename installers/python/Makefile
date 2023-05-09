@@ -1,6 +1,6 @@
 NAME := python
 DEPENDS_ON := \
-	vscode
+	codium
 CODE_EXTENSIONS := \
 	bungcip.better-toml \
 	ms-python.python

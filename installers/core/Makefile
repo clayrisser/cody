@@ -3,6 +3,13 @@ DEPENDS_ON :=
 
 include $(CODY)
 
+YQ_BINARY := /usr/local/bin/yq
+ifeq ($(PKG_MANAGER),apt-get)
+ifneq (1,$(IS_WSL))
+YQ_BINARY := /usr/bin/yq
+endif
+endif
+
 .PHONY: install yq
 ifeq ($(PKG_MANAGER),brew)
 install: | /usr/local/bin/convert \
@@ -11,7 +18,7 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/git-lfs \
 	/usr/local/bin/jq \
 	/usr/local/bin/remake \
-	/usr/local/bin/yq
+	$(YQ_BINARY)
 else
 install: | sudo \
 	/usr/bin/convert \
@@ -20,7 +27,7 @@ install: | sudo \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
 	/usr/bin/make \
-	yq
+	$(YQ_BINARY)
 endif
 
 ifeq ($(PKG_MANAGER),apt-get)
@@ -82,15 +89,6 @@ else
 endif
 endif
 
-ifeq ($(PKG_MANAGER),apt-get)
-ifeq (1,$(IS_WSL))
-yq: /usr/local/bin/yq
-else
-yq: /usr/bin/yq
-endif
-else
-yq: /usr/local/bin/yq
-endif
 ifeq ($(PKG_MANAGER),apt-get)
 ifeq (1,$(IS_WSL))
 /usr/bin/yq: | /usr/bin/snapd
