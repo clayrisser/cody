@@ -20,6 +20,8 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/gsed \
 	/usr/local/bin/jq \
 	/usr/local/bin/remake \
+	/usr/local/bin/gnupg \
+	/usr/local/bin/wget \
 	$(YQ_BINARY)
 else
 install: | sudo \
@@ -29,50 +31,62 @@ install: | sudo \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
 	/usr/bin/make \
+	/usr/bin/wget \
+	/usr/bin/gpg \
 	$(YQ_BINARY)
 endif
 
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/jq:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y jq
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/convert:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y imagemagick
 /usr/bin/make:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y make
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/git:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y git
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/git-lfs:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y git-lfs
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/snapd:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y snapd
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/curl:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y curl
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/wget:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/gpg:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
 else
 
 ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/jq:
-	@$(BREW) install jq
+	@$(BREW) install $(@F)
 /usr/local/bin/convert:
 	@$(BREW) install imagemagick
 /usr/local/bin/curl:
-	@$(BREW) install curl
+	@$(BREW) install $(@F)
 /usr/local/bin/remake:
-	@$(BREW) install remake
+	@$(BREW) install $(@F)
 /usr/local/bin/git:
-	@$(BREW) install git
+	@$(BREW) install $(@F)
 /usr/local/bin/git-lfs:
-	@$(BREW) install git-lfs
+	@$(BREW) install $(@F)
 /usr/local/bin/gsed:
-	@$(BREW) install gsed
+	@$(BREW) install $(@F)
 /usr/local/bin/ggrep:
 	@$(BREW) install grep
+/usr/local/bin/wget:
+	@$(BREW) install $(@F)
+/usr/local/bin/gnupg:
+	@$(BREW) install $(@F)
 else
 /usr/local/bin/jq: not-supported
 /usr/local/bin/convert: not-supported
@@ -88,6 +102,8 @@ endif
 /usr/bin/git: not-supported
 /usr/bin/git-lfs: not-supported
 /usr/bin/snapd: not-supported
+/usr/bin/wget: not-supported
+/usr/bin/gpg: not-supported
 ifeq ($(PLATFORM),darwin)
 /usr/bin/curl: ;
 else
