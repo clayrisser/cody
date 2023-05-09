@@ -119,15 +119,21 @@ define not_supported
 endef
 
 APT ?= apt-get
+BREW ?= brew
 PIP ?= $(shell pip3 --version >/dev/null && echo pip3 || echo pip)
 ifeq ($(CODENAME),bookworm)
 PIP_ARGS ?= --break-system-packages
 endif
 SUDO ?= sudo
 
-.PHONY: sudo
+.PHONY: sudo smart-sudo
 sudo:
 	@$(SUDO) true
+ifeq ($(PKG_MANAGER),brew)
+smart-sudo: ;
+else
+smart-sudo: | sudo
+endif
 
 .PHONY: not-supported
 not-supported:
