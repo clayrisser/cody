@@ -2,7 +2,8 @@ NAME := docker
 DEPENDS_ON := \
 	python
 CODE_EXTENSIONS := \
-	ms-azuretools.vscode-docker
+	ms-azuretools.vscode-docker \
+	ms-vscode-remote.remote-containers
 
 include $(CODY)
 include $(SHARED)/code/code.mk

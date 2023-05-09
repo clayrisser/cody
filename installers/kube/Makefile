@@ -1,7 +1,9 @@
 NAME := kube
 DEPENDS_ON := \
-	docker \
-	openlens
+	docker
+ifneq (1,$(IS_WSL))
+DEPENDS_ON += openlens
+endif
 CODE_EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools
 
