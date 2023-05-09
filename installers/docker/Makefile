@@ -14,9 +14,15 @@ CODE_EXTENSIONS := \
 	ms-vscode-remote.remote-containers
 endif
 
-PODMAN_COMPOSE_BINARY := /usr/local/bin/podman-compose
+PODMAN_COMPOSE_BINARY := $(HOME)/.local/bin/podman-compose
 ifeq ($(CODENAME),bookworm)
 PODMAN_COMPOSE_BINARY = /usr/bin/podman-compose
+endif
+ifeq ($(CODENAME),sid)
+PODMAN_COMPOSE_BINARY = /usr/bin/podman-compose
+endif
+ifeq ($(PKG_MANAGER),brew)
+PODMAN_COMPOSE_BINARY = /usr/local/bin/podman-compose
 endif
 
 .PHONY: install
@@ -62,8 +68,6 @@ endif
 /usr/bin/docker-credential-pass:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y golang-docker-credential-helpers
-/usr/local/bin/podman-compose:
-	@pipx install podman-compose
 else
 
 ifeq ($(PKG_MANAGER),brew)
@@ -75,9 +79,6 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/podman-compose:
 	@$(BREW) install $(@F)
-else
-/usr/local/bin/podman-compose:
-	@pipx install podman-compose
 endif
 
 /usr/bin/buildah: not-supported
@@ -87,6 +88,9 @@ endif
 /usr/bin/podman-compose: not-supported
 /usr/bin/podman: not-supported
 endif
+
+$(HOME)/.local/bin/podman-compose:
+	@pipx install podman-compose
 
 .PHONY: uninstall
 uninstall: ;
