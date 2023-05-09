@@ -53,7 +53,8 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/pipx:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
-		pipx
+		pipx \
+		python3-venv
 /usr/local/bin/poetry:
 	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
 /usr/local/bin/pipx:
