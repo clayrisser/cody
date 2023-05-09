@@ -54,6 +54,8 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
 		pipx
+/usr/local/bin/poetry:
+	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
 /usr/local/bin/pipx:
 	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
 	@echo 'export PATH=$$PATH:$$HOME/.local/bin' >> $(HOME)/.zshrc
