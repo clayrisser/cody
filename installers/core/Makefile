@@ -53,6 +53,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/git-lfs:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
+	@git lfs install
 /usr/bin/snapd:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
@@ -83,6 +84,7 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/git-lfs:
 	@$(BREW) install $(@F)
+	@git lfs install
 /usr/local/bin/gsed:
 	@$(BREW) install $(@F)
 /usr/local/bin/ggrep:
