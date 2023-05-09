@@ -53,7 +53,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/ninja:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y $(@F)
+	@$(SUDO) $(APT) install -y ninja-build
 /usr/bin/bazel:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y bazel-bootstrap
