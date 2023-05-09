@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 LANGUAGES="
 cpp
@@ -26,11 +26,16 @@ nixos
 shell
 "
 
-export DEBIAN_FRONTEND=${DEBIAN_FRONTEND:-gnome}
-export _TMP_PATH="${XDG_RUNTIME_DIR:-$([ -d "/run/user/$(id -u $USER)" ] && echo "/run/user/$(id -u $USER)" || echo ${TMP:-${TEMP:-/tmp}})}/cody/wizard/$$"
-
+if [ "$1" != "_ready" ]; then
+    bash $0 _ready $@
+    exit $?
+fi
+source easybashgui
 sudo true
-mkdir -p $_TMP_PATH
+
+if ! which easybashgui >/dev/null 2>/dev/null; then
+    cody install easybashgui
+fi
 
 installed() {
     for i in $@; do
@@ -48,57 +53,33 @@ not_installed() {
     done
 }
 
-true > $_TMP_PATH/cody.templates
-if [ "$(installed $LANGUAGES)" != "" ]; then
-    cat <<EOF >> $_TMP_PATH/cody.templates
-Template: cody/languages_uninstall
-Type: multiselect
-Description: uninstall languages
- select the languages you wish to uninstall
-Choices:$(echo $(installed $LANGUAGES) | sed 's| \+|, |g')
+message "select the languages you wish to uninstall"
+list $(installed $LANGUAGES)
+LANGUAGES_UNINSTALL="$(0< "$dir_tmp/$file_tmp" )"
+message "UNINSTALLING LANGUAGES
 
-EOF
-fi
-if [ "$(not_installed $LANGUAGES)" != "" ]; then
-    cat <<EOF >> $_TMP_PATH/cody.templates
-Template: cody/languages_install
-Type: multiselect
-Description: install languages
- select the languages you wish to install
-Choices:$(echo $(not_installed $LANGUAGES) | sed 's| \+|, |g')
+$LANGUAGES_UNINSTALL"
 
-EOF
-fi
-prompt $_TMP_PATH/cody.templates
-RESPONSE=$(response $_TMP_PATH/cody.templates)
-LANGUAGES_INSTALL=$(echo "$RESPONSE" | grep '^cody/languages_install:' | sed 's|^cody/languages_install:||g' | sed 's|,| |g')
-LANGUAGES_UNINSTALL=$(echo "$RESPONSE" | grep '^cody/languages_uninstall:' | sed 's|^cody/languages_uninstall:||g' | sed 's|,| |g')
+message "select the languages you wish to install"
+list $(not_installed $LANGUAGES)
+LANGUAGES_INSTALL="$(0< "$dir_tmp/$file_tmp" )"
+message "INSTALLING LANGUAGES
 
-true > $_TMP_PATH/cody.templates
-if [ "$(installed $TOOLS)" != "" ]; then
-    cat <<EOF >> $_TMP_PATH/cody.templates
-Template: cody/tools_uninstall
-Type: multiselect
-Description: uninstall tools
- select the tools you wish to uninstall
-Choices:$(echo $(installed $TOOLS) | sed 's| \+|, |g')
+$LANGUAGES_INSTALL"
 
-EOF
-fi
-if [ "$(not_installed $TOOLS)" != "" ]; then
-    cat <<EOF >> $_TMP_PATH/cody.templates
-Template: cody/tools_install
-Type: multiselect
-Description: install tools
- select the tools you wish to install
-Choices:$(echo $(not_installed $TOOLS) | sed 's| \+|, |g')
+message "select the tools you wish to uninstall"
+list $(installed $TOOLS)
+TOOLS_UNINSTALL="$(0< "$dir_tmp/$file_tmp" )"
+message "UNINSTALLING TOOLS
 
-EOF
-fi
-prompt $_TMP_PATH/cody.templates
-RESPONSE=$(response $_TMP_PATH/cody.templates)
-TOOLS_INSTALL=$(echo "$RESPONSE" | grep '^cody/tools_install:' | sed 's|^cody/tools_install:||g' | sed 's|,| |g')
-TOOLS_UNINSTALL=$(echo "$RESPONSE" | grep '^cody/tools_uninstall:' | sed 's|^cody/tools_uninstall:||g' | sed 's|,| |g')
+$TOOLS_UNINSTALL"
+
+message "select the languages you wish to install"
+list $(not_installed $TOOLS)
+TOOLS_INSTALL="$(0< "$dir_tmp/$file_tmp" )"
+message "INSTALLING TOOLS
+
+$TOOLS_INSTALL"
 
 for l in $LANGUAGES_UNINSTALL; do
     echo '$' cody uninstall $l
@@ -119,5 +100,3 @@ for t in $TOOLS_INSTALL; do
     echo '$' cody install $t
     cody install $t
 done
-
-rm -rf $_TMP_PATH

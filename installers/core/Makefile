@@ -31,6 +31,7 @@ install: | sudo \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
 	/usr/bin/make \
+	/usr/bin/man \
 	/usr/bin/vim \
 	/usr/bin/wget \
 	/usr/bin/gpg \
@@ -45,6 +46,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y imagemagick
 /usr/bin/make:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/man:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/git:
