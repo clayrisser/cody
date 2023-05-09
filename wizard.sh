@@ -30,12 +30,11 @@ if [ "$1" != "_ready" ]; then
     bash $0 _ready $@
     exit $?
 fi
-source easybashgui
 sudo true
-
 if ! which easybashgui >/dev/null 2>/dev/null; then
     cody install easybashgui
 fi
+source easybashgui
 
 installed() {
     for i in $@; do
