@@ -1,6 +1,7 @@
 NAME := kube
 DEPENDS_ON := \
 	docker
+$(info IS_WSL $(IS_WSL))
 ifneq (1,$(IS_WSL))
 DEPENDS_ON += openlens
 endif
