@@ -1,16 +1,15 @@
 NAME := kube
 DEPENDS_ON := \
 	docker
-$(info IS_WSL $(IS_WSL))
-ifneq (1,$(IS_WSL))
-DEPENDS_ON += openlens
-endif
 CODE_EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools
 
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+ifneq (1,$(IS_WSL))
+DEPENDS_ON += openlens
+endif
 DEPENDS_ON += $(CODE_INSTALLER)
 
 .PHONY: install
