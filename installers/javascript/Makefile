@@ -32,6 +32,8 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/npm:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y npm
+/usr/local/bin/yarn:
+	@$(SUDO) /usr/bin/npm install -g yarn
 else
 
 ifeq ($(PKG_MANAGER),brew)
