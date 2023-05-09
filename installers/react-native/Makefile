@@ -1,11 +1,14 @@
 NAME := react-native
 RND_VERSION := 0.13.0
 DEPENDS_ON := \
-	android-studio \
 	javascript \
 	python
 
 include $(CODY)
+
+ifneq (1,$(IS_WSL))
+DEPENDS_ON += ndroid-studio
+endif
 
 WATCHMAN_BINARY := /usr/bin/watchman
 RND_BINARY := /usr/bin/react-native-debugger
@@ -18,17 +21,20 @@ endif
 
 INSTALL_TARGETS := smart-sudo \
 	$(WATCHMAN_BINARY) \
-	$(RND_BINARY) \
-	$(FLIPPER_BINARY)
+	$(RND_BINARY)
 ifeq ($(PLATFORM),darwin)
 INSTALL_TARGETS += \
-$(HOME)/.local/bin/idb
+	$(HOME)/.local/bin/idb
 endif
+ifneq (1,$(IS_WSL))
+INSTALL_TARGETS += $(FLIPPER_BINARY)
 ifeq ($(PLATFORM),linux)
 INSTALL_TARGETS += \
 	$(HOME)/.local/share/applications/react-native-debugger.desktop
 DEPENDS_ON += \
 	cinch
+FLIPPER_BINARY :=
+endif
 endif
 
 .PHONY: install
