@@ -31,6 +31,7 @@ install: | sudo \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
 	/usr/bin/make \
+	/usr/bin/vim \
 	/usr/bin/wget \
 	/usr/bin/gpg \
 	$(YQ_BINARY)
@@ -56,6 +57,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/curl:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/vim:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/wget:
@@ -87,13 +91,6 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/gnupg:
 	@$(BREW) install $(@F)
-else
-/usr/local/bin/jq: not-supported
-/usr/local/bin/convert: not-supported
-/usr/local/bin/make: not-supported
-/usr/local/bin/git: not-supported
-/usr/local/bin/git-lfs: not-supported
-/usr/local/bin/curl: not-supported
 endif
 
 /usr/bin/jq: not-supported
@@ -102,6 +99,7 @@ endif
 /usr/bin/git: not-supported
 /usr/bin/git-lfs: not-supported
 /usr/bin/snapd: not-supported
+/usr/bin/vim: not-supported
 /usr/bin/wget: not-supported
 /usr/bin/gpg: not-supported
 ifeq ($(PLATFORM),darwin)
