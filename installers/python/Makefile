@@ -61,6 +61,7 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install pipenv
 /usr/local/bin/pipx:
 	@$(BREW) install pipx
+	@echo 'export PATH=$$PATH:$$HOME/.local/bin' >> $(HOME)/.zshrc
 /usr/local/bin/poetry:
 	@$(BREW) install poetry
 /usr/local/bin/python3:
@@ -70,6 +71,7 @@ else
 	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
 /usr/local/bin/pipx:
 	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
+	@echo 'export PATH=$$PATH:$$HOME/.local/bin' >> $(HOME)/.zshrc
 endif
 
 /usr/bin/pip3: not-supported

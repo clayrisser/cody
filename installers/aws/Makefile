@@ -7,10 +7,10 @@ include $(CODY)
 
 .PHONY: install
 install: | sudo \
-	/usr/local/bin/aws \
+	$(HOME)/.local/bin/aws \
 	/usr/local/bin/_awsp
-/usr/local/bin/aws:
-	@$(SUDO) $(PIP) install awscli $(PIP_ARGS)
+$(HOME)/.local/bin/aws:
+	@pipx install awscli
 /usr/local/bin/_awsp:
 	@$(SUDO) npm install -g awsp
 

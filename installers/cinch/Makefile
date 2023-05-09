@@ -1,5 +1,6 @@
 NAME := cinch
-DEPENDS_ON :=
+DEPENDS_ON := \
+	core
 
 include $(CODY)
 

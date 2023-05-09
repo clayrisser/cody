@@ -3,11 +3,15 @@ DEPENDS_ON := \
 	python \
 	vscode
 CODE_EXTENSIONS := \
-	ms-azuretools.vscode-docker \
-	ms-vscode-remote.remote-containers
+	ms-azuretools.vscode-docker
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+ifneq ($(CODE),codium)
+CODE_EXTENSIONS := \
+	ms-vscode-remote.remote-containers
+endif
 
 PODMAN_COMPOSE_BINARY := /usr/local/bin/podman-compose
 ifeq ($(CODENAME),bookworm)
@@ -15,14 +19,23 @@ PODMAN_COMPOSE_BINARY = /usr/bin/podman-compose
 endif
 
 .PHONY: install
+ifeq ($(PKG_MANAGER),brew)
+install: | /usr/local/bin/docker \
+	/usr/local/bin/docker-compose \
+	/usr/local/bin/podman \
+	$(PODMAN_COMPOSE_BINARY) \
+	code-extensions
+else
 install: | sudo \
-	/usr/bin/buildah \
 	/usr/bin/docker \
+	/usr/bin/buildah \
 	/usr/bin/docker-compose \
 	/usr/bin/docker-credential-pass \
 	/usr/bin/podman \
 	$(PODMAN_COMPOSE_BINARY) \
 	code-extensions
+endif
+
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/podman:
 	@$(call apt-update)
@@ -49,6 +62,21 @@ endif
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y golang-docker-credential-helpers
 else
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/podman:
+	@$(BREW) install $(@F)
+/usr/local/bin/docker:
+	@$(BREW) install --cask $(@F)
+/usr/local/bin/docker-compose:
+	@$(BREW) install $(@F)
+/usr/local/bin/podman-compose:
+	@$(BREW) install $(@F)
+else
+/usr/local/bin/podman-compose:
+	@$(SUDO) $(PIP) install podman-compose $(PIP_ARGS)
+endif
+
 /usr/bin/buildah: not-supported
 /usr/bin/docker-compose: not-supported
 /usr/bin/docker-credential-pass: not-supported
@@ -56,8 +84,6 @@ else
 /usr/bin/podman-compose: not-supported
 /usr/bin/podman: not-supported
 endif
-/usr/local/bin/podman-compose:
-	@$(SUDO) $(PIP) install podman-compose $(PIP_ARGS)
 
 .PHONY: uninstall
 uninstall: ;

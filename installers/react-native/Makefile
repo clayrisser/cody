@@ -1,23 +1,39 @@
 NAME := react-native
 RND_VERSION := 0.13.0
 DEPENDS_ON := \
+	cinch \
 	javascript \
 	android-studio
 
 include $(CODY)
 
+WATCHMAN_BINARY := /usr/bin/watchman
+RND_BINARY := /usr/bin/react-native-debugger
+FLIPPER_BINARY := /usr/bin/flipper
+ifeq ($(PKG_MANAGER),brew)
+WATCHMAN_BINARY := /usr/local/bin/watchman
+RND_BINARY := /Applications/React\ Native\ Debugger.app/Contents/PkgInfo
+FLIPPER_BINARY := /Applications/Flipper.app/Contents/PkgInfo
+endif
+
+INSTALL_TARGETS := smart-sudo \
+	$(WATCHMAN_BINARY) \
+	$(RND_BINARY) \
+	$(FLIPPER_BINARY)
+ifeq ($(PLATFORM),linux)
+INSTALL_TARGETS += \
+	$(HOME)/.local/share/applications/react-native-debugger.desktop
+endif
+
 .PHONY: install
 install: | sudo \
-	/usr/bin/watchman \
-	/usr/bin/react-native-debugger \
-	$(HOME)/.local/share/applications/react-native-debugger.desktop
+	$(INSTALL_TARGETS)
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/watchman:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y watchman
-else
-/usr/bin/watchman: not-supported
-endif
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/flipper:
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/react-native-debugger:
 	@curl -Lo $(_TMP_PATH)/rnd.deb \
 		https://github.com/jhen0409/react-native-debugger/releases/download/v$(RND_VERSION)/react-native-debugger_$(RND_VERSION)_amd64.deb
@@ -25,6 +41,21 @@ endif
 	@$(SUDO) dpkg -i $(_TMP_PATH)/rnd.deb || true
 	@$(SUDO) $(APT) install -f -y
 	@$(SUDO) dpkg -i $(_TMP_PATH)/rnd.deb
+else
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/watchman:
+	@$(BREW) install $(@F)
+/usr/local/bin/react-native-debugger:
+	@$(BREW) install --cask $(@F)
+/Applications/Flipper.app/Contents/PkgInfo:
+	@$(BREW) install --cask $(@F)
+endif
+
+/usr/bin/watchman: not-supported
+/usr/bin/react-native-debugger: not-supported
+endif
+
 $(HOME)/.local/share/applications/react-native-debugger.desktop:
 	@sed 's|^Exec=react-native-debugger %U$$|Exec=xrun react-native-debugger %U|g' \
 		/usr/share/applications/react-native-debugger.desktop > $@

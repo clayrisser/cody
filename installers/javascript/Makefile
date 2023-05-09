@@ -10,12 +10,20 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
+ifeq ($(PKG_MANAGER),brew)
+install: | /usr/local/bin/node \
+	/usr/local/bin/yarn \
+	$(HOME)/.nvm/nvm-exec \
+	code-extensions
+else
 install: | sudo \
 	/usr/bin/node \
 	/usr/bin/npm \
 	/usr/local/bin/yarn \
 	$(HOME)/.nvm/nvm-exec \
 	code-extensions
+endif
+
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/node:
 	@$(call apt-update)
@@ -24,11 +32,22 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y npm
 else
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/node:
+	@$(BREW) install nodejs
+/usr/local/bin/npm:
+	@$(BREW) install npm
+/usr/local/bin/yarn:
+	@$(BREW) install yarn
+else
+/usr/local/bin/yarn:
+	@$(SUDO) /usr/bin/npm install -g yarn
+endif
+
 /usr/bin/node: not-supported
 /usr/bin/npm: not-supported
 endif
-/usr/local/bin/yarn:
-	@$(SUDO) /usr/bin/npm install -g yarn
 $(HOME)/.nvm/nvm-exec:
 	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 

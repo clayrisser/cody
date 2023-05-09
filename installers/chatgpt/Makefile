@@ -1,5 +1,6 @@
 NAME := chatgpt
-DEPENDS_ON :=
+DEPENDS_ON := \
+	python
 
 include $(CODY)
 
@@ -7,7 +8,6 @@ include $(CODY)
 install: | $(HOME)/.local/bin/chatgpt
 $(HOME)/.local/bin/chatgpt:
 	@pipx install git+https://github.com/mmabrouk/chatgpt-wrapper
-	@playwright install
 
 .PHONY: uninstall
 uninstall:
