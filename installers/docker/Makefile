@@ -62,6 +62,8 @@ endif
 /usr/bin/docker-credential-pass:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y golang-docker-credential-helpers
+/usr/local/bin/podman-compose:
+	@pipx install podman-compose
 else
 
 ifeq ($(PKG_MANAGER),brew)
@@ -75,7 +77,7 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 else
 /usr/local/bin/podman-compose:
-	@$(SUDO) $(PIP) install podman-compose $(PIP_ARGS)
+	@pipx install podman-compose
 endif
 
 /usr/bin/buildah: not-supported
