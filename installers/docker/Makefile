@@ -1,12 +1,13 @@
 NAME := docker
 DEPENDS_ON := \
-	python \
-	vscode
+	python
 CODE_EXTENSIONS := \
 	ms-azuretools.vscode-docker
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 ifneq ($(CODE),codium)
 CODE_EXTENSIONS := \

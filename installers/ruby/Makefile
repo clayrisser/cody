@@ -1,11 +1,12 @@
 NAME := ruby
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	rebornix.ruby
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 install: | sudo $(HOME)/.rvm/bin/rvm code-extensions

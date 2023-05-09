@@ -1,13 +1,14 @@
 NAME := kube
 DEPENDS_ON := \
 	docker \
-	openlens \
-	vscode
+	openlens
 CODE_EXTENSIONS := \
 	ms-kubernetes-tools.vscode-kubernetes-tools
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 install: | smart-sudo \

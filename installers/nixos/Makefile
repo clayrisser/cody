@@ -6,6 +6,8 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+DEPENDS_ON += $(CODE)
+
 .PHONY: install
 install: | sudo \
 	/nix/var/nix/gc.lock \

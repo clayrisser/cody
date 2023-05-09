@@ -1,13 +1,14 @@
 NAME := debian
 DEPENDS_ON := \
 	core \
-	python \
-	vscode
+	python
 CODE_EXTENSIONS := \
 	dawidd6.debian-vscode
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 ifneq (1,$(IS_WSL))
 DEPENDS_ON += virtualbox

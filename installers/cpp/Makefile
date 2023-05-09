@@ -1,13 +1,14 @@
 NAME := cpp
 DEPENDS_ON := \
-	core \
-	vscode
+	core
 CODE_EXTENSIONS := \
 	jeff-hykin.better-cpp-syntax \
 	twxs.cmake
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 ifeq ($(PKG_MANAGER),brew)

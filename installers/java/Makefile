@@ -1,12 +1,13 @@
 NAME := java
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	redhat.java \
 	wmanth.jar-viewer
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 install: | sudo \

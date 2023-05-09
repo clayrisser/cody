@@ -1,11 +1,12 @@
 NAME := terraform
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	hashicorp.terraform
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 TERRAFORM_BINARY := /usr/bin/terraform
 ifeq ($(PKG_MANAGER),brew)

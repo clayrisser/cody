@@ -1,11 +1,12 @@
 NAME := php
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	xdebug.php-pack
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 install: | /usr/bin/composer \

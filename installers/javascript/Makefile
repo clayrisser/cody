@@ -1,6 +1,5 @@
 NAME := javascript
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	amodio.tsl-problem-matcher \
 	dbaeumer.vscode-eslint \
@@ -8,6 +7,8 @@ CODE_EXTENSIONS := \
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 .PHONY: install
 ifeq ($(PKG_MANAGER),brew)

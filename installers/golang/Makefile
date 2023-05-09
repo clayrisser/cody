@@ -1,12 +1,13 @@
 NAME := golang
 GO_VERSION := 1.17.6
-DEPENDS_ON := \
-	vscode
+DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	golang.go
 
 include $(CODY)
 include $(SHARED)/code/code.mk
+
+DEPENDS_ON += $(CODE)
 
 ifneq ($(PLATFORM),linux)
 DEPENDS_ON += cpp
