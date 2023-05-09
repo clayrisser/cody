@@ -17,8 +17,8 @@ ifeq ($(PLATFORM),darwin)
 	@curl -L https://nixos.org/nix/install | sh
 else
 ifeq (1,$(IS_WSL))
-	@curl -L https://nixos.org/nix/install | sh -s --no-daemon
+	@curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
 else
-	@curl -L https://nixos.org/nix/install | sh -s --daemon
+	@curl -L https://nixos.org/nix/install | sh -s -- --daemon
 endif
 endif
