@@ -44,6 +44,9 @@ else
 /usr/local/bin/codium: not-supported
 endif
 ifeq ($(PKG_MANAGER),apt-get)
+ifeq (1,$(IS_WSL))
+/usr/bin/codium: ;
+else
 /usr/bin/codium:
 	@wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
 		| gpg --dearmor \
@@ -52,6 +55,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 		| $(SUDO) tee /etc/apt/sources.list.d/vscodium.list
 	@$(SUDO) $(APT) update
 	@$(SUDO) $(APT) install -y codium
+endif
 else
 /usr/bin/codium: not-supported
 endif
