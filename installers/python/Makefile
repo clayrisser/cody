@@ -53,11 +53,14 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/pipx:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y \
-		pipx \
-		python3-venv
+		pipx
 /usr/local/bin/poetry:
 	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
 /usr/local/bin/pipx:
+ifeq ($(PKG_MANAGER),apt-get)
+	@$(SUDO) $(APT) install -y \
+		python3-venv
+endif
 	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
 	@echo 'export PATH=$$PATH:$$HOME/.local/bin' >> $(HOME)/.zshrc
 else
