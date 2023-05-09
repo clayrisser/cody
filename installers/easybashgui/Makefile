@@ -21,6 +21,6 @@ uninstall: | sudo
 	@cd $(_TMP_PATH) && \
 		curl -L -o easybashgui.tar.gz \
 			https://github.com/BashGui/easybashgui/archive/refs/tags/$(EBG_VERSION).tar.gz && \
-		tar -xzf easybashgui.tar.gz
+		tar -xzf easybashgui.tar.gz && \
 		cd easybashgui-$(EBG_VERSION) && \
 		$(SUDO) make uninstall
