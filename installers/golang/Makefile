@@ -8,10 +8,19 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+ifneq ($(PLATFORM),linux)
+DEPENDS_ON += cpp
+endif
+
 .PHONY: install
+ifeq ($(PLATFORM),darwin)
+install: | $(HOME)/.gvm/bin/gvm \
+	code-extensions
+else
 install: | /usr/bin/bison \
 	$(HOME)/.gvm/bin/gvm \
 	code-extensions
+endif
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/bison:
 	@$(call apt-update)
@@ -21,8 +30,13 @@ else
 endif
 $(HOME)/.gvm/bin/gvm:
 	@curl -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash
-	@$(HOME)/.gvm/bin/gvm install go$(GO_VERSION) -B
-	@$(HOME)/.gvm/bin/gvm use go$(GO_VERSION) --default
+	@echo '[[ -s "$$HOME/.gvm/scripts/gvm" ]] && source "$$HOME/.gvm/scripts/gvm"' >> $(HOME)/.zshrc
+ifeq ($(PLATFORM),linux)
+	@. $(HOME)/.gvm/scripts/gvm; gvm install go$(GO_VERSION) -B
+else
+	@. $(HOME)/.gvm/scripts/gvm; gvm install go$(GO_VERSION)
+endif
+	@. $(HOME)/.gvm/scripts/gvm; gvm use go$(GO_VERSION) --default
 
 .PHONY: uninstall
 uninstall:

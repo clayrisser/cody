@@ -10,14 +10,26 @@ include $(CODY)
 include $(SHARED)/code/code.mk
 
 .PHONY: install
-install: | sudo \
+install: | smart-sudo \
 	/usr/local/bin/kubectl \
 	/usr/local/bin/helm \
-	$(HOME)/.krew/bin/kubectl-krew \
 	/usr/local/bin/kubectx \
 	/usr/local/bin/flux \
 	/usr/local/bin/kops \
+	$(HOME)/.krew/bin/kubectl-krew \
 	code-extensions
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/kubectl:
+	@$(BREW) install $(@F)
+/usr/local/bin/helm:
+	@$(BREW) install $(@F)
+/usr/local/bin/kubectx:
+	@$(BREW) install $(@F)
+/usr/local/bin/flux:
+	@$(BREW) install $(@F)
+/usr/local/bin/kops:
+	@$(BREW) install $(@F)
+else
 /usr/local/bin/kubectl:
 	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
 		curl -LO "https://dl.k8s.io/release/$$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
@@ -26,11 +38,6 @@ install: | sudo \
 		$(SUDO) install -o root -g root -m 0755 kubectl $@
 /usr/local/bin/helm:
 	@curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-$(HOME)/.krew/bin/kubectl-krew:
-	@cd $(_TMP_PATH) && \
-		curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" && \
-		tar zxvf "krew-linux_amd64.tar.gz" && \
-		./krew-linux_amd64 install krew
 /usr/local/bin/kubectx:
 	@$(SUDO) git clone https://github.com/ahmetb/kubectx /opt/kubectx
 	@$(SUDO) ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
@@ -52,13 +59,33 @@ $(HOME)/.krew/bin/kubectl-krew:
 			)/kops-linux-amd64 && \
 		chmod +x kops && \
 		$(SUDO) mv kops $@
+endif
+ifeq ($(PLATFORM),linux)
+$(HOME)/.krew/bin/kubectl-krew:
+	@cd $(_TMP_PATH) && \
+		curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" && \
+		tar zxvf "krew-linux_amd64.tar.gz" && \
+		./krew-linux_amd64 install krew
+else
+ifeq ($(PLATFORM),darwin)
+$(HOME)/.krew/bin/kubectl-krew:
+	@cd $(_TMP_PATH) && \
+		curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-darwin_amd64.tar.gz" && \
+		tar zxvf "krew-darwin_amd64.tar.gz" && \
+		./krew-darwin_amd64 install krew
+else
+$(HOME)/.krew/bin/kubectl-krew: not-supported
+endif
+endif
 
 .PHONY: uninstall
 uninstall:
 	-@$(SUDO) rm -rf \
 		$(HOME)/.krew \
 		$(ZSH)/completions/_kubectx.zsh \
-		$(ZSH)/completions/_kubens.zsh \
+		$(ZSH)/completions/_kubens.zsh
+ifneq ($(PLATFORM),brew)
+	-@$(SUDO) rm -rf \
 		/opt/kubectx \
 		/usr/local/bin/flux \
 		/usr/local/bin/helm \
@@ -66,3 +93,4 @@ uninstall:
 		/usr/local/bin/kubectl \
 		/usr/local/bin/kubectx \
 		/usr/local/bin/kubens
+endif

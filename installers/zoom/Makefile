@@ -4,10 +4,15 @@ DEPENDS_ON := \
 include $(CODY)
 
 .PHONY: install
+ifeq ($(PKG_MANAGER),brew)
+install: | sudo \
+	/usr/local/bin/zoom
+else
 install: | \
 	/bin/zoom \
 	/usr/src/v4l2loopback-0.12.5/v4l2loopback.c \
 	/usr/bin/obs
+endif
 ifeq ($(PKG_MANAGER),apt-get)
 /bin/zoom:
 	@$(SUDO) true && \
@@ -33,6 +38,10 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
 		obs-studio
 else
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/zoom:
+	@$(BREW) install --cask zoom
+endif
 /bin/zoom: not-supported
 /usr/src/v4l2loopback-0.12.5/v4l2loopback.c: not-supported
 /usr/bin/obs: not-supported

@@ -2,9 +2,8 @@ NAME := solidity
 DEPENDS_ON := \
 	vscode
 CODE_EXTENSIONS := \
-	RemixProject.ethereum-remix \
 	juanblanco.solidity \
-	tintinweb.solidity-visual-auditor
+	nomicfoundation.hardhat-solidity
 
 include $(CODY)
 include $(SHARED)/code/code.mk

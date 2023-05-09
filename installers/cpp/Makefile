@@ -15,11 +15,11 @@ install: | /usr/local/opt/llvm/bin/clang \
 	/usr/local/bin/autoconf \
 	/usr/local/bin/automake \
 	/usr/local/bin/bazel \
-	/usr/local/bin/bison \
 	/usr/local/bin/cmake \
 	/usr/local/bin/gcc-13 \
 	/usr/local/bin/glibtool \
 	/usr/local/bin/ninja \
+	/usr/local/opt/bison/bin/bison \
 	code-extensions
 else
 install: | sudo \
@@ -78,7 +78,7 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/bazel:
 	@$(BREW) install $(@F)
-/usr/local/bin/bison:
+/usr/local/opt/bison/bin/bison:
 	@$(BREW) install $(@F)
 endif
 

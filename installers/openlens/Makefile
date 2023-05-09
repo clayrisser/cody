@@ -5,8 +5,12 @@ OPENLENS_VERSION := 6.4.7
 include $(CODY)
 
 .PHONY: install
+ifeq ($(PKG_MANAGER),brew)
+install: | /Applications/OpenLens.app/Contents/Info.plist
+else
 install: | sudo \
 	/usr/bin/openlens
+endif
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/openlens:
 	@$(call apt-update)
@@ -15,6 +19,12 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -f
 	@$(SUDO) dpkg -i $(_TMP_PATH)/openlens.deb
 else
+
+ifeq ($(PKG_MANAGER),brew)
+/Applications/OpenLens.app/Contents/Info.plist:
+	@$(BREW) install --cask $(@F)
+endif
+
 /usr/bin/openlens: not-supported
 endif
 
