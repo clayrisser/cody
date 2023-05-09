@@ -1,9 +1,9 @@
 NAME := react-native
 RND_VERSION := 0.13.0
 DEPENDS_ON := \
-	cinch \
+	android-studio \
 	javascript \
-	android-studio
+	python
 
 include $(CODY)
 
@@ -20,9 +20,15 @@ INSTALL_TARGETS := smart-sudo \
 	$(WATCHMAN_BINARY) \
 	$(RND_BINARY) \
 	$(FLIPPER_BINARY)
+ifeq ($(PLATFORM),darwin)
+INSTALL_TARGETS += \
+$(HOME)/.local/bin/idb
+endif
 ifeq ($(PLATFORM),linux)
 INSTALL_TARGETS += \
 	$(HOME)/.local/share/applications/react-native-debugger.desktop
+DEPENDS_ON += \
+	cinch
 endif
 
 .PHONY: install
@@ -51,6 +57,10 @@ ifeq ($(PKG_MANAGER),brew)
 /Applications/Flipper.app/Contents/PkgInfo:
 	@$(SUDO) xcode-select --switch /Applications/Xcode.app
 	@$(BREW) install --cask $(@F)
+$(HOME)/.local/bin/idb:
+	-@$(BREW) tap facebook/fb
+	-@$(BREW) install idb-companion
+	@pipx install fb-idb
 endif
 
 /usr/bin/watchman: not-supported
