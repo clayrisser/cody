@@ -12,10 +12,17 @@ PIPX_BINARY = /usr/local/bin/pipx
 POETRY_BINARY := /usr/local/bin/poetry
 ifeq ($(CODENAME),bookworm)
 PIPX_BINARY = /usr/bin/pipx
-# POETRY_BINARY = /usr/bin/poetry
 endif
 
 .PHONY: install
+ifeq ($(PKG_MANAGER),brew)
+install: | /usr/local/bin/python3 \
+	/usr/local/bin/pip3 \
+	$(PIPX_BINARY) \
+	$(POETRY_BINARY) \
+	$(HOME)/.pyenv/bin/pyenv \
+	code-extensions
+else
 install: | sudo \
 	/usr/bin/python3 \
 	/usr/bin/python \
@@ -24,6 +31,8 @@ install: | sudo \
 	$(POETRY_BINARY) \
 	$(HOME)/.pyenv/bin/pyenv \
 	code-extensions
+endif
+
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/python3:
 	@$(call apt-update)
@@ -46,16 +55,30 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) $(APT) install -y \
 		pipx
 else
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/pip3:
+	@$(BREW) install pipenv
+/usr/local/bin/pipx:
+	@$(BREW) install pipx
+/usr/local/bin/poetry:
+	@$(BREW) install poetry
+/usr/local/bin/python3:
+	@$(BREW) install python
+else
+/usr/local/bin/poetry:
+	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
+/usr/local/bin/pipx:
+	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
+endif
+
 /usr/bin/pip3: not-supported
 /usr/bin/pipx: not-supported
 /usr/bin/poetry: not-supported
 /usr/bin/python3: not-supported
 /usr/bin/python: not-supported
 endif
-/usr/local/bin/poetry:
-	@$(SUDO) $(PIP) install poetry $(PIP_ARGS)
-/usr/local/bin/pipx:
-	@$(SUDO) $(PIP) install pipx $(PIP_ARGS)
+
 $(HOME)/.pyenv/bin/pyenv:
 ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)

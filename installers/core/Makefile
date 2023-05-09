@@ -14,8 +14,10 @@ endif
 ifeq ($(PKG_MANAGER),brew)
 install: | /usr/local/bin/convert \
 	/usr/bin/curl \
+	/usr/local/bin/ggrep \
 	/usr/local/bin/git \
 	/usr/local/bin/git-lfs \
+	/usr/local/bin/gsed \
 	/usr/local/bin/jq \
 	/usr/local/bin/remake \
 	$(YQ_BINARY)
@@ -67,6 +69,10 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install git
 /usr/local/bin/git-lfs:
 	@$(BREW) install git-lfs
+/usr/local/bin/gsed:
+	@$(BREW) install gsed
+/usr/local/bin/ggrep:
+	@$(BREW) install grep
 else
 /usr/local/bin/jq: not-supported
 /usr/local/bin/convert: not-supported

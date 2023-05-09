@@ -118,6 +118,11 @@ define not_supported
 	echo $1 installer for $(FLAVOR) $(PLATFORM) is not not supported && exit 1
 endef
 
+SED := sed
+ifeq ($(PLATFORM),darwin)
+SED := gsed
+endif
+
 APT ?= apt-get
 BREW ?= brew
 PIP ?= $(shell pip3 --version >/dev/null && echo pip3 || echo pip)

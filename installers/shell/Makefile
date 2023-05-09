@@ -5,13 +5,22 @@ DEPENDS_ON := \
 
 include $(CODY)
 
+ifeq ($(PLATFORM),darwin)
+CURRENT_SHELL := $(shell dscl . -read /Users/$(USER) UserShell | cut -d' ' -f2)
+else
 CURRENT_SHELL := $(shell getent passwd $(USER) | cut -d':' -f7)
+endif
 ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom
 
-.PHONY: install chsh
-install: | sudo \
-	/usr/bin/direnv \
+INSTALL_TARGETS := sudo \
 	/usr/bin/zsh \
+	/usr/bin/direnv
+ifeq ($(PKG_MANAGER),brew)
+INSTALL_TARGETS := /usr/local/bin/zsh \
+	/usr/local/bin/direnv
+endif
+.PHONY: install chsh
+install: | $(INSTALL_TARGETS) \
 	chsh \
 	$(HOME)/.oh-my-zsh/oh-my-zsh.sh \
 	$(ZSH_CUSTOM)/themes/spaceship.zsh-theme \
@@ -20,24 +29,38 @@ install: | sudo \
 	$(HOME)/.autojump/etc/profile.d/autojump.sh \
 	$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh \
 	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
+
 ifeq ($(PKG_MANAGER),apt-get)
+/usr/bin/zsh:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y zsh
 /usr/bin/direnv:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y direnv
 	@(cat $(HOME)/.zshrc | grep -q direnv) || \
 		echo 'eval "$$(direnv hook zsh)"' >> $(HOME)/.zshrc
-/usr/bin/zsh:
-	@$(call apt-update)
-	@$(SUDO) $(APT) install -y zsh
 else
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/zsh:
+	@$(BREW) install zsh
+/usr/local/bin/direnv:
+	@$(BREW) install direnv
+	@(cat $(HOME)/.zshrc | grep -q direnv) || \
+		echo 'eval "$$(direnv hook zsh)"' >> $(HOME)/.zshrc
+endif
 /usr/bin/direnv: not-supported
 /usr/bin/zsh: not-supported
 endif
-ifneq ($(CURRENT_SHELL),/usr/bin/zsh)
-chsh:
-	@$(SUDO) usermod -s /usr/bin/zsh $(USER)
-else
+
+ifeq ($(findstring zsh,$(CURRENT_SHELL)),zsh)
 chsh: ;
+else
+chsh:
+ifeq ($(PLATFORM),darwin)
+	@usermod -s /bin/zsh $(USER)
+else
+	@$(SUDO) usermod -s /usr/bin/zsh $(USER)
+endif
 endif
 $(HOME)/.oh-my-zsh/oh-my-zsh.sh:
 	@echo Y | sh -c \
@@ -46,7 +69,7 @@ $(ZSH_CUSTOM)/themes/spaceship.zsh-theme:
 	@git clone https://github.com/spaceship-prompt/spaceship-prompt.git \
 		"$(ZSH_CUSTOM)/themes/spaceship-prompt" --depth=1
 	@ln -s "$(ZSH_CUSTOM)/themes/spaceship-prompt/spaceship.zsh-theme" "$(ZSH_CUSTOM)/themes/spaceship.zsh-theme"
-	@sed -i 's|ZSH_THEME=.*|ZSH_THEME="spaceship"|g' $(HOME)/.zshrc
+	@$(SED) -i 's|ZSH_THEME=.*|ZSH_THEME="spaceship"|g' $(HOME)/.zshrc
 $(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh:
 	@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 		$(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting
