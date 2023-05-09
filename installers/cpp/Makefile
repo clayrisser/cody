@@ -30,7 +30,7 @@ install: | sudo \
 	/usr/bin/bison \
 	/usr/bin/cmake \
 	/usr/bin/gcc \
-	/usr/bin/libtool \
+	/usr/bin/libtoolize \
 	/usr/bin/ninja \
 	code-extensions
 endif
@@ -48,9 +48,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/autoconf:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
-/usr/bin/libtool:
+/usr/bin/libtoolize:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y $(@F)
+	@$(SUDO) $(APT) install -y libtool
 /usr/bin/ninja:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y ninja-build
