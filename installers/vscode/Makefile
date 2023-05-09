@@ -11,15 +11,15 @@ CODE_EXTENSIONS := \
 	hediet.vscode-drawio \
 	mechatroner.rainbow-csv \
 	mikestead.dotenv \
+	mkhl.direnv \
 	ms-vscode.hexeditor \
 	ms-vscode.makefile-tools \
 	naumovs.color-highlight \
 	psioniq.psi-header \
 	redhat.fabric8-analytics \
 	redhat.vscode-xml \
-	rubymaniac.vscode-direnv \
+	rubberduck.rubberduck-vscode \
 	streetsidesoftware.code-spell-checker \
-	timkmecl.codegpt3 \
 	tintinweb.vscode-decompiler \
 	ultram4rine.vscode-choosealicense \
 	vspacecode.vspacecode \
