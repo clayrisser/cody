@@ -149,7 +149,7 @@ _uninstall_cody() {
 }
 
 _ensure_make() {
-    if $MAKE -v >/dev/null 2>/dev/null; then
+    if which $MAKE >/dev/null 2>/dev/null; then
         return 0
     fi
     if apt-get -v >/dev/null 2>/dev/null; then
@@ -160,7 +160,7 @@ _ensure_make() {
 }
 
 _ensure_sed() {
-    if $SED -v >/dev/null 2>/dev/null; then
+    if which $SED >/dev/null 2>/dev/null; then
         return 0
     fi
     if apt-get -v >/dev/null 2>/dev/null; then
