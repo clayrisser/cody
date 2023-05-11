@@ -66,7 +66,8 @@ $(HOME)/.nvm/nvm-exec:
 .PHONY: uninstall
 uninstall: | sudo
 	-@$(SUDO) /usr/bin/npm uninstall -g yarn
-	@rm -rf $(HOME)/.nvm
+	-@$(SUDO) rm -f /usr/local/bin/yarn2init
+	-@rm -rf $(HOME)/.nvm
 ifneq (,$(wildcard $(HOME)/.bashrc))
 	@sed -i '/^export NVM_DIR=.*/d' $(HOME)/.bashrc
 	@sed -i '/^\[ -s "$$NVM_DIR\/nvm.sh" \].*/d' $(HOME)/.bashrc
