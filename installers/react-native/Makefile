@@ -7,7 +7,7 @@ DEPENDS_ON := \
 include $(CODY)
 
 ifneq (1,$(IS_WSL))
-DEPENDS_ON += ndroid-studio
+DEPENDS_ON += android-studio
 endif
 
 WATCHMAN_BINARY := /usr/bin/watchman
