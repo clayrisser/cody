@@ -21,6 +21,7 @@ install: | /usr/local/opt/llvm/bin/clang \
 	/usr/local/bin/cmake \
 	/usr/local/bin/gcc-13 \
 	/usr/local/bin/glibtool \
+	/usr/local/bin/meson \
 	/usr/local/bin/ninja \
 	/usr/local/opt/bison/bin/bison \
 	code-extensions
@@ -33,6 +34,7 @@ install: | sudo \
 	/usr/bin/cmake \
 	/usr/bin/gcc \
 	/usr/bin/libtoolize \
+	/usr/bin/meson \
 	/usr/bin/ninja \
 	code-extensions
 endif
@@ -53,6 +55,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/libtoolize:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y libtool
+/usr/bin/meson:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/ninja:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y ninja-build
@@ -77,6 +82,8 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/glibtool:
 	@$(BREW) install libtool
+/usr/local/bin/meson:
+	@$(BREW) install $(@F)
 /usr/local/bin/ninja:
 	@$(BREW) install $(@F)
 /usr/local/bin/bazel:
