@@ -1,7 +1,9 @@
-export NULL := /dev/null
 export NOFAIL := 2>$(NULL) || true
 export NOOUT := >$(NULL) 2>$(NULL)
+export NULL := /dev/null
+export WHICH := command -v
 export ARCH := unknown
+export CODENAME := unknown
 export FLAVOR := unknown
 export PKG_MANAGER := unknown
 export PLATFORM := unknown
@@ -16,7 +18,10 @@ ifneq (,$(_REPO_PATH))
 	SHARED = $(_REPO_PATH)/shared
 endif
 
-CODENAME :=
+define ternary
+$(shell $1 $(NOOUT) && $(ECHO) $2|| $(ECHO) $3)
+endef
+
 ifeq ($(OS),Windows_NT) # WINDOWS
 	export HOME := $(HOMEDRIVE)$(HOMEPATH)
 	PLATFORM = win32
@@ -72,7 +77,7 @@ else
 				endif
 			endif
 			ifeq ($(FLAVOR),rhel)
-				PKG_MANAGER = yum
+				PKG_MANAGER = $(call ternary,$(WHICH) microdnf,microdnf,$(call ternary,$(WHICH) dnf,dnf,yum))
 			endif
 			ifeq ($(FLAVOR),suse)
 				PKG_MANAGER = zypper
@@ -112,6 +117,9 @@ else
 	ifeq ($(PLATFORM),darwin)
 		PKG_MANAGER = brew
 	endif
+endif
+ifeq ($(PKG_MANAGER),unknown)
+	PKG_MANAGER = $(call ternary,$(WHICH) apt-get,apt-get,$(call ternary,$(WHICH) apk,apk,$(call ternary,$(WHICH) yum,yum,$(call ternary,$(WHICH) brew,brew,$(call ternary,$(WHICH) microdnf,microdnf,$(call ternary,$(WHICH) dnf,dnf,unknown))))))
 endif
 
 define not_supported
