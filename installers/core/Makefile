@@ -22,6 +22,7 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/remake \
 	/usr/local/bin/gpg \
 	/usr/local/bin/wget \
+	/usr/local/bin/mkpm \
 	$(YQ_BINARY)
 else
 install: | sudo \
@@ -35,6 +36,7 @@ install: | sudo \
 	/usr/bin/vim \
 	/usr/bin/wget \
 	/usr/bin/gpg \
+	/usr/local/bin/mkpm \
 	$(YQ_BINARY)
 endif
 
@@ -134,5 +136,10 @@ else
 		$(SUDO) chmod +x $@
 endif
 
+/usr/local/bin/mkpm: | sudo
+	@$(shell curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) \
+		https://gitlab.com/risserlabs/community/mkpm/-/raw/main/install.sh 2>/dev/null | sh
+
 .PHONY: uninstall
-uninstall: ;
+uninstall:
+	@$(SUDO) rm -f /usr/local/bin/mkpm
