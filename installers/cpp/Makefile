@@ -2,10 +2,11 @@ NAME := cpp
 DEPENDS_ON := \
 	core
 CODE_EXTENSIONS := \
-	ms-vscode.cpptools \
-	ms-vscode.cmake-tools \
 	bazelbuild.vscode-bazel \
-	maelvalais.autoconf
+	maelvalais.autoconf \
+	mesonbuild.mesonbuild \
+	ms-vscode.cmake-tools \
+	ms-vscode.cpptools
 
 include $(CODY)
 include $(SHARED)/code/code.mk
