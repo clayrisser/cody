@@ -2,7 +2,6 @@
 
 MAKE=$(echo $(which remake 2>&1 >/dev/null && echo remake || echo $(which gmake 2>&1 >/dev/null && echo gmake || echo make)))
 SED=$(echo $(which gsed 2>&1 >/dev/null && echo gsed || echo sed))
-export SHELL_LIBRARY_PATH=$([ -d /usr/lib/easybashgui ] && echo /usr/lib/easybashgui || echo /usr/local/lib/easybashgui)
 export _CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config/cody}"
 export _STATE_PATH="${XDG_STATE_HOME:-$HOME/.local/state}/cody"
 export _INSTALLED_PATH="$_STATE_PATH/installed"
