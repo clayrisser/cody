@@ -1,6 +1,5 @@
 NAME := easybashgui
-DEPENDS_ON := \
-	core
+DEPENDS_ON :=
 EBG_VERSION := 12.0.4
 
 include $(CODY)
