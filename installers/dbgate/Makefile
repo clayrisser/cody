@@ -5,7 +5,7 @@ include $(CODY)
 
 DBGATE_BINARY := /usr/bin/dbgate
 ifeq ($(PKG_MANAGER),brew)
-DBGATE_BINARY := /usr/local/bin/dbgate
+DBGATE_BINARY := /Applications/dbgate.app/Contents/Info.plist
 endif
 
 .PHONY: install
@@ -21,7 +21,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(SUDO) dpkg -i $(_TMP_PATH)/dbgate.deb
 else
 ifeq ($(PKG_MANAGER),brew)
-/usr/local/bin/dbgate:
+/Applications/dbgate.app/Contents/Info.plist:
 	@$(BREW) install --cask dbgate
 endif
 /usr/bin/dbgate: not-supported
