@@ -20,7 +20,7 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/gsed \
 	/usr/local/bin/jq \
 	/usr/local/bin/remake \
-	/usr/local/bin/gnupg \
+	/usr/local/bin/gpg \
 	/usr/local/bin/wget \
 	$(YQ_BINARY)
 else
@@ -95,8 +95,8 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install grep
 /usr/local/bin/wget:
 	@$(BREW) install $(@F)
-/usr/local/bin/gnupg:
-	@$(BREW) install $(@F)
+/usr/local/bin/gpg:
+	@$(BREW) install gnupg
 endif
 
 /usr/bin/jq: not-supported
