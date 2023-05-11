@@ -1,6 +1,7 @@
 #!/bin/sh
 
 alias make=$(echo $(which remake 2>&1 >/dev/null && echo remake || echo $(which gmake 2>&1 >/dev/null && echo gmake || echo make)))
+alias sed=$(echo $(which gsed 2>&1 >/dev/null && echo gsed || echo sed))
 export _CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config/cody}"
 export _STATE_PATH="${XDG_STATE_HOME:-$HOME/.local/state}/cody"
 export _INSTALLED_PATH="$_STATE_PATH/installed"
@@ -100,6 +101,9 @@ _prepare() {
     if ! make -v >/dev/null 2>/dev/null; then
         _install_make
     fi
+    if ! sed -v >/dev/null 2>/dev/null; then
+        _install_sed
+    fi
     _load repos
     if [ ! -d "$_STATE_PATH" ]; then
         mkdir -p "$_STATE_PATH"
@@ -153,6 +157,14 @@ _install_make() {
         sudo apt-get install -y make
     elif brew -v >/dev/null 2>/dev/null; then
         brew install remake
+    fi
+}
+
+_install_sed() {
+    if apt-get -v >/dev/null 2>/dev/null; then
+        sudo apt-get install -y sed
+    elif brew -v >/dev/null 2>/dev/null; then
+        brew install gsed
     fi
 }
 
