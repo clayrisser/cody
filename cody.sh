@@ -1,7 +1,7 @@
 #!/bin/sh
 
-alias make=$(echo $(which remake 2>&1 >/dev/null && echo remake || echo $(which gmake 2>&1 >/dev/null && echo gmake || echo make)))
-alias sed=$(echo $(which gsed 2>&1 >/dev/null && echo gsed || echo sed))
+MAKE=$(echo $(which remake 2>&1 >/dev/null && echo remake || echo $(which gmake 2>&1 >/dev/null && echo gmake || echo make)))
+SED=$(echo $(which gsed 2>&1 >/dev/null && echo gsed || echo sed))
 export _CONFIG_PATH="${XDG_CONFIG_HOME:-$HOME/.config/cody}"
 export _STATE_PATH="${XDG_STATE_HOME:-$HOME/.local/state}/cody"
 export _INSTALLED_PATH="$_STATE_PATH/installed"
@@ -15,7 +15,7 @@ fi
 export _REPO=default
 
 if echo $0 | grep -E "\.sh$" >/dev/null 2>/dev/null; then
-    export _DEBUG_PATH="$(pwd)/$(echo $0 | sed 's|\.\?\/\?[^\/]\+$||g')"
+    export _DEBUG_PATH="$(pwd)/$(echo $0 | $SED 's|\.\?\/\?[^\/]\+$||g')"
 fi
 
 main() {
@@ -59,7 +59,7 @@ _install() {
                 $(echo $0 | grep -E "\.sh$" >/dev/null && echo "sh $0" || echo cody) install $d
             fi
         done
-        ( cd $_REPO_PATH && TARGET=install make -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=install $MAKE -s $_INSTALLER || (echo "failed to install $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -68,7 +68,7 @@ _uninstall() {
     if [ "$_INSTALLER" = "cody" ]; then
         _uninstall_cody
     else
-        ( cd $_REPO_PATH && TARGET=uninstall make -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
+        ( cd $_REPO_PATH && TARGET=uninstall $MAKE -s $_INSTALLER || (echo "failed to uninstall $_INSTALLER :(" && exit 1) ) || exit 1
     fi
 }
 
@@ -79,12 +79,12 @@ _available() {
 }
 
 _installed() {
-    ls $_INSTALLED_PATH 2>/dev/null | sed 's|\s|\n|g' || true | sort
+    ls $_INSTALLED_PATH 2>/dev/null | $SED 's|\s|\n|g' || true | sort
 }
 
 _dependencies() {
     _INSTALLER=$1
-    ( cd $_REPO_PATH && TARGET=dependencies make -s $_INSTALLER ) || exit 1
+    ( cd $_REPO_PATH && TARGET=dependencies $MAKE -s $_INSTALLER ) || exit 1
 }
 
 _reinstall() {
@@ -98,12 +98,8 @@ _prepare() {
     if [ ! -d "$_TMP_PATH" ]; then
         mkdir -p $_TMP_PATH
     fi
-    if ! make -v >/dev/null 2>/dev/null; then
-        _install_make
-    fi
-    if ! sed -v >/dev/null 2>/dev/null; then
-        _install_sed
-    fi
+    _ensure_make
+    _ensure_sed
     _load repos
     if [ ! -d "$_STATE_PATH" ]; then
         mkdir -p "$_STATE_PATH"
@@ -138,21 +134,24 @@ _load_remote() {
 
 _load() {
     (cat $HOME/.config/cody/$1 2>/dev/null || true) | \
-        sed "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | sed "s|$|'|g" > \
+        $SED "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | $SED "s|$|'|g" > \
         "$_TMP_PATH/load_$1.sh"
     . "$_TMP_PATH/load_$1.sh"
 }
 
 _install_cody() {
     _prepare
-    ( cd $_REPO_PATH && make -s install ) || exit 1
+    ( cd $_REPO_PATH && $MAKE -s install ) || exit 1
 }
 
 _uninstall_cody() {
-    ( cd $_REPO_PATH && unset _DEBUG_PATH && _load_remote && make -s uninstall ) || exit 1
+    ( cd $_REPO_PATH && unset _DEBUG_PATH && _load_remote && $MAKE -s uninstall ) || exit 1
 }
 
-_install_make() {
+_ensure_make() {
+    if $MAKE -v >/dev/null 2>/dev/null; then
+        return 0
+    fi
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y make
     elif brew -v >/dev/null 2>/dev/null; then
@@ -160,7 +159,10 @@ _install_make() {
     fi
 }
 
-_install_sed() {
+_ensure_sed() {
+    if $SED -v >/dev/null 2>/dev/null; then
+        return 0
+    fi
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y sed
     elif brew -v >/dev/null 2>/dev/null; then
