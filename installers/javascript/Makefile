@@ -56,12 +56,8 @@ endif
 $(HOME)/.nvm/nvm-exec:
 	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 /usr/local/bin/yarn2init:
-	@cd $(_TMP_PATH) && \
-		curl -L -o yarn2init.tar.gz \
-			https://gitlab.com/risserlabs/community/yarn2init/-/archive/main/yarn2init-main.tar.gz && \
-		tar -xzf yarn2init.tar.gz && \
-		cd yarn2init-main && \
-		$(SUDO) make install
+	@$(SUDO) curl -Lo $@ https://gitlab.com/risserlabs/community/yarn2init/-/raw/main/yarn2init.sh
+	@$(SUDO) chmod +x $@
 
 .PHONY: uninstall
 uninstall: | sudo
