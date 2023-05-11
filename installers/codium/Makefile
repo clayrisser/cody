@@ -32,17 +32,11 @@ CODIUM_BINARY := /usr/local/bin/codium
 endif
 
 .PHONY: install
-install: | smart-sudo \
+install: | sudo \
 	$(HOME)/.config/VSCodium/product.json \
 	$(CODIUM_BINARY) \
 	code-extensions
 
-ifeq ($(PKG_MANAGER),brew)
-/usr/local/bin/codium:
-	@$(BREW) install --cask codium
-else
-/usr/local/bin/codium: not-supported
-endif
 ifeq ($(PKG_MANAGER),apt-get)
 ifeq (1,$(IS_WSL))
 /usr/bin/codium: ;
@@ -59,6 +53,12 @@ endif
 else
 /usr/bin/codium: not-supported
 endif
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/codium:
+	@$(BREW) install --cask codium
+endif
+
 $(HOME)/.config/VSCodium/product.json:
 	@mkdir -p $(HOME)/.config/VSCodium
 	@printf $(PRODUCT_JSON) > $@

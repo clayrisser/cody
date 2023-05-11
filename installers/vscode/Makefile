@@ -28,10 +28,16 @@ CODE_EXTENSIONS := \
 include $(CODY)
 include $(SHARED)/code/code.mk
 
+CODE_BINARY := /usr/bin/code
+ifeq ($(PKG_MANAGER),brew)
+CODE_BINARY := /usr/local/bin/code
+endif
+
 .PHONY: install
 install: | sudo \
-	/usr/bin/code \
+	$(CODE_BINARY) \
 	code-extensions
+
 ifeq ($(PKG_MANAGER),apt-get)
 ifneq (1,$(IS_WSL))
 /usr/bin/code:
@@ -46,6 +52,11 @@ else
 endif
 else
 /usr/bin/code: not-supported
+endif
+
+ifeq ($(PKG_MANAGER),brew)
+/usr/local/bin/code:
+	@$(BREW) install --cask vscode
 endif
 
 .PHONY: uninstall
