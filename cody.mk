@@ -2,6 +2,7 @@ export NOFAIL := 2>$(NULL) || true
 export NOOUT := >$(NULL) 2>$(NULL)
 export NULL := /dev/null
 export WHICH := command -v
+export IS_WSL :=
 export ARCH := unknown
 export CODENAME := unknown
 export FLAVOR := unknown
@@ -93,7 +94,6 @@ else
 			ifeq ($(FLAVOR),alpine)
 				PKG_MANAGER = apk
 			endif
-			IS_WSL :=
 			ifneq (,$(wildcard /proc/sys/fs/binfmt_misc/WSLInterop))
 				IS_WSL := 1
 			endif
