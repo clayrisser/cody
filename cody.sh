@@ -262,7 +262,7 @@ case "$1" in
         shift
         export _COMMAND=installed
     ;;
-    installed)
+    doctor)
         shift
         export _COMMAND=doctor
     ;;
