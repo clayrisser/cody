@@ -38,6 +38,8 @@ main() {
         _available $@
     elif [ "$_COMMAND" = "installed" ]; then
         _installed $@
+    elif [ "$_COMMAND" = "doctor" ]; then
+        _doctor $@
     elif [ "$_COMMAND" = "wizard" ]; then
         _wizard $@
     fi
@@ -174,6 +176,12 @@ _wizard() {
     sh "$_REPO_PATH/wizard.sh"
 }
 
+_doctor() {
+    for i in $(_installed); do
+        _install $i
+    done
+}
+
 if ! test $# -gt 0; then
     set -- "-h"
 fi
@@ -195,6 +203,7 @@ while test $# -gt 0; do
             echo "    dependencies <INSTALLER>    dependencies required by installer"
             echo "    available                   list available installers"
             echo "    installed                   list installed installers"
+            echo "    doctor                      fix potential problems"
             echo "    wizard                      run cody wizard"
             exit 0
         ;;
@@ -252,6 +261,10 @@ case "$1" in
     installed)
         shift
         export _COMMAND=installed
+    ;;
+    installed)
+        shift
+        export _COMMAND=doctor
     ;;
     wizard)
         shift
