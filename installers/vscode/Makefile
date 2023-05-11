@@ -56,7 +56,7 @@ endif
 
 ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/code:
-	@$(BREW) install --cask vscode
+	@$(BREW) install --cask visual-studio-code
 endif
 
 .PHONY: uninstall
