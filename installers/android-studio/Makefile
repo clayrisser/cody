@@ -11,7 +11,8 @@ include $(CODY)
 .PHONY: install
 ifeq ($(PLATFORM),linux)
 install: | sudo \
-	/var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop
+	/var/lib/flatpak/exports/share/applications/$(FLATPAK_PACKAGE).desktop \
+	$(HOME)/.android/advancedFeatures.ini
 else
 ifeq ($(PKG_MANAGER),brew)
 install: | /Applications/Android\ Studio.app/Contents/Info.plist
@@ -36,6 +37,11 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install --cask android-studio
 endif
 endif
+
+$(HOME)/.android/advancedFeatures.ini:
+	@mkdir -p $(HOME)/.android
+	@echo 'Vulkan = off' >> $@
+	@echo 'GLDirectMem = on' >> $@
 
 .PHONY: uninstall
 uninstall:
