@@ -10,10 +10,10 @@ install: | sudo \
 	/Applications/OpenLens.app/Contents/Info.plist
 else
 install: | sudo \
-	/usr/bin/openlens
+	/usr/bin/open-lens
 endif
 ifeq ($(PKG_MANAGER),apt-get)
-/usr/bin/openlens:
+/usr/bin/open-lens:
 	@$(call apt-update)
 	@curl -Lo $(_TMP_PATH)/openlens.deb https://github.com/MuhammedKalkan/OpenLens/releases/download/v$(OPENLENS_VERSION)/OpenLens-$(OPENLENS_VERSION).amd64.deb
 	@$(SUDO) dpkg -i $(_TMP_PATH)/openlens.deb || true
@@ -26,7 +26,7 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install --cask $(@F)
 endif
 
-/usr/bin/openlens: not-supported
+/usr/bin/open-lens: not-supported
 endif
 
 .PHONY: uninstall
