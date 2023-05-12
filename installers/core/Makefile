@@ -60,9 +60,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 	@git lfs install
-/usr/bin/snapd:
+/usr/bin/snap:
 	@$(call apt-update)
-	@$(SUDO) $(APT) install -y $(@F)
+	@$(SUDO) $(APT) install -y snapd
 /usr/bin/curl:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
@@ -106,7 +106,7 @@ endif
 /usr/bin/make: not-supported
 /usr/bin/git: not-supported
 /usr/bin/git-lfs: not-supported
-/usr/bin/snapd: not-supported
+/usr/bin/snap: not-supported
 /usr/bin/vim: not-supported
 /usr/bin/wget: not-supported
 /usr/bin/gpg: not-supported
@@ -121,7 +121,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 ifeq (1,$(IS_WSL))
 /usr/bin/yq: not-supported
 else
-/usr/bin/yq: | /usr/bin/snapd
+/usr/bin/yq: | /usr/bin/snap
 	@$(SUDO) snap install yq
 endif
 else
