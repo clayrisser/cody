@@ -119,10 +119,10 @@ endif
 
 ifeq ($(PKG_MANAGER),apt-get)
 ifeq (1,$(IS_WSL))
+/usr/bin/yq: not-supported
+else
 /usr/bin/yq: | /usr/bin/snapd
 	@$(SUDO) snap install yq
-else
-/usr/bin/yq: not-supported
 endif
 else
 /usr/bin/yq: not-supported
