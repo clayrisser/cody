@@ -6,7 +6,7 @@ include $(CODY)
 YQ_BINARY := /usr/local/bin/yq
 ifeq ($(PKG_MANAGER),apt-get)
 ifneq (1,$(IS_WSL))
-YQ_BINARY := /usr/bin/yq
+YQ_BINARY := /snap/bin/yq
 endif
 endif
 
@@ -119,13 +119,13 @@ endif
 
 ifeq ($(PKG_MANAGER),apt-get)
 ifeq (1,$(IS_WSL))
-/usr/bin/yq: not-supported
+/snap/bin/yq: not-supported
 else
-/usr/bin/yq: | /usr/bin/snap
+/snap/bin/yq: | /usr/bin/snap
 	@$(SUDO) snap install yq
 endif
 else
-/usr/bin/yq: not-supported
+/snap/bin/yq: not-supported
 endif
 ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/yq:
