@@ -1,6 +1,7 @@
 NAME := vscode
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
+	ahmadalli.vscode-nginx-conf \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
