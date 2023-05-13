@@ -14,18 +14,20 @@ endif
 ifeq ($(PKG_MANAGER),brew)
 install: | /usr/local/bin/convert \
 	/usr/bin/curl \
+	/usr/local/bin/cloc \
 	/usr/local/bin/ggrep \
 	/usr/local/bin/git \
 	/usr/local/bin/git-lfs \
+	/usr/local/bin/gpg \
 	/usr/local/bin/gsed \
 	/usr/local/bin/jq \
-	/usr/local/bin/remake \
-	/usr/local/bin/gpg \
-	/usr/local/bin/wget \
 	/usr/local/bin/mkpm \
+	/usr/local/bin/remake \
+	/usr/local/bin/wget \
 	$(YQ_BINARY)
 else
 install: | sudo \
+	/usr/bin/cloc \
 	/usr/bin/convert \
 	/usr/bin/curl \
 	/usr/bin/git \
@@ -42,6 +44,9 @@ endif
 
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/jq:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/cloc:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/convert:
@@ -82,6 +87,8 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/convert:
 	@$(BREW) install imagemagick
+/usr/local/bin/cloc:
+	@$(BREW) install $(@F)
 /usr/local/bin/curl:
 	@$(BREW) install $(@F)
 /usr/local/bin/remake:
