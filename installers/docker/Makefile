@@ -10,11 +10,6 @@ include $(SHARED)/code/code.mk
 
 DEPENDS_ON += $(CODE_INSTALLER)
 
-ifeq ($(CODE),code)
-CODE_EXTENSIONS := \
-	ms-vscode-remote.remote-containers
-endif
-
 PODMAN_COMPOSE_BINARY := $(HOME)/.local/bin/podman-compose
 ifeq ($(CODENAME),bookworm)
 PODMAN_COMPOSE_BINARY = /usr/bin/podman-compose
