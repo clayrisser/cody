@@ -2,6 +2,7 @@ NAME := codium
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	ahmadalli.vscode-nginx-conf \
+	dotenv.dotenv-vscode \
 	eamodio.gitlens \
 	editorconfig.editorconfig \
 	esbenp.prettier-vscode \
@@ -10,7 +11,6 @@ CODE_EXTENSIONS := \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
 	mechatroner.rainbow-csv \
-	mikestead.dotenv \
 	mkhl.direnv \
 	ms-vscode.hexeditor \
 	ms-vscode.makefile-tools \
