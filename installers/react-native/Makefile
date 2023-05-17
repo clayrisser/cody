@@ -12,7 +12,8 @@ endif
 
 WATCHMAN_BINARY := /usr/bin/watchman
 RND_BINARY := /usr/bin/react-native-debugger
-FLIPPER_BINARY := /usr/bin/flipper
+FLIPPER_BINARY :=
+# FLIPPER_BINARY := /usr/bin/flipper
 ifeq ($(PKG_MANAGER),brew)
 WATCHMAN_BINARY := /usr/local/bin/watchman
 RND_BINARY := /Applications/React\ Native\ Debugger.app/Contents/PkgInfo
@@ -45,7 +46,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/flipper:
-	@$(SUDO) $(APT) install -y $(@F)
+#	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/react-native-debugger:
 	@curl -Lo $(_TMP_PATH)/rnd.deb \
 		https://github.com/jhen0409/react-native-debugger/releases/download/v$(RND_VERSION)/react-native-debugger_$(RND_VERSION)_amd64.deb
