@@ -2,6 +2,8 @@ NAME := java
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	redhat.java \
+	vscjava.vscode-java-pack \
+	vscjava.vscode-spring-initializr \
 	wmanth.jar-viewer
 
 include $(CODY)
