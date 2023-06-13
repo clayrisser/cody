@@ -19,6 +19,7 @@ install: | smart-sudo \
 	/usr/local/bin/kubectx \
 	/usr/local/bin/flux \
 	/usr/local/bin/kops \
+	/usr/local/bin/k9s \
 	$(HOME)/.krew/bin/kubectl-krew \
 	code-extensions
 ifeq ($(PKG_MANAGER),brew)
@@ -62,6 +63,12 @@ else
 			)/kops-linux-amd64 && \
 		chmod +x kops && \
 		$(SUDO) mv kops $@
+/usr/local/bin/k9s:
+	@cd $(_TMP_PATH) && \
+		curl -L -o k9s.tar.gz \
+			https://github.com/derailed/k9s/releases/download/v0.27.4/k9s_Linux_amd64.tar.gz && \
+		$(SUDO) tar -xzvf k9s.tar.gz && \
+		$(SUDO) mv k9s $@
 endif
 ifeq ($(PLATFORM),linux)
 $(HOME)/.krew/bin/kubectl-krew:
