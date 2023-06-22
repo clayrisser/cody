@@ -10,6 +10,7 @@ CODE_EXTENSIONS := \
 	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
 	hediet.vscode-drawio \
+	kisstkondoros.vscode-gutter-preview \
 	mechatroner.rainbow-csv \
 	mikestead.dotenv \
 	mkhl.direnv \
