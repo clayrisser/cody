@@ -13,7 +13,7 @@ CODE_EXTENSIONS := \
 	mikestead.dotenv \
 	mkhl.direnv \
 	ms-vscode.hexeditor \
-	ms-vscode.makefile-tools \
+	tamasfe.even-better-toml \
 	naumovs.color-highlight \
 	psioniq.psi-header \
 	redhat.fabric8-analytics \
