@@ -7,9 +7,7 @@ CODE_EXTENSIONS := \
 	esbenp.prettier-vscode \
 	github.copilot \
 	gitlab.gitlab-workflow \
-	grapecity.gc-excelviewer \
 	gruntfuggly.todo-tree \
-	hediet.vscode-drawio \
 	kisstkondoros.vscode-gutter-preview \
 	mechatroner.rainbow-csv \
 	mikestead.dotenv \
@@ -22,8 +20,6 @@ CODE_EXTENSIONS := \
 	redhat.vscode-xml \
 	rubberduck.rubberduck-vscode \
 	streetsidesoftware.code-spell-checker \
-	tintinweb.vscode-decompiler \
-	ultram4rine.vscode-choosealicense \
 	vspacecode.vspacecode \
 	zawys.vscode-as-git-mergetool
 
