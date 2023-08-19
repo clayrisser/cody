@@ -88,7 +88,7 @@ ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/curl:
 	@$(BREW) install $(@F)
 /usr/local/bin/gmake:
-	@$(BREW) install $(@F)
+	@$(BREW) install make
 /usr/local/bin/git:
 	@$(BREW) install $(@F)
 /usr/local/bin/git-lfs:
