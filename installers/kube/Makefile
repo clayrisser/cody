@@ -33,6 +33,8 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/kops:
 	@$(BREW) install $(@F)
+/usr/local/bin/k9s:
+	@$(BREW) install $(@F)
 else
 /usr/local/bin/kubectl:
 	@cd $${XDG_RUNTIME_DIR:-/tmp} && \
