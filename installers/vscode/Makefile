@@ -23,6 +23,8 @@ CODE_EXTENSIONS := \
 	vspacecode.vspacecode \
 	zawys.vscode-as-git-mergetool
 
+CODE_FLAVOR := cursor # visual-studio-code,codium
+
 include $(CODY)
 include $(SHARED)/code/code.mk
 
@@ -54,13 +56,13 @@ endif
 
 ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/code:
-	@$(BREW) install --cask visual-studio-code
+	@$(BREW) install --cask $(CODE_FLAVOR)
 endif
 
 .PHONY: uninstall
 ifeq ($(PKG_MANAGER),apt-get)
 uninstall: | sudo
-	@$(SUDO) $(APT) uninstall -y code
+	@$(BREW) uninstall $(CODE_FLAVOR)
 else
 uninstall: not-supported
 endif
