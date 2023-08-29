@@ -1,7 +1,7 @@
 NAME := python
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
-	bungcip.better-toml \
+	tamasfe.even-better-toml \
 	ms-python.python
 
 include $(CODY)
