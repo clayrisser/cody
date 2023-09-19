@@ -33,7 +33,7 @@ ifeq ($(PKG_MANAGER),apt-get)
 endif
 else
 ifeq ($(PKG_MANAGER),brew)
-/Applications/Android\ Studio.app/Contents/PkgInfo:
+/Applications/Android\ Studio.app/Contents/Info.plist:
 	@$(BREW) install --cask android-studio
 endif
 endif

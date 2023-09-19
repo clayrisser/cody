@@ -28,8 +28,18 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y gradle
 else
+ifeq ($(PKG_MANAGER),brew)
+/bin/java:
+	@$(BREW) install openjdk
+/usr/bin/mvn:
+	@$(BREW) install maven
+/usr/bin/gradle:
+	@$(BREW) install gradle
+else
 /bin/java: not-supported
+/usr/bin/gradle: not-supported
 /usr/bin/mvn: not-supported
+endif
 endif
 
 .PHONY: uninstall

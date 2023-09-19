@@ -14,22 +14,25 @@ ZSH_CUSTOM := $(HOME)/.oh-my-zsh/custom
 
 INSTALL_TARGETS := sudo \
 	/usr/bin/zsh \
-	/usr/bin/direnv
+	/usr/bin/direnv \
+	/usr/local/bin/starship
 ifeq ($(PKG_MANAGER),brew)
-INSTALL_TARGETS := /usr/local/bin/zsh \
-	/usr/local/bin/direnv
+INSTALL_TARGETS := /opt/homebrew/bin/zsh \
+	/opt/homebrew/bin/direnv \
+	/opt/homebrew/bin/starship
 endif
 .PHONY: install chsh
 install: | $(INSTALL_TARGETS) \
 	chsh \
 	$(HOME)/.oh-my-zsh/oh-my-zsh.sh \
-	$(ZSH_CUSTOM)/themes/spaceship.zsh-theme \
 	$(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
 	$(ZSH_CUSTOM)/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh \
 	$(HOME)/.autojump/etc/profile.d/autojump.sh \
 	$(ZSH_CUSTOM)/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh \
 	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
 
+/usr/local/bin/starship:
+	@curl -sS https://starship.rs/install.sh | sh
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/zsh:
 	@$(call apt-update)
@@ -41,12 +44,14 @@ ifeq ($(PKG_MANAGER),apt-get)
 		echo 'eval "$$(direnv hook zsh)"' >> $(HOME)/.zshrc
 else
 ifeq ($(PKG_MANAGER),brew)
-/usr/local/bin/zsh:
+/opt/homebrew/bin/zsh:
 	@$(BREW) install zsh
-/usr/local/bin/direnv:
+/opt/homebrew/bin/direnv:
 	@$(BREW) install direnv
 	@(cat $(HOME)/.zshrc | grep -q direnv) || \
 		echo 'eval "$$(direnv hook zsh)"' >> $(HOME)/.zshrc
+/opt/homebrew/bin/starship:
+	@$(BREW) install starship
 endif
 /usr/bin/direnv: not-supported
 /usr/bin/zsh: not-supported
@@ -65,11 +70,6 @@ endif
 $(HOME)/.oh-my-zsh/oh-my-zsh.sh:
 	@echo Y | sh -c \
 		"$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-$(ZSH_CUSTOM)/themes/spaceship.zsh-theme:
-	@git clone https://github.com/spaceship-prompt/spaceship-prompt.git \
-		"$(ZSH_CUSTOM)/themes/spaceship-prompt" --depth=1
-	@ln -s "$(ZSH_CUSTOM)/themes/spaceship-prompt/spaceship.zsh-theme" "$(ZSH_CUSTOM)/themes/spaceship.zsh-theme"
-	@$(SED) -i 's|ZSH_THEME=.*|ZSH_THEME="spaceship"|g' $(HOME)/.zshrc
 $(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh:
 	@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 		$(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting

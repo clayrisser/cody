@@ -3,13 +3,6 @@ DEPENDS_ON :=
 
 include $(CODY)
 
-YQ_BINARY := /usr/local/bin/yq
-ifeq ($(PKG_MANAGER),apt-get)
-ifneq (1,$(IS_WSL))
-YQ_BINARY := /snap/bin/yq
-endif
-endif
-
 .PHONY: install yq
 ifeq ($(PKG_MANAGER),brew)
 install: | /usr/local/bin/convert \
@@ -22,9 +15,9 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/gsed \
 	/usr/local/bin/jq \
 	/usr/local/bin/mkpm \
-	/usr/local/bin/remake \
+	/usr/local/bin/gmake \
 	/usr/local/bin/wget \
-	$(YQ_BINARY)
+	/usr/local/bin/yq
 else
 install: | sudo \
 	/usr/bin/cloc \
@@ -38,8 +31,8 @@ install: | sudo \
 	/usr/bin/vim \
 	/usr/bin/wget \
 	/usr/bin/gpg \
-	/usr/local/bin/mkpm \
-	$(YQ_BINARY)
+	/usr/bin/yq \
+	/usr/local/bin/mkpm
 endif
 
 ifeq ($(PKG_MANAGER),apt-get)
@@ -80,6 +73,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/gpg:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/yq:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
 else
 
 ifeq ($(PKG_MANAGER),brew)
@@ -91,8 +87,8 @@ ifeq ($(PKG_MANAGER),brew)
 	@$(BREW) install $(@F)
 /usr/local/bin/curl:
 	@$(BREW) install $(@F)
-/usr/local/bin/remake:
-	@$(BREW) install $(@F)
+/usr/local/bin/gmake:
+	@$(BREW) install make
 /usr/local/bin/git:
 	@$(BREW) install $(@F)
 /usr/local/bin/git-lfs:
@@ -103,6 +99,8 @@ ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/ggrep:
 	@$(BREW) install grep
 /usr/local/bin/wget:
+	@$(BREW) install $(@F)
+/usr/local/bin/yq:
 	@$(BREW) install $(@F)
 /usr/local/bin/gpg:
 	@$(BREW) install gnupg
@@ -117,6 +115,7 @@ endif
 /usr/bin/vim: not-supported
 /usr/bin/wget: not-supported
 /usr/bin/gpg: not-supported
+/usr/bin/yq: not-supported
 ifeq ($(PLATFORM),darwin)
 /usr/bin/curl: ;
 else
@@ -124,28 +123,9 @@ else
 endif
 endif
 
-ifeq ($(PKG_MANAGER),apt-get)
-ifeq (1,$(IS_WSL))
-/snap/bin/yq: not-supported
-else
-/snap/bin/yq: | /usr/bin/snap
-	@$(SUDO) snap install yq
-endif
-else
-/snap/bin/yq: not-supported
-endif
-ifeq ($(PKG_MANAGER),brew)
-/usr/local/bin/yq:
-	@$(BREW) install yq
-else
-/usr/local/bin/yq:
-	@$(SUDO) curl -Lo $@ https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
-		$(SUDO) chmod +x $@
-endif
-
 /usr/local/bin/mkpm: | sudo
-	@$(shell curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) \
-		https://gitlab.com/risserlabs/community/mkpm/-/raw/main/install.sh 2>/dev/null | sh
+	@$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) \
+		https://gitlab.com/api/v4/projects/48207162/packages/generic/mkpm/1.0.0/install.sh 2>/dev/null | sh
 
 .PHONY: uninstall
 uninstall:

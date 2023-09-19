@@ -59,11 +59,11 @@ else
 ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/watchman:
 	@$(BREW) install $(@F)
-/usr/local/bin/react-native-debugger:
-	@$(BREW) install --cask $(@F)
+$(RND_BINARY):
+	@$(BREW) install --cask react-native-debugger
 /Applications/Flipper.app/Contents/PkgInfo:
 	@$(SUDO) xcode-select --switch /Applications/Xcode.app
-	@$(BREW) install --cask $(@F)
+	@$(BREW) install --cask flipper
 $(HOME)/.local/bin/idb:
 	-@$(BREW) tap facebook/fb
 	-@$(BREW) install idb-companion

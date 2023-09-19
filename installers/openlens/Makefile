@@ -23,7 +23,7 @@ else
 
 ifeq ($(PKG_MANAGER),brew)
 /Applications/OpenLens.app/Contents/Info.plist:
-	@$(BREW) install --cask $(@F)
+	@$(BREW) install --cask openlens
 endif
 
 /usr/bin/open-lens: not-supported

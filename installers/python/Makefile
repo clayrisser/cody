@@ -1,8 +1,9 @@
 NAME := python
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
-	bungcip.better-toml \
-	ms-python.python
+	tamasfe.even-better-toml \
+	ms-python.python \
+	ms-toolsai.jupyter
 
 include $(CODY)
 include $(SHARED)/code/code.mk
