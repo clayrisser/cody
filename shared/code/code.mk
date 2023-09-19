@@ -2,7 +2,7 @@ CODE ?= code
 
 CODE_INSTALLER := $(CODE)
 ifeq ($(CODE),code)
-CODE_INSTALLER := vscode
+CODE_INSTALLER := cursor
 endif
 
 .PHONY: code-extensions
