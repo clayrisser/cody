@@ -40,8 +40,6 @@ ifneq (1,$(IS_WSL))
 else
 /usr/local/bin/code: ;
 endif
-else
-/usr/local/bin/code: not-supported
 endif
 
 ifeq ($(PKG_MANAGER),brew)
