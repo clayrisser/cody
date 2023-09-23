@@ -38,6 +38,7 @@ install:
 ifneq (,$(INSTALLER))
 	@TARGET=$@ $(MAKE) -s $(INSTALLER)
 else
+	@sudo mkdir -p /usr/local/bin
 	@sudo cp -r $(CURDIR)/cody.sh /usr/local/bin/cody
 	@sudo chmod +x /usr/local/bin/cody
 	@$(call installed_installer,cody)
