@@ -1,4 +1,4 @@
-NAME := vscode
+NAME := cursor
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	ahmadalli.vscode-nginx-conf \
