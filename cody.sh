@@ -24,23 +24,23 @@ main() {
         echo "installing $1..."
         _install $@
         echo "installed $1 :)"
-    elif [ "$_COMMAND" = "uninstall" ]; then
+        elif [ "$_COMMAND" = "uninstall" ]; then
         echo "uninstalling $1..."
         _uninstall $@
         echo "uninstalled $1 :)"
-    elif [ "$_COMMAND" = "reinstall" ]; then
+        elif [ "$_COMMAND" = "reinstall" ]; then
         echo "reinstalling $1..."
         _reinstall $@
         echo "reinstalled $1 :)"
-    elif [ "$_COMMAND" = "dependencies" ]; then
+        elif [ "$_COMMAND" = "dependencies" ]; then
         _dependencies $@
-    elif [ "$_COMMAND" = "available" ]; then
+        elif [ "$_COMMAND" = "available" ]; then
         _available $@
-    elif [ "$_COMMAND" = "installed" ]; then
+        elif [ "$_COMMAND" = "installed" ]; then
         _installed $@
-    elif [ "$_COMMAND" = "doctor" ]; then
+        elif [ "$_COMMAND" = "doctor" ]; then
         _doctor $@
-    elif [ "$_COMMAND" = "wizard" ]; then
+        elif [ "$_COMMAND" = "wizard" ]; then
         _wizard $@
     fi
 }
@@ -136,8 +136,8 @@ _load_remote() {
 
 _load() {
     (cat $HOME/.config/cody/$1 2>/dev/null || true) | \
-        $SED "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | $SED "s|$|'|g" > \
-        "$_TMP_PATH/load_$1.sh"
+    $SED "s|^\([^ \t]\+\)[ \t]\+|export _repo_\1='|g" | $SED "s|$|'|g" > \
+    "$_TMP_PATH/load_$1.sh"
     . "$_TMP_PATH/load_$1.sh"
 }
 
@@ -156,7 +156,7 @@ _ensure_make() {
     fi
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y make
-    elif brew -v >/dev/null 2>/dev/null; then
+        elif brew -v >/dev/null 2>/dev/null; then
         brew install remake
     fi
 }
@@ -167,7 +167,7 @@ _ensure_sed() {
     fi
     if apt-get -v >/dev/null 2>/dev/null; then
         sudo apt-get install -y sed
-    elif brew -v >/dev/null 2>/dev/null; then
+        elif brew -v >/dev/null 2>/dev/null; then
         brew install gsed
     fi
 }
