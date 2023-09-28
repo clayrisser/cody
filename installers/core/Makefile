@@ -124,8 +124,8 @@ endif
 endif
 
 /usr/local/bin/mkpm: | sudo
-	@$(curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) \
-		https://gitlab.com/api/v4/projects/48207162/packages/generic/mkpm/1.0.0/install.sh 2>/dev/null | sh
+	@$(shell curl --version >/dev/null 2>/dev/null && echo curl -L || echo wget -O-) \
+		https://gitlab.com/api/v4/projects/48207162/packages/generic/mkpm/1.0.0/install.sh | $(SUDO) sh
 
 .PHONY: uninstall
 uninstall:
