@@ -30,7 +30,6 @@ else
 install: | sudo \
 	/usr/bin/autoconf \
 	/usr/bin/automake \
-	/usr/bin/bazel \
 	/usr/bin/bison \
 	/usr/bin/cmake \
 	/usr/bin/gcc \
@@ -38,6 +37,7 @@ install: | sudo \
 	/usr/bin/meson \
 	/usr/bin/ninja \
 	code-extensions
+#	/usr/bin/bazel
 endif
 
 ifeq ($(PKG_MANAGER),apt-get)

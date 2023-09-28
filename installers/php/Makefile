@@ -22,7 +22,6 @@ ifeq ($(PKG_MANAGER),apt-get)
 		build-essential \
 		composer \
 		libbz2-dev \
-		libcurl4-openssl-dev \
 		libjpeg-dev \
 		libmcrypt-dev \
 		libonig-dev \

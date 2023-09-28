@@ -2,7 +2,6 @@ NAME := solidity
 DEPENDS_ON :=
 CODE_EXTENSIONS := \
 	nomicfoundation.hardhat-solidity \
-	remixproject.ethereum-remix \
 	tintinweb.solidity-visual-auditor
 
 include $(CODY)
