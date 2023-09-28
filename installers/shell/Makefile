@@ -32,7 +32,10 @@ install: | $(INSTALL_TARGETS) \
 	$(ZSH_CUSTOM)/plugins/zsh-completions/zsh-completions.plugin.zsh
 
 /usr/local/bin/starship:
-	@curl -sS https://starship.rs/install.sh | sh
+	@curl -Lo $(_TMP_PATH)/starship.sh https://starship.rs/install.sh
+	@unset ARCH PLATFORM; sh $(_TMP_PATH)/starship.sh --yes
+	@rm -f $(_TMP_PATH)/starship.sh
+
 ifeq ($(PKG_MANAGER),apt-get)
 /usr/bin/zsh:
 	@$(call apt-update)
