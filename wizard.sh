@@ -18,6 +18,7 @@ TOOLS="
 android-studio
 aws
 chatgpt
+cursor
 dbgate
 debian
 docker
@@ -487,28 +488,28 @@ not_installed() {
 
 if [ "$(installed $LANGUAGES)" != "" ]; then
     LANGUAGES_UNINSTALL=$(kwyzod enum -m "select the languages you wish to uninstall" $(installed $LANGUAGES))
-    if [ "$(kwyzod boolean "UNINSTALL LANGUAGES\n\n$LANGUAGES_UNINSTALL")" != "1" ]; then
+    if [ "$LANGUAGES_UNINSTALL" != "" ] && [ "$(kwyzod boolean "UNINSTALL LANGUAGES\n\n$LANGUAGES_UNINSTALL")" != "1" ]; then
         exit 1
     fi
 fi
 
 if [ "$(not_installed $LANGUAGES)" != "" ]; then
     LANGUAGES_INSTALL=$(kwyzod enum -m "select the languages you wish to install" $(not_installed $LANGUAGES))
-    if [ "$(kwyzod boolean "INSTALL LANGUAGES\n\n$LANGUAGES_INSTALL")" != "1" ]; then
+    if [ "$LANGUAGES_INSTALL" != "" ] && [ "$(kwyzod boolean "INSTALL LANGUAGES\n\n$LANGUAGES_INSTALL")" != "1" ]; then
         exit 1
     fi
 fi
 
 if [ "$(installed $TOOLS)" != "" ]; then
     TOOLS_UNINSTALL=$(kwyzod enum -m "select the tools you wish to uninstall" $(installed $TOOLS))
-    if [ "$(kwyzod boolean "UNINSTALL TOOLS\n\n$TOOLS_UNINSTALL")" != "1" ]; then
+    if [ "$TOOLS_UNINSTALL" != "" ] && [ "$(kwyzod boolean "UNINSTALL TOOLS\n\n$TOOLS_UNINSTALL")" != "1" ]; then
         exit 1
     fi
 fi
 
 if [ "$(not_installed $TOOLS)" != "" ]; then
     TOOLS_INSTALL=$(kwyzod enum -m "select the tools you wish to install" $(not_installed $TOOLS))
-    if [ "$(kwyzod boolean "INSTALL TOOLS\n\n$TOOLS_INSTALL")" != "1" ]; then
+    if [ "$TOOLS_INSTALL" != "" ] && [ "$(kwyzod boolean "INSTALL TOOLS\n\n$TOOLS_INSTALL")" != "1" ]; then
         exit 1
     fi
 fi

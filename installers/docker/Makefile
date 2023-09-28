@@ -50,7 +50,6 @@ else
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y docker.io
 	@$(SUDO) usermod -aG docker $(USER)
-	@$(SUDO) su -l $(USER)
 endif
 /usr/bin/docker-compose:
 	@$(call apt-update)
