@@ -10,6 +10,7 @@ install: | /usr/local/bin/convert \
 	/usr/local/bin/cloc \
 	/usr/local/bin/ggrep \
 	/usr/local/bin/git \
+	/usr/local/bin/git-filter-repo \
 	/usr/local/bin/git-lfs \
 	/usr/local/bin/gpg \
 	/usr/local/bin/gsed \
@@ -24,6 +25,7 @@ install: | sudo \
 	/usr/bin/convert \
 	/usr/bin/curl \
 	/usr/bin/git \
+	/usr/bin/git-filter-repo \
 	/usr/bin/git-lfs \
 	/usr/bin/jq \
 	/usr/bin/make \
@@ -52,6 +54,9 @@ ifeq ($(PKG_MANAGER),apt-get)
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/git:
+	@$(call apt-update)
+	@$(SUDO) $(APT) install -y $(@F)
+/usr/bin/git-filter-repo:
 	@$(call apt-update)
 	@$(SUDO) $(APT) install -y $(@F)
 /usr/bin/git-lfs:
@@ -90,6 +95,8 @@ ifeq ($(PKG_MANAGER),brew)
 /usr/local/bin/gmake:
 	@$(BREW) install make
 /usr/local/bin/git:
+	@$(BREW) install $(@F)
+/usr/local/bin/git-filter-repo:
 	@$(BREW) install $(@F)
 /usr/local/bin/git-lfs:
 	@$(BREW) install $(@F)

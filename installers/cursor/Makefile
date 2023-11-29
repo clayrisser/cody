@@ -48,9 +48,4 @@ ifeq ($(PKG_MANAGER),brew)
 endif
 
 .PHONY: uninstall
-ifeq ($(PLATFORM),linux)
-uninstall: | sudo
-	@$(SUDO) rm -f /usr/local/bin/code
-else
 uninstall: not-supported
-endif
