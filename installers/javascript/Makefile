@@ -16,6 +16,7 @@ install: | /usr/local/bin/node \
 	/usr/local/bin/yarn \
 	/usr/local/bin/yarn2init \
 	$(HOME)/.nvm/nvm-exec \
+	$(HOME)/.bun/bin/bun \
 	code-extensions
 else
 install: | sudo \
@@ -24,6 +25,7 @@ install: | sudo \
 	/usr/local/bin/yarn \
 	/usr/local/bin/yarn2init \
 	$(HOME)/.nvm/nvm-exec \
+	$(HOME)/.bun/bin/bun \
 	code-extensions
 endif
 
@@ -58,6 +60,8 @@ $(HOME)/.nvm/nvm-exec:
 /usr/local/bin/yarn2init:
 	@$(SUDO) curl -Lo $@ https://gitlab.com/risserlabs/community/yarn2init/-/raw/main/yarn2init.sh
 	@$(SUDO) chmod +x $@
+$(HOME)/.bun/bin/bun:
+	@curl -fsSL https://bun.sh/install | bash
 
 .PHONY: uninstall
 uninstall: | sudo
